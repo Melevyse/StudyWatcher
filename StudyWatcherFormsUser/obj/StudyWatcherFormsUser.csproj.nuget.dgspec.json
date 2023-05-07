@@ -1,0 +1,72 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\StudyWatcherFormsUser.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\StudyWatcherFormsUser.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\StudyWatcherFormsUser.csproj",
+        "projectName": "StudyWatcherFormsUser",
+        "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\StudyWatcherFormsUser.csproj",
+        "packagesPath": "C:\\Users\\ar4bo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ar4bo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net6.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net6.0-windows7.0": {
+            "targetAlias": "net6.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "dependencies": {
+            "Microsoft.AspNetCore.SignalR.Client": {
+              "target": "Package",
+              "version": "[8.0.0-preview.3.23177.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}
