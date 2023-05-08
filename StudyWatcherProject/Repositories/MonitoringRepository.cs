@@ -63,9 +63,24 @@ public class MonitoringRepository : IMonitoringRepository
         if (result == check) return result;
         return check ?? throw new ArgumentException("Request is not found in the database");
     }
-
-    // ДОДЕЛАТЬ!! return не правильный
+    
     public async Task<ProcessWS> AddProcess(
+        string nameProcess,
+        DateTime lastLaunch,
+        Guid idWorkStation)
+    {
+        var result = new ProcessWS()
+        {
+            NameProcess = nameProcess,
+            LastLaunch = lastLaunch,
+            IdWorkStation = idWorkStation
+        };
+        _context.Add(result);
+        _context.SaveChanges();
+        return result;
+    }
+    
+    public async Task<ProcessWS> UpdateProcess(
         string nameProcess,
         DateTime lastLaunch,
         Guid idWorkStation)
@@ -80,13 +95,22 @@ public class MonitoringRepository : IMonitoringRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(x => 
                 x.NameProcess == nameProcess &&
-                x.IdWorkStation == idWorkStation);
-        
-        _context.Add(result);
-        _context.SaveChanges();
-        
-        if (result == check) return result;
-        return check ?? throw new ArgumentException("Request is not found in the database");
+                x.IdWorkStation == idWorkStation &&
+                x.LastLaunch == lastLaunch);
+        if (result != check)
+        {
+            check = await _context.ProcessWS
+                .FirstOrDefaultAsync(x => 
+                    x.NameProcess == nameProcess &&
+                    x.IdWorkStation == idWorkStation);
+            if (check != null)
+            {
+                check.LastLaunch = lastLaunch;
+                return check; 
+            }
+            return check ?? throw new ArgumentException("No record in database");
+        }
+        return result;
     }
 
     // ДОДЕЛАТЬ!! return не правильный
@@ -103,7 +127,12 @@ public class MonitoringRepository : IMonitoringRepository
                 LastLaunch = lastLaunch,
                 IdWorkStation = idWorkStation
             };
-            
+            var check = await _context.ProcessWS
+                .AsNoTracking()
+                .FirstOrDefaultAsync(x => 
+                    x.NameProcess == element &&
+                    x.IdWorkStation == idWorkStation &&
+                    x.LastLaunch == lastLaunch);
         }
         return null;
     }

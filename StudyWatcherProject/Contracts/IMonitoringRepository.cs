@@ -26,4 +26,9 @@ public interface IMonitoringRepository
         List<string> listProcess,
         DateTime lastLaunch,
         Guid idWorkStation);
+
+    Task<ProcessWS> UpdateProcess(
+        string nameProcess,
+        DateTime lastLaunch,
+        Guid idWorkStation);
 }
