@@ -4,6 +4,6 @@
 	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
   &lt;Assembly Path="C:\Users\ar4bo\.nuget\packages\npgsql.entityframeworkcore.postgresql\8.0.0-preview.3\lib\net7.0\Npgsql.EntityFrameworkCore.PostgreSQL.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
-	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=StudyWatcherFormsAdmin_002FForm1/@EntryIndexedValue">False</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=StudyWatcherFormsAdmin_002FForm1/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=StudyWatcherFormsUser_002FForm1/@EntryIndexedValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>
