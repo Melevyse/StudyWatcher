@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Management;
+using System.Diagnostics;
 
 namespace StudyWatcherFormsUser;
 
@@ -8,6 +9,14 @@ public partial class Form1 : Form
     public Form1()
     {
         string connectionIdAdmin = "";
+        string nameMotherboard = systemManagmentSearchMotherboard();
+        string nameCPU = systemManagmentSearchCPU();
+        string nameRAM = systemManagmentSearchRAM();
+        string nameHDD = systemManagmentSearchHDD();
+        string nameVideocard = systemManagmentSearchVidocard();
+        string nameLocation = "StudentComputer";
+        List<string> listProcess = systemProcess();
+        DateTime lastLaunch = DateTime.Today;
         var connection = new HubConnectionBuilder()
             .WithUrl("http://localhost:44300")
             .Build();
@@ -41,12 +50,6 @@ public partial class Form1 : Form
         });
         
         connection.StartAsync().Wait();
-
-        string nameMotherboard = ;
-        string nameCPU = systemManagmentSearchCPU();
-        string nameRAM = systemManagmentSearchRAM();
-        string nameHDD = systemManagmentSearchHDD();
-        string nameVideocard = ;
 
         if (connectionIdAdmin != "")
             connection.InvokeAsync("AddWorkStationHub",
@@ -86,7 +89,7 @@ public partial class Form1 : Form
         {
             memoryCapacity += Convert.ToInt64(obj["Capacity"]);
         }
-        memoryCapacity = memoryCapacity / (1024 * 1024 * 1024));
+        memoryCapacity = (memoryCapacity / (1024 * 1024 * 1024));
         result = memoryCapacity + " ГБ";
         return result;
     }
@@ -110,12 +113,46 @@ public partial class Form1 : Form
     public string systemManagmentSearchVidocard()
     {
         string result = "";
+        int iter = 0;
+        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
+        ManagementObjectCollection collection = searcher.Get();
+        foreach (ManagementObject obj in collection)
+        {
+            if (iter !=0)
+                result += ", ";
+            string memory = (Convert.ToInt64(obj["AdapterRAM"]) / (1024 * 1024 * 1024)).ToString();
+            result += obj["Name"] + " " + obj["AdapterRAM"];
+            iter++;
+        }
         return result;
     }
 
     public string systemManagmentSearchMotherboard()
     {
         string result = "";
+        int iter = 0;
+        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_BaseBoard");
+        ManagementObjectCollection collection = searcher.Get();
+        foreach (ManagementObject obj in collection)
+        {
+            if (iter !=0)
+                result += ", ";
+            result += obj["Product"] + " " + obj["SerialNumber"];
+            iter++;
+        }
+        
+        return result;
+    }
+
+    public List<string> systemProcess()
+    {
+        List<string> result = new List<string>();
+        Process[] processes = Process.GetProcesses();
+        // Выводим информацию о каждом процессе в консоль
+        foreach (Process process in processes)
+        {
+            result.Add(process.ProcessName);
+        }
         return result;
     }
 }

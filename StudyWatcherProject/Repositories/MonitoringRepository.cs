@@ -114,16 +114,16 @@ public class MonitoringRepository : IMonitoringRepository
         }
         return result;
     }
-
-    // ДОДЕЛАТЬ!! return не правильный
-    public async Task<ProcessWS> AddProcessList(
+    
+    public async Task<List<string>> AddProcessList(
         List<string> nameProcessList,
         DateTime lastLaunch,
         Guid idWorkStation)
     {
+        List<string> result = new List<string>();
         foreach (var element in nameProcessList)
         {
-            var result = new ProcessWS()
+            var iter = new ProcessWS()
             {
                 NameProcess = element,
                 LastLaunch = lastLaunch,
@@ -135,7 +135,13 @@ public class MonitoringRepository : IMonitoringRepository
                     x.NameProcess == element &&
                     x.IdWorkStation == idWorkStation &&
                     x.LastLaunch == lastLaunch);
+            if (iter != check)
+            {
+                result.Add(iter.NameProcess);
+                _context.Add(iter);
+                _context.SaveChanges();
+            }
         }
-        return null;
+        return result;
     }
 }

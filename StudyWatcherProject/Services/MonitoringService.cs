@@ -50,13 +50,13 @@ public class MonitoringService : IMonitoringService
         return result.Id;
     }
 
-    public async Task<Guid> AddProcessListRequest(
+    public async Task<List<string>> AddProcessListRequest(
         List<string> nameProcess,
         DateTime lastLaunch,
         Guid idWorkStation)
     {
         var result = await _repositories
             .AddProcessList(nameProcess, lastLaunch, idWorkStation);
-        return result.Id;
+        return result;
     }
 }

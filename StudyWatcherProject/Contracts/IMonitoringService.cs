@@ -21,7 +21,7 @@ public interface IMonitoringService
         DateTime lastLaunch,
         Guid idWorkStation);
     
-    Task<Guid> AddProcessListRequest(
+    Task<List<string>> AddProcessListRequest(
         List<string> listProcess,
         DateTime lastLaunch,
         Guid idWorkStation);

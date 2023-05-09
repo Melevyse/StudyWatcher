@@ -23,7 +23,7 @@ public interface IMonitoringRepository
         DateTime lastLaunch,
         Guid idWorkStation);
     
-    Task<ProcessWS> AddProcessList(
+    Task<List<string>> AddProcessList(
         List<string> listProcess,
         DateTime lastLaunch,
         Guid idWorkStation);

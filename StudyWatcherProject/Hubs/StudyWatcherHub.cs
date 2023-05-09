@@ -37,15 +37,17 @@ public class StudyWatcherHub : Hub
         try
         {
             var id = await _monitoringService
-                .AddWorkStationRequest(nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard, nameLocation);
-            var result = await _monitoringService
+                .AddWorkStationRequest(nameMotherboard, nameCPU, 
+                    nameRAM, nameHDD, nameVideocard, nameLocation);
+            List<string> result = await _monitoringService
                 .AddProcessListRequest(listProcess, lastLaunch, id);
             if (id != Guid.Empty)
                 // Ответ администратору - создать новой компьютер
                 await Clients
                     .Client(connectionIdAdmin)
                     .SendAsync("RegisterWorkStation", 
-                        nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard, connectionId);
+                        nameMotherboard, nameCPU, nameRAM, nameHDD, 
+                        nameVideocard, nameLocation,connectionId);
         }
         catch (Exception e)
         {

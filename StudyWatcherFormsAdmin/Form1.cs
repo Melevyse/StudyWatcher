@@ -14,6 +14,7 @@ public partial class MainForm : Form
             .Build();
         InitializeComponent();
 
+        // Создать колекцию процессов подключаенных компьютеров
         connection.On("RegisterWorkStation", (
             string nameMotherboard,
             string nameCPU,
@@ -35,7 +36,7 @@ public partial class MainForm : Form
             listViewItem.SubItems.Add(connectionId);
             listWorkStationForm.Items.Add(listViewItem);   
         });
-
+        
         connection.On("AddItemUser", (
             string fio,
             string group,
@@ -67,7 +68,8 @@ public partial class MainForm : Form
         {
             listProcessBanForm.Items.Add(processBan);
         });
-
+        
+        // Доделать
         connection.On("AddItemProcessList", (string nameProcess
         ) =>
         {
