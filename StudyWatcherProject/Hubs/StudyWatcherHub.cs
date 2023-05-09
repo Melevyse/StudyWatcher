@@ -21,7 +21,7 @@ public class StudyWatcherHub : Hub
         logger = _logger;
     }
 
-    // Метод, создание нового компьютера - готов
+    // Метод, создание нового компьютера - не готов
     public async Task AddWorkStationHub(
         string nameMotherboard,
         string nameCPU,
@@ -54,7 +54,7 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    // Метод, авторизации пользователя - не готов
+    // Метод, авторизации пользователя - готов
     public async Task GetAuthorizationUserHub(
         string userLogin,
         string userPassword,
@@ -110,7 +110,7 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    // Метод, сообщение об использовании запрещенного ПО - не готов
+    // Метод, сообщение об использовании запрещенного ПО - готов
     public async Task GetBannerHub(
         string processBan,
         string connectionId,
@@ -118,7 +118,6 @@ public class StudyWatcherHub : Hub
     {
         try
         {
-            //var connectionId = Context.ConnectionId;
             var result = await _monitoringService
                 .GetBannerResponse(processBan);
             if (result != Guid.Empty)

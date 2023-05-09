@@ -250,6 +250,22 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "System.CodeDom/8.0.0-preview.3.23174.8": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        }
+      },
       "System.IO.Pipelines/8.0.0-preview.3.23174.8": {
         "type": "package",
         "compile": {
@@ -264,6 +280,31 @@
         },
         "build": {
           "buildTransitive/net6.0/_._": {}
+        }
+      },
+      "System.Management/8.0.0-preview.3.23174.8": {
+        "type": "package",
+        "dependencies": {
+          "System.CodeDom": "8.0.0-preview.3.23174.8"
+        },
+        "compile": {
+          "lib/net6.0/System.Management.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/System.Management.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net6.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/System.Management.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
         }
       },
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {
@@ -729,6 +770,35 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "System.CodeDom/8.0.0-preview.3.23174.8": {
+      "sha512": "phl1BIXpkmEOoWfCiPQCyw6Zu5F7Y3a2o+8WZIETxyiobBxqPwe+k5miNYEe06JxZNp90vIVhjIYWz4b7JfUXw==",
+      "type": "package",
+      "path": "system.codedom/8.0.0-preview.3.23174.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.CodeDom.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.CodeDom.targets",
+        "lib/net462/System.CodeDom.dll",
+        "lib/net462/System.CodeDom.xml",
+        "lib/net6.0/System.CodeDom.dll",
+        "lib/net6.0/System.CodeDom.xml",
+        "lib/net7.0/System.CodeDom.dll",
+        "lib/net7.0/System.CodeDom.xml",
+        "lib/net8.0/System.CodeDom.dll",
+        "lib/net8.0/System.CodeDom.xml",
+        "lib/netstandard2.0/System.CodeDom.dll",
+        "lib/netstandard2.0/System.CodeDom.xml",
+        "system.codedom.8.0.0-preview.3.23174.8.nupkg.sha512",
+        "system.codedom.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
     "System.IO.Pipelines/8.0.0-preview.3.23174.8": {
       "sha512": "1zd3WqgtwckUySQf6XcriB8JzUj5GBldhk1dMAENRUJIK9zZsID0+o5lf+u66flndIhLfZ2fjMW3xAOPBF2pWA==",
       "type": "package",
@@ -755,6 +825,38 @@
         "lib/netstandard2.0/System.IO.Pipelines.xml",
         "system.io.pipelines.8.0.0-preview.3.23174.8.nupkg.sha512",
         "system.io.pipelines.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Management/8.0.0-preview.3.23174.8": {
+      "sha512": "yWEm41a+MSQOH0rkSg5tZQmuYbRnsDQ51NuJcazf/oQDYrtB+ZiatqBlHxtoXMieYQRQKoWowh5cSC2bmX8Qwg==",
+      "type": "package",
+      "path": "system.management/8.0.0-preview.3.23174.8",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net6.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Management.targets",
+        "lib/net462/_._",
+        "lib/net6.0/System.Management.dll",
+        "lib/net6.0/System.Management.xml",
+        "lib/net7.0/System.Management.dll",
+        "lib/net7.0/System.Management.xml",
+        "lib/net8.0/System.Management.dll",
+        "lib/net8.0/System.Management.xml",
+        "lib/netstandard2.0/System.Management.dll",
+        "lib/netstandard2.0/System.Management.xml",
+        "runtimes/win/lib/net6.0/System.Management.dll",
+        "runtimes/win/lib/net6.0/System.Management.xml",
+        "runtimes/win/lib/net7.0/System.Management.dll",
+        "runtimes/win/lib/net7.0/System.Management.xml",
+        "runtimes/win/lib/net8.0/System.Management.dll",
+        "runtimes/win/lib/net8.0/System.Management.xml",
+        "system.management.8.0.0-preview.3.23174.8.nupkg.sha512",
+        "system.management.nuspec",
         "useSharedDesignerContext.txt"
       ]
     },
@@ -925,7 +1027,8 @@
   },
   "projectFileDependencyGroups": {
     "net6.0-windows7.0": [
-      "Microsoft.AspNetCore.SignalR.Client >= 8.0.0-preview.3.23177.8"
+      "Microsoft.AspNetCore.SignalR.Client >= 8.0.0-preview.3.23177.8",
+      "System.Management >= 8.0.0-preview.3.23174.8"
     ]
   },
   "packageFolders": {
@@ -970,6 +1073,10 @@
           "Microsoft.AspNetCore.SignalR.Client": {
             "target": "Package",
             "version": "[8.0.0-preview.3.23177.8, )"
+          },
+          "System.Management": {
+            "target": "Package",
+            "version": "[8.0.0-preview.3.23174.8, )"
           }
         },
         "imports": [

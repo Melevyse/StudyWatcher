@@ -79,5 +79,7 @@ public partial class MainForm : Form
         {
             // Не требует обработки на данном этапе
         });
+
+        connection.StartAsync().Wait();
     }
 }
