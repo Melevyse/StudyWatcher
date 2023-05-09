@@ -13,4 +13,6 @@ public class WorkStation
     public string NameHDD { get; set; }
 
     public string NameVideocard { get; set; }
+    
+    public string NameLocation { get; set; }
 }

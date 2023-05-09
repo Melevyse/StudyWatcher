@@ -28,14 +28,16 @@ public class StudyWatcherHub : Hub
         string nameRAM,
         string nameHDD,
         string nameVideocard,
+        string nameLocation,
         List<string> listProcess,
         DateTime lastLaunch,
-        string connectionIdAdmin)
+        string connectionIdAdmin,
+        string connectionId)
     {
         try
         {
             var id = await _monitoringService
-                .AddWorkStationRequest(nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard);
+                .AddWorkStationRequest(nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard, nameLocation);
             var result = await _monitoringService
                 .AddProcessListRequest(listProcess, lastLaunch, id);
             if (id != Guid.Empty)
@@ -43,7 +45,7 @@ public class StudyWatcherHub : Hub
                 await Clients
                     .Client(connectionIdAdmin)
                     .SendAsync("RegisterWorkStation", 
-                        nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard);
+                        nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard, connectionId);
         }
         catch (Exception e)
         {
@@ -65,6 +67,10 @@ public class StudyWatcherHub : Hub
                 .GetAuthorizationUserResponse(userLogin, userPassword);
             if (result != Guid.Empty)
             {
+                var resultFio = await _authorizationUserService
+                    .GetUserFioResponse(userLogin, userPassword);
+                var resultGroup = await _authorizationUserService
+                    .GetUserGroupResponse(userLogin, userPassword);
                 // Ответ пользователю об успешной авторизации
                 await Clients
                     .Client(connectionId)
@@ -72,15 +78,14 @@ public class StudyWatcherHub : Hub
                 // Ответ администратору
                 await Clients
                     .Client(connectionIdAdmin)
-                    .SendAsync("AddItemUser");
+                    .SendAsync("AddItemUser", resultFio, resultGroup, connectionId);
             }
         }
         catch (ArgumentException e)
         {
-            // Ответ пользователю об успешной авторизации
             await Clients
                 .Client(connectionId)
-                .SendAsync("CloseStartBanner");
+                .SendAsync("ErrorLoginPassword");
         }
         catch (Exception e)
         {
@@ -155,7 +160,7 @@ public class StudyWatcherHub : Hub
             if (result != Guid.Empty) 
                 await Clients
                     .Client(connectionIdAdmin)
-                    .SendAsync("UpdateProcessBlackList");
+                    .SendAsync("UpdateProcessBlackList", processBan);
         }
         catch (Exception e)
         {
@@ -179,7 +184,7 @@ public class StudyWatcherHub : Hub
             {
                 await Clients
                     .Client(connectionIdAdmin)
-                    .SendAsync("AddItemProcessList");
+                    .SendAsync("AddItemProcessList", nameProcess);
             }
         }
         catch (Exception e)

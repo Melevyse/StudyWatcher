@@ -7,7 +7,8 @@ public interface IMonitoringService
         string nameCPU,
         string nameRAM,
         string nameHDD,
-        string nameVideocard);
+        string nameVideocard,
+        string nameLocation);
     
     Task<Guid> AddProcessBanRequest(
         string processBan);

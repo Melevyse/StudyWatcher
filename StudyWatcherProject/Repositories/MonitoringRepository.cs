@@ -23,7 +23,8 @@ public class MonitoringRepository : IMonitoringRepository
         string nameCPU,
         string nameRAM,
         string nameHDD,
-        string nameVideocard)
+        string nameVideocard,
+        string nameLocation)
     {
         var request = new WorkStation()
         {
@@ -31,7 +32,8 @@ public class MonitoringRepository : IMonitoringRepository
             NameCPU = nameCPU,
             NameRAM = nameRAM,
             NameHDD = nameHDD,
-            NameVideocard = nameVideocard
+            NameVideocard = nameVideocard,
+            NameLocation = nameLocation
         };
         //
         _context.Add(request);

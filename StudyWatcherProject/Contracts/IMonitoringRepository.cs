@@ -9,7 +9,8 @@ public interface IMonitoringRepository
         string nameCPU,
         string nameRAM,
         string nameHDD,
-        string nameVideocard);
+        string nameVideocard,
+        string nameLocation);
 
     Task<ProcessBan> AddProcessBan(
         string nameProcessBan);

@@ -17,10 +17,11 @@ public class MonitoringService : IMonitoringService
         string nameCPU,
         string nameRAM,
         string nameHDD,
-        string nameVideocard)
+        string nameVideocard,
+        string nameLocation)
     {
         var result = await _repositories
-            .AddNewWorkStation(nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard);
+            .AddNewWorkStation(nameMotherboard, nameCPU, nameRAM, nameHDD, nameVideocard, nameLocation);
         return result.Id;
     }
 
