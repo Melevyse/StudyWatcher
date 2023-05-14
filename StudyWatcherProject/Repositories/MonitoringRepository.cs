@@ -112,7 +112,7 @@ public class MonitoringRepository : IMonitoringRepository
             }
             return check ?? throw new ArgumentException("No record in database");
         }
-        return result;
+        return check ?? throw new ArgumentException("No record in database");
     }
     
     public async Task<List<string>> AddProcessList(

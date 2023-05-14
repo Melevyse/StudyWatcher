@@ -46,7 +46,7 @@ public class MonitoringService : IMonitoringService
         Guid idWorkStation)
     {
         var result = await _repositories
-            .AddProcess(nameProcess, lastLaunch, idWorkStation);
+            .UpdateProcess(nameProcess, lastLaunch, idWorkStation);
         return result.Id;
     }
 
