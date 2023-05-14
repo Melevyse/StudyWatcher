@@ -11,6 +11,11 @@ public class SqlReportingContext : DbContext
     public DbSet<WorkStation> WorkStation { get; set; }
     public DbSet<ProcessWS> ProcessWS { get; set; }
     public DbSet<ProcessBan> ProcessBan { get; set; }
+    
+    public SqlReportingContext(DbContextOptions<SqlReportingContext> options)
+        : base(options)
+    {
+    }
 
     public SqlReportingContext()
     {

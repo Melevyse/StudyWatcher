@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.EntityFrameworkCore;
 using StudyWatcherProject.Contracts;
 using StudyWatcherProject.EFC;
 using StudyWatcherProject.Models;
@@ -19,6 +20,8 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection service)
     {
+        service.AddDbContext<SqlReportingContext>(options =>
+            options.UseNpgsql(_configuration.GetConnectionString("SqlReportingContext")));
         service.AddScoped<IAuthorizationUserService, AuthorizationUserService>();
         service.AddScoped<IAuthorizationUserRepository, AuthorizationUserRepository>();
         service.AddScoped<IMonitoringService, MonitoringService>();

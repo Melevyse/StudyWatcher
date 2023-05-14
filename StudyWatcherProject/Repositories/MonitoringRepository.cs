@@ -8,14 +8,14 @@ namespace StudyWatcherProject.Repositories;
 public class MonitoringRepository : IMonitoringRepository
 {
     private readonly SqlReportingContext _context;
-    private readonly Logger<MonitoringRepository> _logger;
+    private readonly ILogger<MonitoringRepository> _logger;
 
     public MonitoringRepository(
         SqlReportingContext context,
-        Logger<MonitoringRepository> logger)
+        ILogger<MonitoringRepository> logger)
     {
-        context = _context;
-        logger = _logger;
+        _context = context;
+        _logger = logger;
     }
 
     public async Task<WorkStation> AddNewWorkStation(
@@ -108,10 +108,13 @@ public class MonitoringRepository : IMonitoringRepository
             if (check != null)
             {
                 check.LastLaunch = lastLaunch;
+                _context.SaveChanges();
                 return check; 
             }
             return check ?? throw new ArgumentException("No record in database");
         }
+        _context.Add(result);
+        _context.SaveChanges();
         return check ?? throw new ArgumentException("No record in database");
     }
     
