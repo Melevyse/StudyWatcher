@@ -69,7 +69,6 @@ public partial class MainForm : Form
             listProcessBanForm.Items.Add(processBan);
         });
         
-        // Доделать
         connection.On("AddItemProcessList", (string nameProcess
         ) =>
         {
