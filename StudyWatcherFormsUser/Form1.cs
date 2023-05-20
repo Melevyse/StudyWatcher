@@ -12,9 +12,10 @@ public partial class Form1 : Form
     public async Task ConnectionHub()
     {
         connection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5123/StudyWatcherHub")
+            .WithUrl("http://localhost:5123/hub")
+            .WithAutomaticReconnect()
             .Build();
-        await connection.StartAsync();
+        connection.StartAsync().Wait();
     }
     
     public Form1()
@@ -158,7 +159,7 @@ public partial class Form1 : Form
             string nameVideocard = systemManagmentSearchVidocard();
             string nameLocation = "StudentComputer";
             List<string> listProcess = systemProcess();
-            DateTime lastLaunch = DateTime.Today;
+            DateTime lastLaunch = DateTime.UtcNow;
             var connectionId = connection.ConnectionId;
             connection.InvokeAsync("AddWorkStationHub",
                 nameMotherboard,
@@ -173,6 +174,5 @@ public partial class Form1 : Form
                 connectionId);
             HubConnectionTimer.Stop();
         }
-
     }
 }

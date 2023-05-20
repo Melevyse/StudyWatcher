@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.SignalR;
 using StudyWatcherProject.Contracts;
 
 namespace StudyWatcherProject.Hubs;
+
 
 public class StudyWatcherHub : Hub
 {
@@ -14,11 +13,11 @@ public class StudyWatcherHub : Hub
     public StudyWatcherHub(
         IMonitoringService monitoringService,
         IAuthorizationUserService authorizationUserService,
-        ILogger logger)
+        ILogger<StudyWatcherHub>  logger)
     {
-        monitoringService = _monitoringService;
-        authorizationUserService = _authorizationUserService;
-        logger = _logger;
+        _monitoringService = monitoringService;
+        _authorizationUserService = authorizationUserService;
+        _logger = logger;
     }
 
     // Метод, создание нового компьютера - не готов

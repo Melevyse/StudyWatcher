@@ -35,9 +35,20 @@ public class MonitoringRepository : IMonitoringRepository
             NameVideocard = nameVideocard,
             NameLocation = nameLocation
         };
-        //
-        _context.Add(request);
-        _context.SaveChanges();
+        var check = await _context.WorkStation
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => 
+                x.NameMotherboard == nameMotherboard &
+                x.NameCPU == nameCPU &
+                x.NameRAM == nameRAM &
+                x.NameHDD == nameHDD &
+                x.NameVideocard == nameVideocard&
+                x.NameLocation == nameLocation);
+        if (request != check)
+        {
+            _context.Add(request);
+            _context.SaveChanges();
+        }
         return request;
     }
 

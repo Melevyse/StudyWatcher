@@ -11,9 +11,10 @@ public partial class MainForm : Form
     public async Task ConnectionHub()
     {
         connection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5123/StudyWatcherHub")
+            .WithUrl("http://localhost:5123/hub")
+            .WithAutomaticReconnect()
             .Build();
-        await connection.StartAsync();
+        connection.StartAsync().Wait();
     }
 
     public MainForm()
@@ -21,6 +22,7 @@ public partial class MainForm : Form
         ConnectionHub();
         InitializeComponent();
 
+        
         // Создать колекцию процессов подключаемых компьютеров
         connection.On("RegisterWorkStation", (
             string nameMotherboard,
@@ -99,9 +101,7 @@ public partial class MainForm : Form
     {
         HubMethodTimer.Start();
     }
-
-
-
+    
     private void buttonAddProcessBan_Click(object sender, EventArgs e)
     {
         if (listProcessForm.SelectedItems.Count > 0)
@@ -109,13 +109,15 @@ public partial class MainForm : Form
             if (listProcessForm.SelectedItems.Count == 1)
             {
                 ListViewItem selectedItem = listProcessForm.SelectedItems[0];
-
+                connection.InvokeAsync("AddProcessListBanHub",
+                    listProcessForm.SelectedItems.ToString(),connection.ConnectionId);
             }
             else
             {
                 foreach (ListViewItem selectedItem in listProcessForm.SelectedItems)
                 {
-
+                    connection.InvokeAsync("AddProcessListBanHub",
+                        selectedItem.ToString(),connection.ConnectionId);
                 }
             }
         }
@@ -124,5 +126,7 @@ public partial class MainForm : Form
     private void HubMethodTimer_Tick(object sender, EventArgs e)
     {
         connection.InvokeAsync("GetAdminConnectionIdHub");
+        //var f = connection.State;
+        //listWorkStationForm.Items.Add(f.ToString());
     }
 }

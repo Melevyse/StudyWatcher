@@ -6,6 +6,12 @@ public class AuthorizationUserService : IAuthorizationUserService
 {
     private readonly IAuthorizationUserRepository _repositories;
 
+    public AuthorizationUserService(
+    IAuthorizationUserRepository repositories)
+    {
+        _repositories = repositories;
+    }
+
     public async Task<Guid> GetAuthorizationUserResponse(
         string userLogin,
         string userPassword)

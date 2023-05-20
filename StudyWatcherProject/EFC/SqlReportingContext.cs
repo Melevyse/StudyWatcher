@@ -12,6 +12,13 @@ public class SqlReportingContext : DbContext
     public DbSet<ProcessWS> ProcessWS { get; set; }
     public DbSet<ProcessBan> ProcessBan { get; set; }
     
+    protected override void OnModelCreating(ModelBuilder builder)
+    {
+        builder.Entity<WorkStation>()
+            .HasIndex(u => u.NameLocation)
+            .IsUnique();
+    }
+    
     public SqlReportingContext(DbContextOptions<SqlReportingContext> options)
         : base(options)
     {

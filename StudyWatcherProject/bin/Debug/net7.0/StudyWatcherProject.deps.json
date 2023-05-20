@@ -9,9 +9,18 @@
       "StudyWatcherProject/1.0.0": {
         "dependencies": {
           "FluentValidation.AspNetCore": "11.3.0",
+          "Microsoft.AspNet.SignalR": "2.4.3",
+          "Microsoft.AspNet.SignalR.Core": "2.4.3",
+          "Microsoft.AspNet.SignalR.Owin": "1.2.2",
+          "Microsoft.AspNet.SignalR.Sample": "2.2.2",
           "Microsoft.EntityFrameworkCore": "8.0.0-preview.3.23174.2",
+          "Microsoft.Owin": "4.2.2",
+          "Microsoft.Owin.Host.SystemWeb": "4.2.2",
+          "Microsoft.Owin.Security": "4.2.2",
           "Npgsql.EntityFrameworkCore.PostgreSQL": "8.0.0-preview.3",
-          "System.Windows.Forms": "4.0.0.0"
+          "Owin": "1.0.0",
+          "System.Configuration.ConfigurationManager": "8.0.0-preview.3.23174.8",
+          "System.Security.Permissions": "8.0.0-preview.3.23174.8"
         },
         "runtime": {
           "StudyWatcherProject.dll": {}
@@ -46,6 +55,59 @@
           "lib/netstandard2.1/FluentValidation.DependencyInjectionExtensions.dll": {
             "assemblyVersion": "11.0.0.0",
             "fileVersion": "11.5.1.0"
+          }
+        }
+      },
+      "jQuery/1.6.4": {},
+      "Microsoft.AspNet.SignalR/2.4.3": {
+        "dependencies": {
+          "Microsoft.AspNet.SignalR.JS": "2.4.3",
+          "Microsoft.AspNet.SignalR.SystemWeb": "2.4.3"
+        }
+      },
+      "Microsoft.AspNet.SignalR.Core/2.4.3": {
+        "dependencies": {
+          "Microsoft.Owin.Security": "4.2.2",
+          "Newtonsoft.Json": "6.0.4"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AspNet.SignalR.Core.dll": {
+            "assemblyVersion": "2.4.3.0",
+            "fileVersion": "2.4.3.22014"
+          }
+        }
+      },
+      "Microsoft.AspNet.SignalR.JS/2.4.3": {
+        "dependencies": {
+          "jQuery": "1.6.4"
+        }
+      },
+      "Microsoft.AspNet.SignalR.Owin/1.2.2": {
+        "dependencies": {
+          "Microsoft.AspNet.SignalR.Core": "2.4.3",
+          "Owin": "1.0.0"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AspNet.SignalR.Owin.dll": {
+            "assemblyVersion": "1.2.2.0",
+            "fileVersion": "1.2.30819.0"
+          }
+        }
+      },
+      "Microsoft.AspNet.SignalR.Sample/2.2.2": {
+        "dependencies": {
+          "Microsoft.AspNet.SignalR": "2.4.3"
+        }
+      },
+      "Microsoft.AspNet.SignalR.SystemWeb/2.4.3": {
+        "dependencies": {
+          "Microsoft.AspNet.SignalR.Core": "2.4.3",
+          "Microsoft.Owin.Host.SystemWeb": "4.2.2"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.AspNet.SignalR.SystemWeb.dll": {
+            "assemblyVersion": "2.4.3.0",
+            "fileVersion": "2.4.3.22014"
           }
         }
       },
@@ -183,6 +245,65 @@
           }
         }
       },
+      "Microsoft.Owin/4.2.2": {
+        "dependencies": {
+          "Owin": "1.0.0"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.dll": {
+            "assemblyVersion": "4.2.2.0",
+            "fileVersion": "4.200.222.26002"
+          }
+        }
+      },
+      "Microsoft.Owin.Host.SystemWeb/4.2.2": {
+        "dependencies": {
+          "Microsoft.Owin": "4.2.2",
+          "Owin": "1.0.0"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Host.SystemWeb.dll": {
+            "assemblyVersion": "4.2.2.0",
+            "fileVersion": "4.200.222.26002"
+          }
+        }
+      },
+      "Microsoft.Owin.Security/4.2.2": {
+        "dependencies": {
+          "Microsoft.Owin": "4.2.2",
+          "Owin": "1.0.0"
+        },
+        "runtime": {
+          "lib/net45/Microsoft.Owin.Security.dll": {
+            "assemblyVersion": "4.2.2.0",
+            "fileVersion": "4.200.222.26002"
+          }
+        }
+      },
+      "Microsoft.Win32.SystemEvents/7.0.0": {
+        "runtime": {
+          "lib/net7.0/Microsoft.Win32.SystemEvents.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/Microsoft.Win32.SystemEvents.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
+          }
+        }
+      },
+      "Newtonsoft.Json/6.0.4": {
+        "runtime": {
+          "lib/net45/Newtonsoft.Json.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.4.17603"
+          }
+        }
+      },
       "Npgsql/8.0.0-preview.3": {
         "dependencies": {
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0-preview.3.23174.8"
@@ -208,50 +329,102 @@
           }
         }
       },
-      "System.Windows.Forms/4.0.0.0": {
+      "Owin/1.0.0": {
         "runtime": {
-          "System.Windows.Forms.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.8.4550.0"
-          }
-        },
-        "resources": {
-          "ru/System.Windows.Forms.resources.dll": {
-            "locale": "ru"
+          "lib/net40/Owin.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
-      "Accessibility/4.0.0.0": {
+      "System.Configuration.ConfigurationManager/8.0.0-preview.3.23174.8": {
+        "dependencies": {
+          "System.Diagnostics.EventLog": "8.0.0-preview.3.23174.8",
+          "System.Security.Cryptography.ProtectedData": "8.0.0-preview.3.23174.8"
+        },
         "runtime": {
-          "Accessibility.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.8.4084.0"
+          "lib/net7.0/System.Configuration.ConfigurationManager.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
           }
         }
       },
-      "System.Deployment/4.0.0.0": {
+      "System.Diagnostics.EventLog/8.0.0-preview.3.23174.8": {
         "runtime": {
-          "System.Deployment.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.8.4270.0"
+          "lib/net7.0/System.Diagnostics.EventLog.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
           }
         },
-        "resources": {
-          "ru/System.Deployment.resources.dll": {
-            "locale": "ru"
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/System.Diagnostics.EventLog.Messages.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win/lib/net7.0/System.Diagnostics.EventLog.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
           }
         }
       },
-      "System.Runtime.Serialization.Formatters.Soap/4.0.0.0": {
+      "System.Drawing.Common/7.0.0": {
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "7.0.0"
+        },
         "runtime": {
-          "System.Runtime.Serialization.Formatters.Soap.dll": {
-            "assemblyVersion": "4.0.0.0",
-            "fileVersion": "4.8.4084.0"
+          "lib/net7.0/System.Drawing.Common.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
           }
         },
-        "resources": {
-          "ru/System.Runtime.Serialization.Formatters.Soap.resources.dll": {
-            "locale": "ru"
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/System.Drawing.Common.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
+          }
+        }
+      },
+      "System.Security.Cryptography.ProtectedData/8.0.0-preview.3.23174.8": {
+        "runtime": {
+          "lib/net7.0/System.Security.Cryptography.ProtectedData.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
+          }
+        }
+      },
+      "System.Security.Permissions/8.0.0-preview.3.23174.8": {
+        "dependencies": {
+          "System.Windows.Extensions": "8.0.0-preview.3.23174.8"
+        },
+        "runtime": {
+          "lib/net7.0/System.Security.Permissions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
+          }
+        }
+      },
+      "System.Windows.Extensions/8.0.0-preview.3.23174.8": {
+        "dependencies": {
+          "System.Drawing.Common": "7.0.0"
+        },
+        "runtime": {
+          "lib/net7.0/System.Windows.Extensions.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net7.0/System.Windows.Extensions.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
           }
         }
       }
@@ -283,6 +456,55 @@
       "sha512": "sha512-iWM0LS1MDYX06pcjMEQKqHirl2zkjHlNV23mEJSoR1IZI7KQmTa0RcTtGEJpj5+iHvBCfrzP2mYKM4FtRKVb+A==",
       "path": "fluentvalidation.dependencyinjectionextensions/11.5.1",
       "hashPath": "fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512"
+    },
+    "jQuery/1.6.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8RzoZQFeFYL/cINRXksLWyl8D5TKctZ/2G8hrlOLLM5OgFNI9h3t3l5tB+BBbsBUxaPUageVe0p9ruU5jrFeow==",
+      "path": "jquery/1.6.4",
+      "hashPath": "jquery.1.6.4.nupkg.sha512"
+    },
+    "Microsoft.AspNet.SignalR/2.4.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-F2Q1g0Imd4Nm8AeUkJuLSMNh/Nae48tq9rq3bMxnC88I+IBfiZ7l1lw4gFeM6pCm1IIaOVRHyEM/mRKUvsmxbQ==",
+      "path": "microsoft.aspnet.signalr/2.4.3",
+      "hashPath": "microsoft.aspnet.signalr.2.4.3.nupkg.sha512"
+    },
+    "Microsoft.AspNet.SignalR.Core/2.4.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zxvv9HhsUa3nfyC7rIwFxHVcGffyQrjqNUO6pBKLyv3eFigkEy3N+6KbbSedzIyCfthglTbvU+m4sg8tawRlvA==",
+      "path": "microsoft.aspnet.signalr.core/2.4.3",
+      "hashPath": "microsoft.aspnet.signalr.core.2.4.3.nupkg.sha512"
+    },
+    "Microsoft.AspNet.SignalR.JS/2.4.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jaFU1OPcTX7h2Xu7nmW6DM5qoWYZWIaDdD6olWC+ybRzSGJBzJQTKrTpSiC2aRoqjn0d+qwBzrTjKXNBYwlnSQ==",
+      "path": "microsoft.aspnet.signalr.js/2.4.3",
+      "hashPath": "microsoft.aspnet.signalr.js.2.4.3.nupkg.sha512"
+    },
+    "Microsoft.AspNet.SignalR.Owin/1.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LmR0YFPkuBq9MG4NkyL9UR8rMaiBwrjgjc0L+ttsGoAKU5VXfPD+dBWhbZJedUZjvIDwgcEuKCePkNnvvqLetg==",
+      "path": "microsoft.aspnet.signalr.owin/1.2.2",
+      "hashPath": "microsoft.aspnet.signalr.owin.1.2.2.nupkg.sha512"
+    },
+    "Microsoft.AspNet.SignalR.Sample/2.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kItxftLWmcmvAOXQj33lRpnsBrH6Z9UqMxcHdXI8eeC8clcIhdz8ESMtQfhGV8EFoV5MxSg02cAoNwi/vIpJ1w==",
+      "path": "microsoft.aspnet.signalr.sample/2.2.2",
+      "hashPath": "microsoft.aspnet.signalr.sample.2.2.2.nupkg.sha512"
+    },
+    "Microsoft.AspNet.SignalR.SystemWeb/2.4.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-N4xjSEDTfZ3TRm0xAZIiRIYSGJjMED1ukZKTmpP9MLZ0B6Wu/xrReT1hSpTPf0O8ZR+1pFfmjdDTtAA+OpTmcA==",
+      "path": "microsoft.aspnet.signalr.systemweb/2.4.3",
+      "hashPath": "microsoft.aspnet.signalr.systemweb.2.4.3.nupkg.sha512"
     },
     "Microsoft.EntityFrameworkCore/8.0.0-preview.3.23174.2": {
       "type": "package",
@@ -375,6 +597,41 @@
       "path": "microsoft.extensions.primitives/8.0.0-preview.3.23174.8",
       "hashPath": "microsoft.extensions.primitives.8.0.0-preview.3.23174.8.nupkg.sha512"
     },
+    "Microsoft.Owin/4.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-jt410l/8dvCIguRdU7dupYdm4kGLepVdD8EOTKU4nYZcLRrn6kQYqI6pbJOTJp7Vlm/T2WUF5bzyKK2z29xtjg==",
+      "path": "microsoft.owin/4.2.2",
+      "hashPath": "microsoft.owin.4.2.2.nupkg.sha512"
+    },
+    "Microsoft.Owin.Host.SystemWeb/4.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-MYdqpNXC5xX7pVAnhGDfZvU7ybylYENqnV17XYGGkInk3Hco2Fx8t4nVBXBoAw/3ox6cNTbazq+EiS4Pi9lGQA==",
+      "path": "microsoft.owin.host.systemweb/4.2.2",
+      "hashPath": "microsoft.owin.host.systemweb.4.2.2.nupkg.sha512"
+    },
+    "Microsoft.Owin.Security/4.2.2": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-nEgJYWfSrbp/u2FnIkmiLUuWUyFX8xC/gtnwN9r1rV+iT/E10rMinGbaxQvSHlkhHBnUgzriYwCaMhMExxpyhQ==",
+      "path": "microsoft.owin.security/4.2.2",
+      "hashPath": "microsoft.owin.security.4.2.2.nupkg.sha512"
+    },
+    "Microsoft.Win32.SystemEvents/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-2nXPrhdAyAzir0gLl8Yy8S5Mnm/uBSQQA7jEsILOS1MTyS7DbmV1NgViMtvV1sfCD1ebITpNwb1NIinKeJgUVQ==",
+      "path": "microsoft.win32.systemevents/7.0.0",
+      "hashPath": "microsoft.win32.systemevents.7.0.0.nupkg.sha512"
+    },
+    "Newtonsoft.Json/6.0.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-FyQLmEpjsCrEP+znauLDGAi+h6i9YnaMkITlfIoiM4RYyX3nki306bTHsr/0okiIvIc7BJhQTbOAIZVocccFUw==",
+      "path": "newtonsoft.json/6.0.4",
+      "hashPath": "newtonsoft.json.6.0.4.nupkg.sha512"
+    },
     "Npgsql/8.0.0-preview.3": {
       "type": "package",
       "serviceable": true,
@@ -389,25 +646,54 @@
       "path": "npgsql.entityframeworkcore.postgresql/8.0.0-preview.3",
       "hashPath": "npgsql.entityframeworkcore.postgresql.8.0.0-preview.3.nupkg.sha512"
     },
-    "System.Windows.Forms/4.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
+    "Owin/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-OseTFniKmyp76mEzOBwIKGBRS5eMoYNkMKaMXOpxx9jv88+b6mh1rSaw43vjBOItNhaLFG3d0a20PfHyibH5sw==",
+      "path": "owin/1.0.0",
+      "hashPath": "owin.1.0.0.nupkg.sha512"
     },
-    "Accessibility/4.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
+    "System.Configuration.ConfigurationManager/8.0.0-preview.3.23174.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-En9WhYr7LvybtgpVpxekwcvmebE9YUQTMOFxWgKBGpaMEdOWlEbO7P0A5uQW73p9iiTo5V4TQKS2qoF9RhLNkw==",
+      "path": "system.configuration.configurationmanager/8.0.0-preview.3.23174.8",
+      "hashPath": "system.configuration.configurationmanager.8.0.0-preview.3.23174.8.nupkg.sha512"
     },
-    "System.Deployment/4.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
+    "System.Diagnostics.EventLog/8.0.0-preview.3.23174.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-PqYrJ1kw4wvz4T+oGRbvWMr/8oV7CZRYSRZbowrkF2V8yq97L0r1rYpJwOqpzOk0bcTPyJbjTxOtWoCiRhKu/Q==",
+      "path": "system.diagnostics.eventlog/8.0.0-preview.3.23174.8",
+      "hashPath": "system.diagnostics.eventlog.8.0.0-preview.3.23174.8.nupkg.sha512"
     },
-    "System.Runtime.Serialization.Formatters.Soap/4.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
+    "System.Drawing.Common/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KIX+oBU38pxkKPxvLcLfIkOV5Ien8ReN78wro7OF5/erwcmortzeFx+iBswlh2Vz6gVne0khocQudGwaO1Ey6A==",
+      "path": "system.drawing.common/7.0.0",
+      "hashPath": "system.drawing.common.7.0.0.nupkg.sha512"
+    },
+    "System.Security.Cryptography.ProtectedData/8.0.0-preview.3.23174.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RpFC2Vb5bCUOJP1IXBdqvFiW/drXP8YwuC/VGDZaG9sgnkvuhDJ2OkU9iLK5DOkdIIgvUx/lYQtMDApnFxXv1w==",
+      "path": "system.security.cryptography.protecteddata/8.0.0-preview.3.23174.8",
+      "hashPath": "system.security.cryptography.protecteddata.8.0.0-preview.3.23174.8.nupkg.sha512"
+    },
+    "System.Security.Permissions/8.0.0-preview.3.23174.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-f8h41oergyUMrRUu3PAjLQcenAW2ePzb5PxOmBFayt/C1TaKxG/U53DXTpK3LdT4a4PkR+eHshxQiEgkDZhpDg==",
+      "path": "system.security.permissions/8.0.0-preview.3.23174.8",
+      "hashPath": "system.security.permissions.8.0.0-preview.3.23174.8.nupkg.sha512"
+    },
+    "System.Windows.Extensions/8.0.0-preview.3.23174.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cLyKViNwKp0dC5uqNtGH3MJ651RnKq0p7CqC8TsA77Ud5DsMBVUSB7V0pLhehvt338aUv0Jx3GAqBlsF7eqmcA==",
+      "path": "system.windows.extensions/8.0.0-preview.3.23174.8",
+      "hashPath": "system.windows.extensions.8.0.0-preview.3.23174.8.nupkg.sha512"
     }
   }
 }

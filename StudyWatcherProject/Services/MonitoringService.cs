@@ -9,7 +9,7 @@ public class MonitoringService : IMonitoringService
     public MonitoringService(
         IMonitoringRepository repositories)
     {
-        repositories = _repositories;
+        _repositories = repositories;
     }
     
     public async  Task<Guid> AddWorkStationRequest(

@@ -6,6 +6,9 @@ using StudyWatcherProject.Models;
 using StudyWatcherProject.Repositories;
 using StudyWatcherProject.Services;
 using StudyWatcherProject.Validators;
+using StudyWatcherProject.Hubs;
+
+
 
 namespace StudyWatcherProject;
 
@@ -27,6 +30,7 @@ public class Startup
         service.AddScoped<IMonitoringService, MonitoringService>();
         service.AddScoped<IMonitoringRepository, MonitoringRepository>();
         service.AddSignalR();
+        service.AddLogging(builder => builder.AddConsole());
 
         service.AddTransient<IValidator<UserStudent>,UserAuthorizationValidator>();
     }
@@ -37,6 +41,11 @@ public class Startup
         SqlReportingContext sqlReportingContext,
         ILogger<Startup> logger)
     {
+        app.UseRouting();
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapHub<StudyWatcherHub>("/hub");
+        });
         
     }
 }
