@@ -29,15 +29,19 @@ partial class MainForm
     /// </summary>
     private void InitializeComponent()
     {
-        ListViewItem listViewItem1 = new ListViewItem("данные");
-        ListViewItem listViewItem2 = new ListViewItem("pltcm");
-        ListViewItem listViewItem3 = new ListViewItem("3123");
-        ListViewItem listViewItem4 = new ListViewItem("2312312");
-        ListViewItem listViewItem5 = new ListViewItem("");
+        components = new System.ComponentModel.Container();
+        ListViewItem listViewItem2 = new ListViewItem("данные");
         listWorkStationForm = new ListView();
         columnHeader1 = new ColumnHeader();
         columnHeader2 = new ColumnHeader();
         columnHeader3 = new ColumnHeader();
+        columnHeader4 = new ColumnHeader();
+        columnHeader5 = new ColumnHeader();
+        columnHeader6 = new ColumnHeader();
+        columnHeader7 = new ColumnHeader();
+        columnHeader8 = new ColumnHeader();
+        columnHeader9 = new ColumnHeader();
+        columnHeader10 = new ColumnHeader();
         buttonAddProcessBan = new Button();
         buttonDeleteProcessBan = new Button();
         listProcessForm = new ListView();
@@ -45,15 +49,18 @@ partial class MainForm
         label2 = new Label();
         listProcessBanForm = new ListView();
         label3 = new Label();
+        pictureBoxTranslator = new PictureBox();
+        HubMethodTimer = new System.Windows.Forms.Timer(components);
+        ((System.ComponentModel.ISupportInitialize)pictureBoxTranslator).BeginInit();
         SuspendLayout();
         // 
         // listWorkStationForm
         // 
-        listWorkStationForm.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3 });
-        listWorkStationForm.Items.AddRange(new ListViewItem[] { listViewItem1, listViewItem2, listViewItem3, listViewItem4, listViewItem5 });
+        listWorkStationForm.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6, columnHeader7, columnHeader8, columnHeader9, columnHeader10 });
+        listWorkStationForm.Items.AddRange(new ListViewItem[] { listViewItem2 });
         listWorkStationForm.Location = new Point(12, 297);
         listWorkStationForm.Name = "listWorkStationForm";
-        listWorkStationForm.Size = new Size(748, 303);
+        listWorkStationForm.Size = new Size(930, 300);
         listWorkStationForm.TabIndex = 0;
         listWorkStationForm.UseCompatibleStateImageBehavior = false;
         listWorkStationForm.View = View.Details;
@@ -65,26 +72,62 @@ partial class MainForm
         // 
         // columnHeader2
         // 
-        columnHeader2.Text = "Состояние";
+        columnHeader2.Text = "Пользователь";
         columnHeader2.Width = 100;
         // 
         // columnHeader3
         // 
-        columnHeader3.Text = "Пользователь";
+        columnHeader3.Text = "Группа";
         columnHeader3.Width = 100;
+        // 
+        // columnHeader4
+        // 
+        columnHeader4.Text = "MAC";
+        columnHeader4.Width = 100;
+        // 
+        // columnHeader5
+        // 
+        columnHeader5.Text = "CPU";
+        columnHeader5.Width = 100;
+        // 
+        // columnHeader6
+        // 
+        columnHeader6.Text = "RAM";
+        columnHeader6.Width = 100;
+        // 
+        // columnHeader7
+        // 
+        columnHeader7.Text = "HDD";
+        columnHeader7.Width = 100;
+        // 
+        // columnHeader8
+        // 
+        columnHeader8.Text = "Videocard";
+        columnHeader8.Width = 100;
+        // 
+        // columnHeader9
+        // 
+        columnHeader9.Text = "Статус";
+        columnHeader9.Width = 100;
+        // 
+        // columnHeader10
+        // 
+        columnHeader10.Text = "ConnectionId";
+        columnHeader10.Width = 0;
         // 
         // buttonAddProcessBan
         // 
-        buttonAddProcessBan.Location = new Point(766, 606);
+        buttonAddProcessBan.Location = new Point(958, 603);
         buttonAddProcessBan.Name = "buttonAddProcessBan";
         buttonAddProcessBan.Size = new Size(75, 23);
         buttonAddProcessBan.TabIndex = 1;
         buttonAddProcessBan.Text = "Добавить ";
         buttonAddProcessBan.UseVisualStyleBackColor = true;
+        buttonAddProcessBan.Click += buttonAddProcessBan_Click;
         // 
         // buttonDeleteProcessBan
         // 
-        buttonDeleteProcessBan.Location = new Point(972, 606);
+        buttonDeleteProcessBan.Location = new Point(1172, 603);
         buttonDeleteProcessBan.Name = "buttonDeleteProcessBan";
         buttonDeleteProcessBan.Size = new Size(75, 23);
         buttonDeleteProcessBan.TabIndex = 2;
@@ -93,11 +136,12 @@ partial class MainForm
         // 
         // listProcessForm
         // 
-        listProcessForm.Location = new Point(766, 40);
+        listProcessForm.Location = new Point(958, 37);
         listProcessForm.Name = "listProcessForm";
         listProcessForm.Size = new Size(200, 560);
         listProcessForm.TabIndex = 3;
         listProcessForm.UseCompatibleStateImageBehavior = false;
+        listProcessForm.View = View.List;
         // 
         // label1
         // 
@@ -113,7 +157,7 @@ partial class MainForm
         // 
         label2.AutoSize = true;
         label2.ForeColor = SystemColors.Control;
-        label2.Location = new Point(766, 22);
+        label2.Location = new Point(958, 19);
         label2.Name = "label2";
         label2.Size = new Size(110, 15);
         label2.TabIndex = 5;
@@ -121,28 +165,44 @@ partial class MainForm
         // 
         // listProcessBanForm
         // 
-        listProcessBanForm.Location = new Point(972, 40);
+        listProcessBanForm.Location = new Point(1172, 37);
         listProcessBanForm.Name = "listProcessBanForm";
         listProcessBanForm.Size = new Size(200, 560);
         listProcessBanForm.TabIndex = 6;
         listProcessBanForm.UseCompatibleStateImageBehavior = false;
+        listProcessBanForm.View = View.List;
         // 
         // label3
         // 
         label3.AutoSize = true;
         label3.ForeColor = SystemColors.Control;
-        label3.Location = new Point(972, 22);
+        label3.Location = new Point(1172, 19);
         label3.Name = "label3";
         label3.Size = new Size(190, 15);
         label3.TabIndex = 8;
         label3.Text = "Список запрещенных процессов";
+        // 
+        // pictureBoxTranslator
+        // 
+        pictureBoxTranslator.BackColor = SystemColors.ControlDark;
+        pictureBoxTranslator.Location = new Point(12, 22);
+        pictureBoxTranslator.Name = "pictureBoxTranslator";
+        pictureBoxTranslator.Size = new Size(480, 250);
+        pictureBoxTranslator.TabIndex = 9;
+        pictureBoxTranslator.TabStop = false;
+        // 
+        // HubMethodTimer
+        // 
+        HubMethodTimer.Interval = 5000;
+        HubMethodTimer.Tick += HubMethodTimer_Tick;
         // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.GrayText;
-        ClientSize = new Size(1184, 661);
+        ClientSize = new Size(1384, 661);
+        Controls.Add(pictureBoxTranslator);
         Controls.Add(label3);
         Controls.Add(listProcessBanForm);
         Controls.Add(label2);
@@ -153,6 +213,8 @@ partial class MainForm
         Controls.Add(listWorkStationForm);
         Name = "MainForm";
         Text = "StudyWatcher";
+        Load += MainForm_Load;
+        ((System.ComponentModel.ISupportInitialize)pictureBoxTranslator).EndInit();
         ResumeLayout(false);
         PerformLayout();
     }
@@ -170,4 +232,13 @@ partial class MainForm
     private Label label2;
     private ListView listProcessBanForm;
     private Label label3;
+    private PictureBox pictureBoxTranslator;
+    private ColumnHeader columnHeader4;
+    private ColumnHeader columnHeader5;
+    private ColumnHeader columnHeader6;
+    private ColumnHeader columnHeader7;
+    private ColumnHeader columnHeader8;
+    private ColumnHeader columnHeader9;
+    private ColumnHeader columnHeader10;
+    private System.Windows.Forms.Timer HubMethodTimer;
 }

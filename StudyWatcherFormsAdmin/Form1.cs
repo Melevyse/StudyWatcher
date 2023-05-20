@@ -1,20 +1,27 @@
 using Microsoft.AspNetCore.SignalR.Client;
+using System.Xml;
+
 
 namespace StudyWatcherFormsAdmin;
 
 public partial class MainForm : Form
 {
-    private readonly HubConnection _hubConnection;
+    private HubConnection connection;
+
+    public async Task ConnectionHub()
+    {
+        connection = new HubConnectionBuilder()
+            .WithUrl("http://localhost:5123/StudyWatcherHub")
+            .Build();
+        await connection.StartAsync();
+    }
+
     public MainForm()
     {
-        // Создать конфигурационный файл, который будет определять физ. позицию компьютера
-        // и адрес подключения к серверу
-        var connection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:44300")
-            .Build();
+        ConnectionHub();
         InitializeComponent();
 
-        // Создать колекцию процессов подключаенных компьютеров
+        // Создать колекцию процессов подключаемых компьютеров
         connection.On("RegisterWorkStation", (
             string nameMotherboard,
             string nameCPU,
@@ -34,9 +41,9 @@ public partial class MainForm : Form
             listViewItem.SubItems.Add(nameVideocard);
             listViewItem.SubItems.Add("Offline");
             listViewItem.SubItems.Add(connectionId);
-            listWorkStationForm.Items.Add(listViewItem);   
+            listWorkStationForm.Items.Add(listViewItem);
         });
-        
+
         connection.On("AddItemUser", (
             string fio,
             string group,
@@ -68,19 +75,54 @@ public partial class MainForm : Form
         {
             listProcessBanForm.Items.Add(processBan);
         });
-        
-        connection.On("AddItemProcessList", (string nameProcess
-        ) =>
+
+        connection.On("AddItemProcessList", (
+            string nameProcess) =>
         {
             listProcessForm.Items.Add(nameProcess);
         });
 
-        connection.On("AdminConnectionComplete", (
-            string connectionId) =>
+        connection.On("SendPicture", (
+            byte[] imageData) =>
         {
-            // Не требует обработки на данном этапе
+            using (MemoryStream stream = new MemoryStream(imageData))
+            {
+                Image receivedImage = Image.FromStream(stream);
+                pictureBoxTranslator.Image = receivedImage;
+            }
         });
 
-        connection.StartAsync().Wait();
+        connection.StartAsync();
+    }
+
+    private void MainForm_Load(object sender, EventArgs e)
+    {
+        HubMethodTimer.Start();
+    }
+
+
+
+    private void buttonAddProcessBan_Click(object sender, EventArgs e)
+    {
+        if (listProcessForm.SelectedItems.Count > 0)
+        {
+            if (listProcessForm.SelectedItems.Count == 1)
+            {
+                ListViewItem selectedItem = listProcessForm.SelectedItems[0];
+
+            }
+            else
+            {
+                foreach (ListViewItem selectedItem in listProcessForm.SelectedItems)
+                {
+
+                }
+            }
+        }
+    }
+
+    private void HubMethodTimer_Tick(object sender, EventArgs e)
+    {
+        connection.InvokeAsync("GetAdminConnectionIdHub");
     }
 }

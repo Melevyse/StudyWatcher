@@ -194,4 +194,37 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
+
+    public async Task RequestPictureHub(
+        string connectionId)
+    {
+        try
+        { 
+            await Clients
+                .Client(connectionId)
+                .SendAsync("RequestPicture");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "RequestPictureHub encountered an exception.");
+            throw;
+        }
+    }
+
+    public async Task SendPictureHub(
+        byte[] imageData,
+        string connectionIdAdmin)
+    {
+        try
+        { 
+            await Clients
+                    .Client(connectionIdAdmin)
+                    .SendAsync("SendPicture", imageData);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "SendPictureHub encountered an exception.");
+            throw;
+        }
+    }
 }

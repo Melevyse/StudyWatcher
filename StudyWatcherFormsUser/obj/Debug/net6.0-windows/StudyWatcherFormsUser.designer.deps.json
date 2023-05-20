@@ -166,10 +166,37 @@
           }
         }
       },
+      "System.CodeDom/8.0.0-preview.3.23174.8": {
+        "runtime": {
+          "lib/net6.0/System.CodeDom.dll": {
+            "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
+          }
+        }
+      },
       "System.IO.Pipelines/8.0.0-preview.3.23174.8": {
         "runtime": {
           "lib/net6.0/System.IO.Pipelines.dll": {
             "assemblyVersion": "8.0.0.0",
+            "fileVersion": "8.0.23.17408"
+          }
+        }
+      },
+      "System.Management/8.0.0-preview.3.23174.8": {
+        "dependencies": {
+          "System.CodeDom": "8.0.0-preview.3.23174.8"
+        },
+        "runtime": {
+          "lib/net6.0/System.Management.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "8.0.23.17408"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net6.0/System.Management.dll": {
+            "rid": "win",
+            "assetType": "runtime",
+            "assemblyVersion": "4.0.0.0",
             "fileVersion": "8.0.23.17408"
           }
         }
@@ -322,12 +349,26 @@
       "path": "microsoft.extensions.primitives/8.0.0-preview.3.23174.8",
       "hashPath": "microsoft.extensions.primitives.8.0.0-preview.3.23174.8.nupkg.sha512"
     },
+    "System.CodeDom/8.0.0-preview.3.23174.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-phl1BIXpkmEOoWfCiPQCyw6Zu5F7Y3a2o+8WZIETxyiobBxqPwe+k5miNYEe06JxZNp90vIVhjIYWz4b7JfUXw==",
+      "path": "system.codedom/8.0.0-preview.3.23174.8",
+      "hashPath": "system.codedom.8.0.0-preview.3.23174.8.nupkg.sha512"
+    },
     "System.IO.Pipelines/8.0.0-preview.3.23174.8": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-1zd3WqgtwckUySQf6XcriB8JzUj5GBldhk1dMAENRUJIK9zZsID0+o5lf+u66flndIhLfZ2fjMW3xAOPBF2pWA==",
       "path": "system.io.pipelines/8.0.0-preview.3.23174.8",
       "hashPath": "system.io.pipelines.8.0.0-preview.3.23174.8.nupkg.sha512"
+    },
+    "System.Management/8.0.0-preview.3.23174.8": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yWEm41a+MSQOH0rkSg5tZQmuYbRnsDQ51NuJcazf/oQDYrtB+ZiatqBlHxtoXMieYQRQKoWowh5cSC2bmX8Qwg==",
+      "path": "system.management/8.0.0-preview.3.23174.8",
+      "hashPath": "system.management.8.0.0-preview.3.23174.8.nupkg.sha512"
     },
     "System.Runtime.CompilerServices.Unsafe/6.0.0": {
       "type": "package",
