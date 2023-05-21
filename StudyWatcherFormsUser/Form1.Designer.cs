@@ -31,6 +31,10 @@ partial class Form1
     {
         components = new System.ComponentModel.Container();
         HubConnectionTimer = new System.Windows.Forms.Timer(components);
+        BannerTopMost = new System.Windows.Forms.Timer(components);
+        loginTextBox = new TextBox();
+        passwordTextBox = new TextBox();
+        AcceptButton = new Button();
         SuspendLayout();
         // 
         // HubConnectionTimer
@@ -38,18 +42,54 @@ partial class Form1
         HubConnectionTimer.Interval = 3000;
         HubConnectionTimer.Tick += HubConnectionTimer_Tick;
         // 
+        // BannerTopMost
+        // 
+        BannerTopMost.Tick += BannerTopMost_Tick;
+        // 
+        // loginTextBox
+        // 
+        loginTextBox.Location = new Point(335, 159);
+        loginTextBox.Name = "loginTextBox";
+        loginTextBox.Size = new Size(212, 23);
+        loginTextBox.TabIndex = 0;
+        // 
+        // passwordTextBox
+        // 
+        passwordTextBox.Location = new Point(335, 208);
+        passwordTextBox.Name = "passwordTextBox";
+        passwordTextBox.PasswordChar = '•';
+        passwordTextBox.Size = new Size(212, 23);
+        passwordTextBox.TabIndex = 1;
+        // 
+        // AcceptButton
+        // 
+        AcceptButton.Location = new Point(346, 237);
+        AcceptButton.Name = "AcceptButton";
+        AcceptButton.Size = new Size(75, 23);
+        AcceptButton.TabIndex = 2;
+        AcceptButton.Text = "Ввод";
+        AcceptButton.UseVisualStyleBackColor = true;
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        ClientSize = new Size(800, 450);
+        ClientSize = new Size(784, 361);
+        Controls.Add(AcceptButton);
+        Controls.Add(passwordTextBox);
+        Controls.Add(loginTextBox);
         Name = "Form1";
         Text = "Form1";
         Load += Form1_Load;
         ResumeLayout(false);
+        PerformLayout();
     }
 
     #endregion
 
     private System.Windows.Forms.Timer HubConnectionTimer;
+    private System.Windows.Forms.Timer BannerTopMost;
+    private TextBox loginTextBox;
+    private TextBox passwordTextBox;
+    private Button AcceptButton;
 }

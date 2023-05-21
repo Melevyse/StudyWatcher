@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Management;
 using System.Diagnostics;
+using System;
 
 namespace StudyWatcherFormsUser;
 
@@ -8,7 +9,7 @@ public partial class Form1 : Form
 {
     private HubConnection connection;
     string connectionIdAdmin;
-    
+
     public async Task ConnectionHub()
     {
         connection = new HubConnectionBuilder()
@@ -17,11 +18,26 @@ public partial class Form1 : Form
             .Build();
         connection.StartAsync().Wait();
     }
-    
+
     public Form1()
     {
         ConnectionHub();
         InitializeComponent();
+        BannerTopMost.Start();
+        this.WindowState = FormWindowState.Maximized;
+        this.FormBorderStyle = FormBorderStyle.None;
+        loginTextBox.Size = new Size((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - loginTextBox.Size.Width / 2,
+            System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2 - 50);
+        loginTextBox.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - loginTextBox.Size.Width / 2,
+            (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2) - 100);
+        passwordTextBox.Size = new Size((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - passwordTextBox.Size.Width / 2,
+            System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2 - 50);
+        passwordTextBox.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - passwordTextBox.Size.Width / 2,
+            (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2) - 50);
+        AcceptButton.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - 50,
+            (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2));
+
+
 
         connection.On("CloseStartBanner", () =>
         {
@@ -49,7 +65,7 @@ public partial class Form1 : Form
             //На данный момент форма не создана
         });
 
-        connection.StartAsync();
+        //connection.StartAsync();
     }
 
     public string systemManagmentSearchCPU()
@@ -149,7 +165,7 @@ public partial class Form1 : Form
 
     private void HubConnectionTimer_Tick(object sender, EventArgs e)
     {
-        
+
         if (connectionIdAdmin != null)
         {
             string nameMotherboard = systemManagmentSearchMotherboard();
@@ -174,5 +190,10 @@ public partial class Form1 : Form
                 connectionId);
             HubConnectionTimer.Stop();
         }
+    }
+
+    private void BannerTopMost_Tick(object sender, EventArgs e)
+    {
+        this.TopMost = true;
     }
 }

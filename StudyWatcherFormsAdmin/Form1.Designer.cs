@@ -30,7 +30,7 @@ partial class MainForm
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
-        ListViewItem listViewItem2 = new ListViewItem("данные");
+        ListViewItem listViewItem1 = new ListViewItem("данные");
         listWorkStationForm = new ListView();
         columnHeader1 = new ColumnHeader();
         columnHeader2 = new ColumnHeader();
@@ -50,15 +50,17 @@ partial class MainForm
         listProcessBanForm = new ListView();
         label3 = new Label();
         pictureBoxTranslator = new PictureBox();
-        HubMethodTimer = new System.Windows.Forms.Timer(components);
+        ConnectionAdminTimer = new System.Windows.Forms.Timer(components);
+        PictureSendTimer = new System.Windows.Forms.Timer(components);
         ((System.ComponentModel.ISupportInitialize)pictureBoxTranslator).BeginInit();
         SuspendLayout();
         // 
         // listWorkStationForm
         // 
         listWorkStationForm.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6, columnHeader7, columnHeader8, columnHeader9, columnHeader10 });
-        listWorkStationForm.Items.AddRange(new ListViewItem[] { listViewItem2 });
+        listWorkStationForm.Items.AddRange(new ListViewItem[] { listViewItem1 });
         listWorkStationForm.Location = new Point(12, 297);
+        listWorkStationForm.MultiSelect = false;
         listWorkStationForm.Name = "listWorkStationForm";
         listWorkStationForm.Size = new Size(930, 300);
         listWorkStationForm.TabIndex = 0;
@@ -191,10 +193,15 @@ partial class MainForm
         pictureBoxTranslator.TabIndex = 9;
         pictureBoxTranslator.TabStop = false;
         // 
-        // HubMethodTimer
+        // ConnectionAdminTimer
         // 
-        HubMethodTimer.Interval = 5000;
-        HubMethodTimer.Tick += HubMethodTimer_Tick;
+        ConnectionAdminTimer.Interval = 5000;
+        ConnectionAdminTimer.Tick += ConnectionAdminTimer_Tick;
+        // 
+        // PictureSendTimer
+        // 
+        PictureSendTimer.Interval = 1000;
+        PictureSendTimer.Tick += PictureSendTimer_Tick;
         // 
         // MainForm
         // 
@@ -240,5 +247,6 @@ partial class MainForm
     private ColumnHeader columnHeader8;
     private ColumnHeader columnHeader9;
     private ColumnHeader columnHeader10;
-    private System.Windows.Forms.Timer HubMethodTimer;
+    private System.Windows.Forms.Timer ConnectionAdminTimer;
+    private System.Windows.Forms.Timer PictureSendTimer;
 }

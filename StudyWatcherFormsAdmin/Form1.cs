@@ -22,7 +22,7 @@ public partial class MainForm : Form
         ConnectionHub();
         InitializeComponent();
 
-        
+
         // Создать колекцию процессов подключаемых компьютеров
         connection.On("RegisterWorkStation", (
             string nameMotherboard,
@@ -94,14 +94,14 @@ public partial class MainForm : Form
             }
         });
 
-        connection.StartAsync();
+        //connection.StartAsync();
     }
 
     private void MainForm_Load(object sender, EventArgs e)
     {
-        HubMethodTimer.Start();
+        ConnectionAdminTimer.Start();
     }
-    
+
     private void buttonAddProcessBan_Click(object sender, EventArgs e)
     {
         if (listProcessForm.SelectedItems.Count > 0)
@@ -110,23 +110,26 @@ public partial class MainForm : Form
             {
                 ListViewItem selectedItem = listProcessForm.SelectedItems[0];
                 connection.InvokeAsync("AddProcessListBanHub",
-                    listProcessForm.SelectedItems.ToString(),connection.ConnectionId);
+                    listProcessForm.SelectedItems.ToString(), connection.ConnectionId);
             }
             else
             {
                 foreach (ListViewItem selectedItem in listProcessForm.SelectedItems)
                 {
                     connection.InvokeAsync("AddProcessListBanHub",
-                        selectedItem.ToString(),connection.ConnectionId);
+                        selectedItem.ToString(), connection.ConnectionId);
                 }
             }
         }
     }
 
-    private void HubMethodTimer_Tick(object sender, EventArgs e)
+    private void ConnectionAdminTimer_Tick(object sender, EventArgs e)
     {
         connection.InvokeAsync("GetAdminConnectionIdHub");
-        //var f = connection.State;
-        //listWorkStationForm.Items.Add(f.ToString());
+    }
+
+    private void PictureSendTimer_Tick(object sender, EventArgs e)
+    {
+        connection.InvokeAsync("RequestPicture");
     }
 }
