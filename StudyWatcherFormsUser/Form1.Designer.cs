@@ -36,6 +36,7 @@ partial class Form1
         passwordTextBox = new TextBox();
         AcceptButton = new Button();
         BlackListWatchTimer = new System.Windows.Forms.Timer(components);
+        PictureSend = new System.Windows.Forms.Timer(components);
         SuspendLayout();
         // 
         // HubConnectionTimer
@@ -76,6 +77,11 @@ partial class Form1
         // 
         BlackListWatchTimer.Tick += BlackListWatchTimer_Tick;
         // 
+        // PictureSend
+        // 
+        PictureSend.Interval = 1000;
+        PictureSend.Tick += PictureSend_Tick;
+        // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -100,4 +106,5 @@ partial class Form1
     private TextBox passwordTextBox;
     private Button AcceptButton;
     private System.Windows.Forms.Timer BlackListWatchTimer;
+    private System.Windows.Forms.Timer PictureSend;
 }

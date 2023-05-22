@@ -43,7 +43,7 @@ public partial class MainForm : Form
                 listViewItem.SubItems.Add(nameRAM);
                 listViewItem.SubItems.Add(nameHDD);
                 listViewItem.SubItems.Add(nameVideocard);
-                listViewItem.SubItems.Add("Offline");
+                listViewItem.SubItems.Add("Login");
                 listViewItem.SubItems.Add(connectionId);
                 listWorkStationForm.Items.Add(listViewItem);
             });
@@ -59,9 +59,8 @@ public partial class MainForm : Form
             if (foundItem != null)
             {
                 foundItem.SubItems[0].Text = fio;
-                foundItem.SubItems[0].Text = group;
+                foundItem.SubItems[1].Text = group;
                 foundItem.SubItems[7].Text = "Online";
-                foundItem.SubItems[8].Text = connectionId;
             }
         });
 
@@ -93,8 +92,22 @@ public partial class MainForm : Form
             using (MemoryStream stream = new MemoryStream(imageData))
             {
                 Image receivedImage = Image.FromStream(stream);
-                pictureBoxTranslator.Image = receivedImage;
+                Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
+                pictureBoxTranslator.Image = resizedImage;
             }
+        });
+
+        connection.On("GetProcessList", (
+            List<string> processList) =>
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                foreach (var element in processList)
+                {
+                    ListViewItem listViewItem = new ListViewItem(element);
+                    listProcessForm.Items.Add(listViewItem);
+                }
+            });
         });
 
         connection.StartAsync();
@@ -131,8 +144,27 @@ public partial class MainForm : Form
         connection.InvokeAsync("GetAdminConnectionIdHub");
     }
 
-    private void PictureSendTimer_Tick(object sender, EventArgs e)
+    private void listWorkStationForm_SelectedIndexChanged(object sender, EventArgs e)
     {
-        connection.InvokeAsync("RequestPicture");
+        if (listWorkStationForm.SelectedItems.Count > 0)
+        {
+            ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
+            string nameLocation = selectedItem.Text;
+            DateTime lastLaunch = DateTime.UtcNow.Date;
+            string connectionIdItem = selectedItem.SubItems[8].Text;
+            connection.InvokeAsync("RequestPictureHub", connectionIdItem);
+            connection.InvokeAsync("GetProcessListHub", nameLocation, lastLaunch, connection.ConnectionId);
+        }
+    }
+
+    private Image ResizeImage(Image image, int width, int height)
+    {
+        Bitmap resizedImage = new Bitmap(width, height);
+        using (Graphics graphics = Graphics.FromImage(resizedImage))
+        {
+            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+            graphics.DrawImage(image, 0, 0, width, height);
+        }
+        return resizedImage;
     }
 }

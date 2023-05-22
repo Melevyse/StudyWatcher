@@ -29,6 +29,7 @@ public class SystemManager
         {
             result.Add(process.ProcessName);
         }
+        result = result.Distinct().ToList();
         this.listProcess = result;
     }
 

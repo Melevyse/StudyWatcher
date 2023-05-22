@@ -24,17 +24,20 @@ public interface IMonitoringRepository
     Task<ProcessWS> AddProcess(
         string nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation);
+        string nameLocation);
     
     Task<List<string>> AddProcessList(
         List<string> listProcess,
         DateTime lastLaunch,
-        Guid idWorkStation);
+        string nameLocation);
 
     Task<ProcessWS> UpdateProcess(
         string nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation);
+        string nameLocation);
 
     Task<List<string>> GetBlackList();
+    Task<List<string>> GetProcessList(
+        string nameLocation, 
+        DateTime lastLaunch);
 }

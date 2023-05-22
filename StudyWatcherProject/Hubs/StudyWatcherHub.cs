@@ -38,8 +38,7 @@ public class StudyWatcherHub : Hub
             var id = await _monitoringService
                 .AddWorkStationRequest(nameMotherboard, nameCPU, 
                     nameRAM, nameHDD, nameVideocard, nameLocation);
-            List<string> result = await _monitoringService
-                .AddProcessListRequest(listProcess, lastLaunch, id);
+            var result = await _monitoringService.AddProcessListRequest(listProcess, lastLaunch, nameLocation);
             List<string> blackList = await _monitoringService.GetFullBlackList();
             if (id != Guid.Empty)
             {
@@ -113,6 +112,23 @@ public class StudyWatcherHub : Hub
         catch (Exception e)
         {
             _logger.LogError(e, "GetAdminConnectionIdHub encountered an exception.");
+            throw;
+        }
+    }
+
+    public async Task GetProcessListHub( 
+        string nameLocation, 
+        DateTime lastLaunch, 
+        string connectionIdAdmin)
+    {
+        try
+        {
+            var result = await _monitoringService.GetFullProcessList(nameLocation, lastLaunch);
+            await Clients.Client(connectionIdAdmin).SendAsync("GetProcessList", result);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "GetProcessListHub encountered an exception.");
             throw;
         }
     }
@@ -198,13 +214,13 @@ public class StudyWatcherHub : Hub
     public async Task AddNewProcessHub(
         string nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation,
+        string nameLocation,
         string connectionIdAdmin)
     {
         try
         {
             var result = await _monitoringService
-                .AddProcessRequest(nameProcess, lastLaunch, idWorkStation);
+                .AddProcessRequest(nameProcess, lastLaunch, nameLocation);
             if (result != Guid.Empty)
             {
                 await Clients
@@ -248,6 +264,22 @@ public class StudyWatcherHub : Hub
         catch (Exception e)
         {
             _logger.LogError(e, "SendPictureHub encountered an exception.");
+            throw;
+        }
+    }
+
+    public async Task CancelSendPictureHub(
+        string connectionId)
+    {
+        try
+        {
+            await Clients
+                .Client(connectionId)
+                .SendAsync("CancelSendPicture");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "CancelSendPictureHub encountered an exception.");
             throw;
         }
     }

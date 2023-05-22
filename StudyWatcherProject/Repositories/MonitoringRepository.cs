@@ -94,13 +94,13 @@ public class MonitoringRepository : IMonitoringRepository
     public async Task<ProcessWS> AddProcess(
         string nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation)
+        string nameLocation)
     {
         var result = new ProcessWS()
         {
             NameProcess = nameProcess,
             LastLaunch = lastLaunch,
-            IdWorkStation = idWorkStation
+            NameLocation = nameLocation
         };
         _context.Add(result);
         await _context.SaveChangesAsync();
@@ -110,26 +110,26 @@ public class MonitoringRepository : IMonitoringRepository
     public async Task<ProcessWS> UpdateProcess(
         string nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation)
+        string nameLocation)
     {
         var result = new ProcessWS()
         {
             NameProcess = nameProcess,
             LastLaunch = lastLaunch,
-            IdWorkStation = idWorkStation
+            NameLocation = nameLocation
         };
         var check = await _context.ProcessWS
             .AsNoTracking()
             .FirstOrDefaultAsync(x => 
                 x.NameProcess == nameProcess &&
-                x.IdWorkStation == idWorkStation &&
+                x.NameLocation == nameLocation &&
                 x.LastLaunch == lastLaunch);
         if (result != check)
         {
             check = await _context.ProcessWS
                 .FirstOrDefaultAsync(x => 
                     x.NameProcess == nameProcess &&
-                    x.IdWorkStation == idWorkStation);
+                    x.NameLocation == nameLocation);
             if (check != null)
             {
                 check.LastLaunch = lastLaunch;
@@ -146,7 +146,7 @@ public class MonitoringRepository : IMonitoringRepository
     public async Task<List<string>> AddProcessList(
         List<string> nameProcessList,
         DateTime lastLaunch,
-        Guid idWorkStation)
+        string nameLocation)
     {
         List<string> result = new List<string>();
         foreach (var element in nameProcessList)
@@ -155,15 +155,14 @@ public class MonitoringRepository : IMonitoringRepository
             {
                 NameProcess = element,
                 LastLaunch = lastLaunch,
-                IdWorkStation = idWorkStation
+                NameLocation = nameLocation
             };
             var check = await _context.ProcessWS
-                .AsNoTracking()
-                .FirstOrDefaultAsync(x => 
+                .FirstOrDefaultAsync(x =>
                     x.NameProcess == element &&
-                    x.IdWorkStation == idWorkStation &&
+                    x.NameLocation == nameLocation &&
                     x.LastLaunch == lastLaunch);
-            if (iter != check)
+            if (check == null)
             {
                 result.Add(iter.NameProcess);
                 _context.Add(iter);
@@ -182,5 +181,17 @@ public class MonitoringRepository : IMonitoringRepository
             result.Add(element.NameProcess);
         }
         return result;
+    }
+
+    public async Task<List<string>> GetProcessList(string nameLocation, DateTime lastLaunch)
+    {
+        var result = new List<string>();
+        var check = await _context.ProcessWS.ToListAsync();
+        foreach (var element in check)
+        {
+            if (element.NameLocation == nameLocation && element.LastLaunch == lastLaunch)
+                result.Add(element.NameProcess);
+        }
+        return result ?? throw new ArgumentException("No record in database");
     }
 }

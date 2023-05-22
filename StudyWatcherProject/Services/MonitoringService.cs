@@ -50,26 +50,32 @@ public class MonitoringService : IMonitoringService
     public async Task<Guid> AddProcessRequest(
         string nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation)
+        string nameLocation)
     {
         var result = await _repositories
-            .UpdateProcess(nameProcess, lastLaunch, idWorkStation);
+            .UpdateProcess(nameProcess, lastLaunch, nameLocation);
         return result.Id;
     }
 
     public async Task<List<string>> AddProcessListRequest(
         List<string> nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation)
+        string nameLocation)
     {
         var result = await _repositories
-            .AddProcessList(nameProcess, lastLaunch, idWorkStation);
+            .AddProcessList(nameProcess, lastLaunch, nameLocation);
         return result;
     }
 
     public async Task<List<string>> GetFullBlackList()
     {
         var result = await _repositories.GetBlackList();
+        return result;
+    }
+
+    public async Task<List<string>> GetFullProcessList(string nameLocation, DateTime lastLaunch)
+    {
+        var result = await _repositories.GetProcessList(nameLocation, lastLaunch);
         return result;
     }
 }

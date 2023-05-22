@@ -30,7 +30,6 @@ partial class MainForm
     private void InitializeComponent()
     {
         components = new System.ComponentModel.Container();
-        ListViewItem listViewItem1 = new ListViewItem("данные");
         listWorkStationForm = new ListView();
         columnHeader1 = new ColumnHeader();
         columnHeader2 = new ColumnHeader();
@@ -51,14 +50,13 @@ partial class MainForm
         label3 = new Label();
         pictureBoxTranslator = new PictureBox();
         ConnectionAdminTimer = new System.Windows.Forms.Timer(components);
-        PictureSendTimer = new System.Windows.Forms.Timer(components);
+        buttonAnova = new Button();
         ((System.ComponentModel.ISupportInitialize)pictureBoxTranslator).BeginInit();
         SuspendLayout();
         // 
         // listWorkStationForm
         // 
         listWorkStationForm.Columns.AddRange(new ColumnHeader[] { columnHeader1, columnHeader2, columnHeader3, columnHeader4, columnHeader5, columnHeader6, columnHeader7, columnHeader8, columnHeader9, columnHeader10 });
-        listWorkStationForm.Items.AddRange(new ListViewItem[] { listViewItem1 });
         listWorkStationForm.Location = new Point(12, 297);
         listWorkStationForm.MultiSelect = false;
         listWorkStationForm.Name = "listWorkStationForm";
@@ -66,6 +64,7 @@ partial class MainForm
         listWorkStationForm.TabIndex = 0;
         listWorkStationForm.UseCompatibleStateImageBehavior = false;
         listWorkStationForm.View = View.Details;
+        listWorkStationForm.SelectedIndexChanged += listWorkStationForm_SelectedIndexChanged;
         // 
         // columnHeader1
         // 
@@ -119,7 +118,7 @@ partial class MainForm
         // 
         // buttonAddProcessBan
         // 
-        buttonAddProcessBan.Location = new Point(958, 603);
+        buttonAddProcessBan.Location = new Point(1172, 603);
         buttonAddProcessBan.Name = "buttonAddProcessBan";
         buttonAddProcessBan.Size = new Size(75, 23);
         buttonAddProcessBan.TabIndex = 1;
@@ -129,16 +128,17 @@ partial class MainForm
         // 
         // buttonDeleteProcessBan
         // 
-        buttonDeleteProcessBan.Location = new Point(1172, 603);
+        buttonDeleteProcessBan.Location = new Point(1297, 603);
         buttonDeleteProcessBan.Name = "buttonDeleteProcessBan";
         buttonDeleteProcessBan.Size = new Size(75, 23);
         buttonDeleteProcessBan.TabIndex = 2;
-        buttonDeleteProcessBan.Text = "button2";
+        buttonDeleteProcessBan.Text = "Удалить";
         buttonDeleteProcessBan.UseVisualStyleBackColor = true;
         // 
         // listProcessForm
         // 
         listProcessForm.Location = new Point(958, 37);
+        listProcessForm.MultiSelect = false;
         listProcessForm.Name = "listProcessForm";
         listProcessForm.Size = new Size(200, 560);
         listProcessForm.TabIndex = 3;
@@ -168,6 +168,7 @@ partial class MainForm
         // listProcessBanForm
         // 
         listProcessBanForm.Location = new Point(1172, 37);
+        listProcessBanForm.MultiSelect = false;
         listProcessBanForm.Name = "listProcessBanForm";
         listProcessBanForm.Size = new Size(200, 560);
         listProcessBanForm.TabIndex = 6;
@@ -198,10 +199,14 @@ partial class MainForm
         ConnectionAdminTimer.Interval = 5000;
         ConnectionAdminTimer.Tick += ConnectionAdminTimer_Tick;
         // 
-        // PictureSendTimer
+        // buttonAnova
         // 
-        PictureSendTimer.Interval = 1000;
-        PictureSendTimer.Tick += PictureSendTimer_Tick;
+        buttonAnova.Location = new Point(958, 603);
+        buttonAnova.Name = "buttonAnova";
+        buttonAnova.Size = new Size(75, 23);
+        buttonAnova.TabIndex = 10;
+        buttonAnova.Text = "ANOVA";
+        buttonAnova.UseVisualStyleBackColor = true;
         // 
         // MainForm
         // 
@@ -209,6 +214,7 @@ partial class MainForm
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.GrayText;
         ClientSize = new Size(1384, 661);
+        Controls.Add(buttonAnova);
         Controls.Add(pictureBoxTranslator);
         Controls.Add(label3);
         Controls.Add(listProcessBanForm);
@@ -248,5 +254,5 @@ partial class MainForm
     private ColumnHeader columnHeader9;
     private ColumnHeader columnHeader10;
     private System.Windows.Forms.Timer ConnectionAdminTimer;
-    private System.Windows.Forms.Timer PictureSendTimer;
+    private Button buttonAnova;
 }

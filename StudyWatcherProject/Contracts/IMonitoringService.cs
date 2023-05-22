@@ -22,12 +22,15 @@ public interface IMonitoringService
     Task<Guid> AddProcessRequest(
         string nameProcess,
         DateTime lastLaunch,
-        Guid idWorkStation);
+        string nameLocation);
     
     Task<List<string>> AddProcessListRequest(
         List<string> listProcess,
         DateTime lastLaunch,
-        Guid idWorkStation);
+        string nameLocation);
 
     Task<List<string>> GetFullBlackList();
+    Task<List<string>> GetFullProcessList(
+        string nameLocation, 
+        DateTime lastLaunch);
 }

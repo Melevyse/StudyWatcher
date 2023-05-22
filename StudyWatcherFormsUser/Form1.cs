@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.SignalR.Client;
-using System.Management;
-using System.Diagnostics;
-using System;
+using System.Drawing;
 
 namespace StudyWatcherFormsUser;
 
@@ -61,18 +59,23 @@ public partial class Form1 : Form
         {
             //На данный момент форма не создана
         });
-        
-        connection.On("CloseBlackListBanner", () =>
+
+        connection.On("RequestPicture", () =>
         {
-            //На данный момент форма не создана
+            PictureSend.Start();
         });
-        
+
+        connection.On("CancelSendPicture", () =>
+        {
+            PictureSend.Stop();
+        });
+
         connection.On("RemoveProcessBlackList", (
             string processBan) =>
         {
-            
+
         });
-        
+
         connection.On("ResponseBlackList", (
             List<string> processBanList) =>
         {
@@ -94,11 +97,10 @@ public partial class Form1 : Form
 
     private void HubConnectionTimer_Tick(object sender, EventArgs e)
     {
-
         if (connectionIdAdmin != null)
         {
             string nameLocation = "Г301 #1";
-            DateTime lastLaunch = DateTime.UtcNow;
+            DateTime lastLaunch = DateTime.UtcNow.Date;
             var connectionId = connection.ConnectionId;
             connection.InvokeAsync("AddWorkStationHub",
                 _systemManager.nameMotherboard,
@@ -138,5 +140,21 @@ public partial class Form1 : Form
     private void BlackListWatchTimer_Tick(object sender, EventArgs e)
     {
 
+    }
+
+    private void PictureSend_Tick(object sender, EventArgs e)
+    {
+        Bitmap screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+        using (Graphics graphics = Graphics.FromImage(screenshot))
+        {
+            graphics.CopyFromScreen(0, 0, 0, 0, screenshot.Size);
+        }
+        byte[] imageBytes;
+        using (MemoryStream ms = new MemoryStream())
+        {
+            screenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+            imageBytes = ms.ToArray();
+        }
+        connection.InvokeAsync("SendPictureHub", imageBytes, connectionIdAdmin);
     }
 }
