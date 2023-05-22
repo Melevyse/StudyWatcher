@@ -7,6 +7,7 @@ namespace StudyWatcherFormsAdmin;
 public partial class MainForm : Form
 {
     private HubConnection connection;
+    private List<string> BlackList;
 
     public async Task ConnectionHub()
     {
@@ -21,9 +22,7 @@ public partial class MainForm : Form
     {
         ConnectionHub();
         InitializeComponent();
-
-
-        // Создать колекцию процессов подключаемых компьютеров
+        
         connection.On("RegisterWorkStation", (
             string nameMotherboard,
             string nameCPU,
@@ -74,12 +73,6 @@ public partial class MainForm : Form
                 foundItem.SubItems[7].Text = "Block";
         });
 
-        connection.On("UpdateProcessBlackList", (
-            string processBan) =>
-        {
-            listProcessBanForm.Items.Add(processBan);
-        });
-
         connection.On("AddItemProcessList", (
             string nameProcess) =>
         {
@@ -89,12 +82,15 @@ public partial class MainForm : Form
         connection.On("SendPicture", (
             byte[] imageData) =>
         {
-            using (MemoryStream stream = new MemoryStream(imageData))
+            Invoke((MethodInvoker)delegate
             {
-                Image receivedImage = Image.FromStream(stream);
-                Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
-                pictureBoxTranslator.Image = resizedImage;
-            }
+                using (MemoryStream stream = new MemoryStream(imageData))
+                {
+                    Image receivedImage = Image.FromStream(stream);
+                    Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
+                    pictureBoxTranslator.Image = resizedImage;
+                }
+            });
         });
 
         connection.On("GetProcessList", (
@@ -110,6 +106,25 @@ public partial class MainForm : Form
             });
         });
 
+        connection.On("ResponseBlackList", (
+            List<string> listProcessBan) =>
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                if (BlackList == null)
+                    BlackList = new List<string>();
+                if (BlackList.Count != 0) 
+                    BlackList.Clear();
+                BlackList.AddRange(listProcessBan);
+                BlackList = BlackList.Distinct().ToList();
+                listProcessBanForm.Items.Clear();
+                foreach (var element in BlackList)
+                {
+                    ListViewItem listViewItem = new ListViewItem(element);
+                    listProcessBanForm.Items.Add(listViewItem);
+                }
+            });
+        });
         connection.StartAsync();
     }
 
@@ -126,14 +141,16 @@ public partial class MainForm : Form
             {
                 ListViewItem selectedItem = listProcessForm.SelectedItems[0];
                 connection.InvokeAsync("AddProcessListBanHub",
-                    listProcessForm.SelectedItems.ToString(), connection.ConnectionId);
+                    selectedItem.Text, connection.ConnectionId);
+                listProcessBanForm.Items.Add(selectedItem.Text);
             }
             else
             {
                 foreach (ListViewItem selectedItem in listProcessForm.SelectedItems)
                 {
                     connection.InvokeAsync("AddProcessListBanHub",
-                        selectedItem.ToString(), connection.ConnectionId);
+                        selectedItem.Text, connection.ConnectionId);
+                    listProcessBanForm.Items.Add(selectedItem.Text);
                 }
             }
         }
@@ -151,7 +168,7 @@ public partial class MainForm : Form
             ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
             string nameLocation = selectedItem.Text;
             DateTime lastLaunch = DateTime.UtcNow.Date;
-            string connectionIdItem = selectedItem.SubItems[8].Text;
+            string connectionIdItem = selectedItem.SubItems[9].Text;
             connection.InvokeAsync("RequestPictureHub", connectionIdItem);
             connection.InvokeAsync("GetProcessListHub", nameLocation, lastLaunch, connection.ConnectionId);
         }

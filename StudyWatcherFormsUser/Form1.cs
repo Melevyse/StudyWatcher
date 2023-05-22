@@ -6,7 +6,7 @@ namespace StudyWatcherFormsUser;
 public partial class Form1 : Form
 {
     private HubConnection connection;
-    string connectionIdAdmin;
+    private string connectionIdAdmin;
     private List<string> BlackList;
     private SystemManager _systemManager;
 
@@ -70,6 +70,13 @@ public partial class Form1 : Form
             PictureSend.Stop();
         });
 
+        connection.On("AddProcessBlackList", (
+            string processBan) =>
+        {
+            if (BlackList != null)
+                BlackList.Add(processBan);
+        });
+        
         connection.On("RemoveProcessBlackList", (
             string processBan) =>
         {
@@ -80,11 +87,11 @@ public partial class Form1 : Form
             List<string> processBanList) =>
         {
             if (BlackList == null)
-            {
                 BlackList = new List<string>();
-                if (BlackList.Count != 0) BlackList.Clear();
-            }
+            if (BlackList.Count != 0) 
+                BlackList.Clear();
             BlackList.AddRange(processBanList);
+            BlackList = BlackList.Distinct().ToList();
         });
 
         connection.StartAsync();

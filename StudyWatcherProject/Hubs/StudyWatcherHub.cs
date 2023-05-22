@@ -39,7 +39,7 @@ public class StudyWatcherHub : Hub
                 .AddWorkStationRequest(nameMotherboard, nameCPU, 
                     nameRAM, nameHDD, nameVideocard, nameLocation);
             var result = await _monitoringService.AddProcessListRequest(listProcess, lastLaunch, nameLocation);
-            List<string> blackList = await _monitoringService.GetFullBlackList();
+           List<string> blackList = await _monitoringService.GetFullBlackList();
             if (id != Guid.Empty)
             {
                 await Clients
@@ -49,6 +49,9 @@ public class StudyWatcherHub : Hub
                         nameVideocard, nameLocation, connectionId);
                 await Clients
                     .Client(connectionId)
+                    .SendAsync("ResponseBlackList", blackList);
+                await Clients
+                    .Client(connectionIdAdmin)
                     .SendAsync("ResponseBlackList", blackList);
             }
         }
@@ -133,6 +136,23 @@ public class StudyWatcherHub : Hub
         }
     }
 
+    public async Task GetProcessBanListHub(
+        string connectionId)
+    {
+        try
+        {
+            var result = await _monitoringService.GetFullBlackList();
+            await Clients
+                .Client(connectionId)
+                .SendAsync("ResponseBlackList", result);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "GetProcessBanListHub encountered an exception.");
+            throw;
+        }
+    }
+
     // Метод, сообщение об использовании запрещенного ПО - готов
     public async Task GetBannerHub(
         string processBan,
@@ -181,8 +201,8 @@ public class StudyWatcherHub : Hub
                 .AddProcessBanRequest(processBan);
             if (result != Guid.Empty) 
                 await Clients
-                    .Client(connectionIdAdmin)
-                    .SendAsync("UpdateProcessBlackList", processBan);
+                    .All
+                    .SendAsync("AddProcessBlackList", processBan);
         }
         catch (Exception e)
         {

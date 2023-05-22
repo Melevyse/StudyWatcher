@@ -1,6 +1,6 @@
 ﻿namespace StudyWatcherProject.Models;
 
-public class ProcessWS
+public class ProcessWs
 {
     public Guid Id { get; set; }
     public string NameProcess { get; set; }

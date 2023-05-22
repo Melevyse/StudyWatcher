@@ -91,12 +91,12 @@ public class MonitoringRepository : IMonitoringRepository
         return check ?? throw new ArgumentException("Request is not found in the database");
     }
     
-    public async Task<ProcessWS> AddProcess(
+    public async Task<ProcessWs> AddProcess(
         string nameProcess,
         DateTime lastLaunch,
         string nameLocation)
     {
-        var result = new ProcessWS()
+        var result = new ProcessWs()
         {
             NameProcess = nameProcess,
             LastLaunch = lastLaunch,
@@ -107,18 +107,18 @@ public class MonitoringRepository : IMonitoringRepository
         return result;
     }
     
-    public async Task<ProcessWS> UpdateProcess(
+    public async Task<ProcessWs> UpdateProcess(
         string nameProcess,
         DateTime lastLaunch,
         string nameLocation)
     {
-        var result = new ProcessWS()
+        var result = new ProcessWs()
         {
             NameProcess = nameProcess,
             LastLaunch = lastLaunch,
             NameLocation = nameLocation
         };
-        var check = await _context.ProcessWS
+        var check = await _context.ProcessWs
             .AsNoTracking()
             .FirstOrDefaultAsync(x => 
                 x.NameProcess == nameProcess &&
@@ -126,7 +126,7 @@ public class MonitoringRepository : IMonitoringRepository
                 x.LastLaunch == lastLaunch);
         if (result != check)
         {
-            check = await _context.ProcessWS
+            check = await _context.ProcessWs
                 .FirstOrDefaultAsync(x => 
                     x.NameProcess == nameProcess &&
                     x.NameLocation == nameLocation);
@@ -151,17 +151,17 @@ public class MonitoringRepository : IMonitoringRepository
         List<string> result = new List<string>();
         foreach (var element in nameProcessList)
         {
-            var iter = new ProcessWS()
+            var iter = new ProcessWs()
             {
                 NameProcess = element,
                 LastLaunch = lastLaunch,
                 NameLocation = nameLocation
             };
-            var check = await _context.ProcessWS
-                .FirstOrDefaultAsync(x =>
+            var check = await _context.ProcessWs
+                .FirstOrDefaultAsync(x => 
                     x.NameProcess == element &&
-                    x.NameLocation == nameLocation &&
-                    x.LastLaunch == lastLaunch);
+                    x.LastLaunch == lastLaunch &&
+                    x.NameLocation == nameLocation);
             if (check == null)
             {
                 result.Add(iter.NameProcess);
@@ -186,7 +186,7 @@ public class MonitoringRepository : IMonitoringRepository
     public async Task<List<string>> GetProcessList(string nameLocation, DateTime lastLaunch)
     {
         var result = new List<string>();
-        var check = await _context.ProcessWS.ToListAsync();
+        var check = await _context.ProcessWs.ToListAsync();
         foreach (var element in check)
         {
             if (element.NameLocation == nameLocation && element.LastLaunch == lastLaunch)

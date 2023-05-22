@@ -21,7 +21,7 @@ public interface IMonitoringRepository
     Task<ProcessBan> GetBanner(
         string nameProcessBan);
 
-    Task<ProcessWS> AddProcess(
+    Task<ProcessWs> AddProcess(
         string nameProcess,
         DateTime lastLaunch,
         string nameLocation);
@@ -31,7 +31,7 @@ public interface IMonitoringRepository
         DateTime lastLaunch,
         string nameLocation);
 
-    Task<ProcessWS> UpdateProcess(
+    Task<ProcessWs> UpdateProcess(
         string nameProcess,
         DateTime lastLaunch,
         string nameLocation);

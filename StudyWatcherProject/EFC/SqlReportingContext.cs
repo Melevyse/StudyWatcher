@@ -9,7 +9,7 @@ public class SqlReportingContext : DbContext
     
     public DbSet<UserStudent> UserStudent { get; set; }
     public DbSet<WorkStation> WorkStation { get; set; }
-    public DbSet<ProcessWS> ProcessWS { get; set; }
+    public DbSet<ProcessWs> ProcessWs { get; set; }
     public DbSet<ProcessBan> ProcessBan { get; set; }
     
     protected override void OnModelCreating(ModelBuilder builder)
