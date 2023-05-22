@@ -9,6 +9,8 @@ public partial class Form1 : Form
 {
     private HubConnection connection;
     string connectionIdAdmin;
+    private List<string> BlackList;
+    private SystemManager _systemManager;
 
     public async Task ConnectionHub()
     {
@@ -22,6 +24,7 @@ public partial class Form1 : Form
     public Form1()
     {
         ConnectionHub();
+        _systemManager = new SystemManager();
         InitializeComponent();
         BannerTopMost.Start();
         this.WindowState = FormWindowState.Maximized;
@@ -37,16 +40,10 @@ public partial class Form1 : Form
         AcceptButton.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - 50,
             (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2));
 
-
-
-        connection.On("CloseStartBanner", () =>
+        connection.On("CloseStartBanner", (string resultFio, string resultGroup) =>
         {
-            //На данный момент форма не создана
-        });
-
-        connection.On("ErrorLoginPassword", () =>
-        {
-            //На данный момент форма не создана
+            MessageBox.Show($"Здравствуйте, {resultFio}!/nГруппа:{resultGroup}", "/nАвторизация успешно завершена");
+            this.Hide();
         });
 
         connection.On("AdminConnectionComplete", (
@@ -64,98 +61,30 @@ public partial class Form1 : Form
         {
             //На данный момент форма не создана
         });
-
-        //connection.StartAsync();
-    }
-
-    public string systemManagmentSearchCPU()
-    {
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("select Name from Win32_Processor");
-        string result = "";
-        int iter = 0;
-        foreach (ManagementObject obj in searcher.Get())
+        
+        connection.On("CloseBlackListBanner", () =>
         {
-            if (iter != 0)
-                result += ", ";
-            result += obj["Name"];
-            iter++;
-        }
-        return result;
-    }
-
-    public string systemManagmentSearchRAM()
-    {
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("select Capacity from Win32_PhysicalMemory");
-        long memoryCapacity = 0;
-        string result;
-        foreach (ManagementObject obj in searcher.Get())
+            //На данный момент форма не создана
+        });
+        
+        connection.On("RemoveProcessBlackList", (
+            string processBan) =>
         {
-            memoryCapacity += Convert.ToInt64(obj["Capacity"]);
-        }
-        memoryCapacity = (memoryCapacity / (1024 * 1024 * 1024));
-        result = memoryCapacity + " ГБ";
-        return result;
-    }
-
-    public string systemManagmentSearchHDD()
-    {
-        string result = "";
-        int iter = 0;
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("select Model, Size from Win32_DiskDrive");
-        foreach (ManagementObject obj in searcher.Get())
+            
+        });
+        
+        connection.On("ResponseBlackList", (
+            List<string> processBanList) =>
         {
-            if (iter != 0)
-                result += ", ";
-            string memory = (Convert.ToInt64(obj["Size"]) / (1024 * 1024 * 1024)).ToString();
-            result += obj["Model"] + " " + memory;
-            iter++;
-        }
-        return result;
-    }
+            if (BlackList == null)
+            {
+                BlackList = new List<string>();
+                if (BlackList.Count != 0) BlackList.Clear();
+            }
+            BlackList.AddRange(processBanList);
+        });
 
-    public string systemManagmentSearchVidocard()
-    {
-        string result = "";
-        int iter = 0;
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
-        ManagementObjectCollection collection = searcher.Get();
-        foreach (ManagementObject obj in collection)
-        {
-            if (iter != 0)
-                result += ", ";
-            string memory = (Convert.ToInt64(obj["AdapterRAM"]) / (1024 * 1024 * 1024)).ToString();
-            result += obj["Name"] + " " + obj["AdapterRAM"];
-            iter++;
-        }
-        return result;
-    }
-
-    public string systemManagmentSearchMotherboard()
-    {
-        string result = "";
-        int iter = 0;
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_BaseBoard");
-        ManagementObjectCollection collection = searcher.Get();
-        foreach (ManagementObject obj in collection)
-        {
-            if (iter != 0)
-                result += ", ";
-            result += obj["Product"] + " " + obj["SerialNumber"];
-            iter++;
-        }
-
-        return result;
-    }
-
-    public List<string> systemProcess()
-    {
-        List<string> result = new List<string>();
-        Process[] processes = Process.GetProcesses();
-        foreach (Process process in processes)
-        {
-            result.Add(process.ProcessName);
-        }
-        return result;
+        connection.StartAsync();
     }
 
     private void Form1_Load(object sender, EventArgs e)
@@ -168,23 +97,17 @@ public partial class Form1 : Form
 
         if (connectionIdAdmin != null)
         {
-            string nameMotherboard = systemManagmentSearchMotherboard();
-            string nameCPU = systemManagmentSearchCPU();
-            string nameRAM = systemManagmentSearchRAM();
-            string nameHDD = systemManagmentSearchHDD();
-            string nameVideocard = systemManagmentSearchVidocard();
-            string nameLocation = "StudentComputer";
-            List<string> listProcess = systemProcess();
+            string nameLocation = "Г301 #1";
             DateTime lastLaunch = DateTime.UtcNow;
             var connectionId = connection.ConnectionId;
             connection.InvokeAsync("AddWorkStationHub",
-                nameMotherboard,
-                nameCPU,
-                nameRAM,
-                nameHDD,
-                nameVideocard,
+                _systemManager.nameMotherboard,
+                _systemManager.nameCPU,
+                _systemManager.nameRAM,
+                _systemManager.nameHDD,
+                _systemManager.nameVideocard,
                 nameLocation,
-                listProcess,
+                _systemManager.listProcess,
                 lastLaunch,
                 connectionIdAdmin,
                 connectionId);
@@ -195,5 +118,25 @@ public partial class Form1 : Form
     private void BannerTopMost_Tick(object sender, EventArgs e)
     {
         this.TopMost = true;
+    }
+
+    private void AcceptButton_Click(object sender, EventArgs e)
+    {
+        if (loginTextBox.Text != "" && passwordTextBox.Text != "")
+        {
+            var result = connection.InvokeAsync<bool>("GetAuthorizationUserHub",
+                loginTextBox.Text, passwordTextBox.Text, connectionIdAdmin);
+            if (result.GetAwaiter().GetResult() != true)
+                MessageBox.Show("Неправильный логин или пароль");
+        }
+        else
+        {
+            MessageBox.Show("Все поля должны быть заполнены");
+        }
+    }
+
+    private void BlackListWatchTimer_Tick(object sender, EventArgs e)
+    {
+
     }
 }

@@ -35,6 +35,7 @@ partial class Form1
         loginTextBox = new TextBox();
         passwordTextBox = new TextBox();
         AcceptButton = new Button();
+        BlackListWatchTimer = new System.Windows.Forms.Timer(components);
         SuspendLayout();
         // 
         // HubConnectionTimer
@@ -48,14 +49,14 @@ partial class Form1
         // 
         // loginTextBox
         // 
-        loginTextBox.Location = new Point(335, 159);
+        loginTextBox.Location = new Point(284, 164);
         loginTextBox.Name = "loginTextBox";
         loginTextBox.Size = new Size(212, 23);
         loginTextBox.TabIndex = 0;
         // 
         // passwordTextBox
         // 
-        passwordTextBox.Location = new Point(335, 208);
+        passwordTextBox.Location = new Point(284, 208);
         passwordTextBox.Name = "passwordTextBox";
         passwordTextBox.PasswordChar = '•';
         passwordTextBox.Size = new Size(212, 23);
@@ -69,11 +70,17 @@ partial class Form1
         AcceptButton.TabIndex = 2;
         AcceptButton.Text = "Ввод";
         AcceptButton.UseVisualStyleBackColor = true;
+        AcceptButton.Click += AcceptButton_Click;
+        // 
+        // BlackListWatchTimer
+        // 
+        BlackListWatchTimer.Tick += BlackListWatchTimer_Tick;
         // 
         // Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
+        BackColor = SystemColors.Control;
         ClientSize = new Size(784, 361);
         Controls.Add(AcceptButton);
         Controls.Add(passwordTextBox);
@@ -92,4 +99,5 @@ partial class Form1
     private TextBox loginTextBox;
     private TextBox passwordTextBox;
     private Button AcceptButton;
+    private System.Windows.Forms.Timer BlackListWatchTimer;
 }

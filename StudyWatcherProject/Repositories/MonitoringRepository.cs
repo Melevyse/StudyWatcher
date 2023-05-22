@@ -26,30 +26,33 @@ public class MonitoringRepository : IMonitoringRepository
         string nameVideocard,
         string nameLocation)
     {
-        var request = new WorkStation()
+        var existingWorkStation = await _context.WorkStation
+            .FirstOrDefaultAsync(x => x.NameLocation == nameLocation);
+        if (existingWorkStation != null)
         {
-            NameMotherboard = nameMotherboard,
-            NameCPU = nameCPU,
-            NameRAM = nameRAM,
-            NameHDD = nameHDD,
-            NameVideocard = nameVideocard,
-            NameLocation = nameLocation
-        };
-        var check = await _context.WorkStation
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => 
-                x.NameMotherboard == nameMotherboard &
-                x.NameCPU == nameCPU &
-                x.NameRAM == nameRAM &
-                x.NameHDD == nameHDD &
-                x.NameVideocard == nameVideocard&
-                x.NameLocation == nameLocation);
-        if (request != check)
-        {
-            _context.Add(request);
-            _context.SaveChanges();
+            existingWorkStation.NameMotherboard = nameMotherboard;
+            existingWorkStation.NameCPU = nameCPU;
+            existingWorkStation.NameRAM = nameRAM;
+            existingWorkStation.NameHDD = nameHDD;
+            existingWorkStation.NameVideocard = nameVideocard;
         }
-        return request;
+        else
+        {
+            var newWorkStation = new WorkStation()
+            {
+                NameMotherboard = nameMotherboard,
+                NameCPU = nameCPU,
+                NameRAM = nameRAM,
+                NameHDD = nameHDD,
+                NameVideocard = nameVideocard,
+                NameLocation = nameLocation
+            };
+
+            _context.Add(newWorkStation);
+            existingWorkStation = newWorkStation;
+        }
+        await _context.SaveChangesAsync();
+        return existingWorkStation;
     }
 
     public async Task<ProcessBan> AddProcessBan(string nameProcessBan)
@@ -59,8 +62,19 @@ public class MonitoringRepository : IMonitoringRepository
             NameProcess = nameProcessBan
         };
         _context.Add(result);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return result;
+    }
+
+    public async Task<ProcessBan> RemoveProcessBan(string nameProcessBan)
+    {
+        var processBan = await _context.ProcessBan.FindAsync(nameProcessBan);
+        if (processBan != null)
+        {
+            _context.ProcessBan.Remove(processBan);
+            await _context.SaveChangesAsync();
+        }
+        return processBan ?? throw new ArgumentException("Request is not found in the database");;
     }
 
     public async Task<ProcessBan> GetBanner(string nameProcessBan)
@@ -89,7 +103,7 @@ public class MonitoringRepository : IMonitoringRepository
             IdWorkStation = idWorkStation
         };
         _context.Add(result);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return result;
     }
     
@@ -119,13 +133,13 @@ public class MonitoringRepository : IMonitoringRepository
             if (check != null)
             {
                 check.LastLaunch = lastLaunch;
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
                 return check; 
             }
             return check ?? throw new ArgumentException("No record in database");
         }
         _context.Add(result);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return check ?? throw new ArgumentException("No record in database");
     }
     
@@ -153,8 +167,19 @@ public class MonitoringRepository : IMonitoringRepository
             {
                 result.Add(iter.NameProcess);
                 _context.Add(iter);
-                _context.SaveChanges();
+                await _context.SaveChangesAsync();
             }
+        }
+        return result;
+    }
+
+    public async Task<List<string>> GetBlackList()
+    {
+        var result = new List<string>();
+        var check = await _context.ProcessBan.ToListAsync();
+        foreach (var element in check)
+        {
+            result.Add(element.NameProcess);
         }
         return result;
     }

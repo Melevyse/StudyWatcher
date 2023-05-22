@@ -40,13 +40,18 @@ public class StudyWatcherHub : Hub
                     nameRAM, nameHDD, nameVideocard, nameLocation);
             List<string> result = await _monitoringService
                 .AddProcessListRequest(listProcess, lastLaunch, id);
+            List<string> blackList = await _monitoringService.GetFullBlackList();
             if (id != Guid.Empty)
-                // Ответ администратору - создать новой компьютер
+            {
                 await Clients
                     .Client(connectionIdAdmin)
-                    .SendAsync("RegisterWorkStation", 
-                        nameMotherboard, nameCPU, nameRAM, nameHDD, 
-                        nameVideocard, nameLocation,connectionId);
+                    .SendAsync("RegisterWorkStation",
+                        nameMotherboard, nameCPU, nameRAM, nameHDD,
+                        nameVideocard, nameLocation, connectionId);
+                await Clients
+                    .Client(connectionId)
+                    .SendAsync("ResponseBlackList", blackList);
+            }
         }
         catch (Exception e)
         {
@@ -56,7 +61,7 @@ public class StudyWatcherHub : Hub
     }
 
     // Метод, авторизации пользователя - готов
-    public async Task GetAuthorizationUserHub(
+    public async Task<bool> GetAuthorizationUserHub(
         string userLogin,
         string userPassword,
         string connectionIdAdmin)
@@ -75,22 +80,23 @@ public class StudyWatcherHub : Hub
                 // Ответ пользователю об успешной авторизации
                 await Clients
                     .Client(connectionId)
-                    .SendAsync("CloseStartBanner");
+                    .SendAsync("CloseStartBanner", resultFio, resultGroup);
                 // Ответ администратору
                 await Clients
                     .Client(connectionIdAdmin)
                     .SendAsync("AddItemUser", resultFio, resultGroup, connectionId);
+                return true;
             }
+            return false;
         }
         catch (ArgumentException e)
         {
-            await Clients
-                .Client(connectionId)
-                .SendAsync("ErrorLoginPassword");
+            return false;
         }
         catch (Exception e)
         {
             _logger.LogError(e, "GetAuthorizationUserHub encountered an exception.");
+            return false;
             throw;
         }
     }
@@ -168,7 +174,26 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-    
+
+    public async Task RemoveProcessListBanHub(
+        string processBan)
+    {
+        try
+        {
+            var result = await _monitoringService
+                .RemoveProcessBanRequest(processBan);
+            if (result != Guid.Empty) 
+                await Clients
+                    .All
+                    .SendAsync("RemoveProcessBlackList", processBan);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "AddProcessListBanHub encountered an exception.");
+            throw;
+        }
+    }
+
     // Метод, который добавляет новый запущенный процесс - не готов
     public async Task AddNewProcessHub(
         string nameProcess,

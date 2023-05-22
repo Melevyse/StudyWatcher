@@ -33,17 +33,20 @@ public partial class MainForm : Form
             string nameLocation,
             string connectionId) =>
         {
-            ListViewItem listViewItem = new ListViewItem(nameLocation);
-            listViewItem.SubItems.Add("-");
-            listViewItem.SubItems.Add("-");
-            listViewItem.SubItems.Add(nameMotherboard);
-            listViewItem.SubItems.Add(nameCPU);
-            listViewItem.SubItems.Add(nameRAM);
-            listViewItem.SubItems.Add(nameHDD);
-            listViewItem.SubItems.Add(nameVideocard);
-            listViewItem.SubItems.Add("Offline");
-            listViewItem.SubItems.Add(connectionId);
-            listWorkStationForm.Items.Add(listViewItem);
+            listWorkStationForm.Invoke((MethodInvoker)delegate
+            {
+                ListViewItem listViewItem = new ListViewItem(nameLocation);
+                listViewItem.SubItems.Add("-");
+                listViewItem.SubItems.Add("-");
+                listViewItem.SubItems.Add(nameMotherboard);
+                listViewItem.SubItems.Add(nameCPU);
+                listViewItem.SubItems.Add(nameRAM);
+                listViewItem.SubItems.Add(nameHDD);
+                listViewItem.SubItems.Add(nameVideocard);
+                listViewItem.SubItems.Add("Offline");
+                listViewItem.SubItems.Add(connectionId);
+                listWorkStationForm.Items.Add(listViewItem);
+            });
         });
 
         connection.On("AddItemUser", (
@@ -94,7 +97,7 @@ public partial class MainForm : Form
             }
         });
 
-        //connection.StartAsync();
+        connection.StartAsync();
     }
 
     private void MainForm_Load(object sender, EventArgs e)

@@ -12,6 +12,9 @@ public interface IMonitoringService
     
     Task<Guid> AddProcessBanRequest(
         string processBan);
+
+    Task<Guid> RemoveProcessBanRequest(
+        string processBan);
     
     Task<Guid> GetBannerResponse(
         string processBan);
@@ -25,4 +28,6 @@ public interface IMonitoringService
         List<string> listProcess,
         DateTime lastLaunch,
         Guid idWorkStation);
+
+    Task<List<string>> GetFullBlackList();
 }

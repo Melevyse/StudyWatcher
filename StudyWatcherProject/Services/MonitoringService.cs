@@ -31,6 +31,13 @@ public class MonitoringService : IMonitoringService
             .AddProcessBan(processBan);
         return result.Id;
     }
+    
+    public async Task<Guid> RemoveProcessBanRequest(string processBan)
+    {
+        var result = await _repositories
+            .RemoveProcessBan(processBan);
+        return result.Id;
+    }
 
     public async  Task<Guid> GetBannerResponse(string nameProcessBan)
     {
@@ -57,6 +64,12 @@ public class MonitoringService : IMonitoringService
     {
         var result = await _repositories
             .AddProcessList(nameProcess, lastLaunch, idWorkStation);
+        return result;
+    }
+
+    public async Task<List<string>> GetFullBlackList()
+    {
+        var result = await _repositories.GetBlackList();
         return result;
     }
 }

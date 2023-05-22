@@ -15,6 +15,9 @@ public interface IMonitoringRepository
     Task<ProcessBan> AddProcessBan(
         string nameProcessBan);
 
+    Task<ProcessBan> RemoveProcessBan(
+        string nameProcessBan);
+
     Task<ProcessBan> GetBanner(
         string nameProcessBan);
 
@@ -32,4 +35,6 @@ public interface IMonitoringRepository
         string nameProcess,
         DateTime lastLaunch,
         Guid idWorkStation);
+
+    Task<List<string>> GetBlackList();
 }
