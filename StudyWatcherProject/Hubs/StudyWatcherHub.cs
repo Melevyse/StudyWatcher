@@ -168,7 +168,7 @@ public class StudyWatcherHub : Hub
                 // Ответ пользователю
                 await Clients
                     .Client(connectionId)
-                    .SendAsync("OpenBlackListBanner");
+                    .SendAsync("OpenBlackListBanner", processBan);
                 // Ответ администатору
                 await Clients.Client(connectionIdAdmin)
                     .SendAsync("UserUsedBlackListProcess", processBan, connectionId);

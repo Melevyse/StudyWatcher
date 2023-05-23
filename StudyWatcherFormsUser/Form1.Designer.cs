@@ -86,13 +86,13 @@ partial class Form1
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
-        BackColor = SystemColors.Control;
+        BackColor = SystemColors.Desktop;
         ClientSize = new Size(784, 361);
         Controls.Add(AcceptButton);
         Controls.Add(passwordTextBox);
         Controls.Add(loginTextBox);
         Name = "Form1";
-        Text = "Form1";
+        Text = "StudyWatcherUser";
         Load += Form1_Load;
         ResumeLayout(false);
         PerformLayout();

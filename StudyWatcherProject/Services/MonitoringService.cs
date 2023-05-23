@@ -46,7 +46,6 @@ public class MonitoringService : IMonitoringService
         return result.Id;
     }
     
-    // Перед добавлением в бд, добаваить проверку на существование в бд.
     public async Task<Guid> AddProcessRequest(
         string nameProcess,
         DateTime lastLaunch,

@@ -22,7 +22,7 @@ public partial class MainForm : Form
     {
         ConnectionHub();
         InitializeComponent();
-        
+
         connection.On("RegisterWorkStation", (
             string nameMotherboard,
             string nameCPU,
@@ -57,9 +57,9 @@ public partial class MainForm : Form
                 .FindItemWithText(connectionId, false, 0, true);
             if (foundItem != null)
             {
-                foundItem.SubItems[0].Text = fio;
-                foundItem.SubItems[1].Text = group;
-                foundItem.SubItems[7].Text = "Online";
+                foundItem.SubItems[1].Text = fio;
+                foundItem.SubItems[2].Text = group;
+                foundItem.SubItems[8].Text = "Online";
             }
         });
 
@@ -70,7 +70,7 @@ public partial class MainForm : Form
             ListViewItem foundItem = listWorkStationForm
                 .FindItemWithText(connectionId, false, 0, true);
             if (foundItem != null)
-                foundItem.SubItems[7].Text = "Block";
+                foundItem.SubItems[8].Text = "Block";
         });
 
         connection.On("AddItemProcessList", (
@@ -113,7 +113,7 @@ public partial class MainForm : Form
             {
                 if (BlackList == null)
                     BlackList = new List<string>();
-                if (BlackList.Count != 0) 
+                if (BlackList.Count != 0)
                     BlackList.Clear();
                 BlackList.AddRange(listProcessBan);
                 BlackList = BlackList.Distinct().ToList();
@@ -183,5 +183,32 @@ public partial class MainForm : Form
             graphics.DrawImage(image, 0, 0, width, height);
         }
         return resizedImage;
+    }
+
+    private void buttonUnbanUser_Click(object sender, EventArgs e)
+    {
+        if (listWorkStationForm.SelectedItems.Count > 0)
+        {
+            ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
+            string connectionid = selectedItem.SubItems[9].Text;
+            selectedItem.SubItems[8].Text = "Online";
+            connection.InvokeAsync("BannerCloseHub", connectionid);
+        }
+    }
+
+    private void buttonDeleteProcessBan_Click(object sender, EventArgs e)
+    {
+        if (listProcessBanForm.SelectedItems.Count > 0)
+        {
+            ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
+            string process = selectedItem.Text;
+            connection.InvokeAsync("RemoveProcessListBanHub", process);
+            selectedItem.Remove();
+        }
+    }
+
+    private void buttonAnova_Click(object sender, EventArgs e)
+    {
+
     }
 }

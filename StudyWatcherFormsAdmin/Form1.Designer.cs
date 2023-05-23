@@ -51,6 +51,7 @@ partial class MainForm
         pictureBoxTranslator = new PictureBox();
         ConnectionAdminTimer = new System.Windows.Forms.Timer(components);
         buttonAnova = new Button();
+        buttonUnbanUser = new Button();
         ((System.ComponentModel.ISupportInitialize)pictureBoxTranslator).BeginInit();
         SuspendLayout();
         // 
@@ -134,6 +135,7 @@ partial class MainForm
         buttonDeleteProcessBan.TabIndex = 2;
         buttonDeleteProcessBan.Text = "Удалить";
         buttonDeleteProcessBan.UseVisualStyleBackColor = true;
+        buttonDeleteProcessBan.Click += buttonDeleteProcessBan_Click;
         // 
         // listProcessForm
         // 
@@ -207,6 +209,17 @@ partial class MainForm
         buttonAnova.TabIndex = 10;
         buttonAnova.Text = "ANOVA";
         buttonAnova.UseVisualStyleBackColor = true;
+        buttonAnova.Click += buttonAnova_Click;
+        // 
+        // buttonUnbanUser
+        // 
+        buttonUnbanUser.Location = new Point(830, 603);
+        buttonUnbanUser.Name = "buttonUnbanUser";
+        buttonUnbanUser.Size = new Size(112, 23);
+        buttonUnbanUser.TabIndex = 11;
+        buttonUnbanUser.Text = "Разблокировать";
+        buttonUnbanUser.UseVisualStyleBackColor = true;
+        buttonUnbanUser.Click += buttonUnbanUser_Click;
         // 
         // MainForm
         // 
@@ -214,6 +227,7 @@ partial class MainForm
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.GrayText;
         ClientSize = new Size(1384, 661);
+        Controls.Add(buttonUnbanUser);
         Controls.Add(buttonAnova);
         Controls.Add(pictureBoxTranslator);
         Controls.Add(label3);
@@ -255,4 +269,5 @@ partial class MainForm
     private ColumnHeader columnHeader10;
     private System.Windows.Forms.Timer ConnectionAdminTimer;
     private Button buttonAnova;
+    private Button buttonUnbanUser;
 }

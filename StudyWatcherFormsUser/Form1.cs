@@ -22,6 +22,7 @@ public partial class Form1 : Form
     public Form1()
     {
         ConnectionHub();
+        Banner banner = new();
         _systemManager = new SystemManager();
         InitializeComponent();
         BannerTopMost.Start();
@@ -50,14 +51,16 @@ public partial class Form1 : Form
             connectionIdAdmin = connectionId;
         });
 
-        connection.On("OpenBlackListBanner", () =>
+        connection.On("OpenBlackListBanner", (
+            string processBan) =>
         {
-            //На данный момент форма не создана
+            banner.labelErrorP1.Text = $"Использовано запрещенное программное обеспечение: {processBan}";
+            banner.Show();
         });
 
         connection.On("CloseBlackListBanner", () =>
         {
-            //На данный момент форма не создана
+            banner.Hide();
         });
 
         connection.On("RequestPicture", () =>
@@ -76,11 +79,14 @@ public partial class Form1 : Form
             if (BlackList != null)
                 BlackList.Add(processBan);
         });
-        
+
         connection.On("RemoveProcessBlackList", (
             string processBan) =>
         {
-
+            if (BlackList != null && BlackList.Count != 0)
+            {
+                BlackList.Remove(processBan);
+            }
         });
 
         connection.On("ResponseBlackList", (
@@ -88,7 +94,7 @@ public partial class Form1 : Form
         {
             if (BlackList == null)
                 BlackList = new List<string>();
-            if (BlackList.Count != 0) 
+            if (BlackList.Count != 0)
                 BlackList.Clear();
             BlackList.AddRange(processBanList);
             BlackList = BlackList.Distinct().ToList();
@@ -146,7 +152,21 @@ public partial class Form1 : Form
 
     private void BlackListWatchTimer_Tick(object sender, EventArgs e)
     {
-
+        _systemManager.systemListProcess();
+        bool elementFound = false;
+        foreach (var process in _systemManager.listProcess)
+        {
+            foreach (var processBan in BlackList)
+            {
+                if (string.Equals(process, processBan))
+                {
+                    connection.InvokeAsync("GetBannerHub", processBan);
+                    elementFound = true;
+                }
+            }
+            if (elementFound == true)
+                break;
+        }
     }
 
     private void PictureSend_Tick(object sender, EventArgs e)

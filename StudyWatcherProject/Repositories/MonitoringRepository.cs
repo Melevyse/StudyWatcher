@@ -160,14 +160,15 @@ public class MonitoringRepository : IMonitoringRepository
             var check = await _context.ProcessWs
                 .FirstOrDefaultAsync(x => 
                     x.NameProcess == element &&
-                    x.LastLaunch == lastLaunch &&
                     x.NameLocation == nameLocation);
-            if (check == null)
+            if (check != null)
+                check.LastLaunch = lastLaunch;
+            else
             {
                 result.Add(iter.NameProcess);
                 _context.Add(iter);
-                await _context.SaveChangesAsync();
             }
+            await _context.SaveChangesAsync();
         }
         return result;
     }
