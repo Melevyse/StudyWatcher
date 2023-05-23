@@ -200,7 +200,7 @@ public partial class MainForm : Form
     {
         if (listProcessBanForm.SelectedItems.Count > 0)
         {
-            ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
+            ListViewItem selectedItem = listProcessBanForm.SelectedItems[0];
             string process = selectedItem.Text;
             connection.InvokeAsync("RemoveProcessListBanHub", process);
             selectedItem.Remove();

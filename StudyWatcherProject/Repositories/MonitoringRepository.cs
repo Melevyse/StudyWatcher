@@ -68,7 +68,9 @@ public class MonitoringRepository : IMonitoringRepository
 
     public async Task<ProcessBan> RemoveProcessBan(string nameProcessBan)
     {
-        var processBan = await _context.ProcessBan.FindAsync(nameProcessBan);
+        var processBan = await _context.ProcessBan
+            .FirstOrDefaultAsync(x => 
+                x.NameProcess == nameProcessBan);
         if (processBan != null)
         {
             _context.ProcessBan.Remove(processBan);
