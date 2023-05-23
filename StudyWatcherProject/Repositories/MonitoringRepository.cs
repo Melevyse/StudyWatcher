@@ -161,4 +161,15 @@ public class MonitoringRepository : IMonitoringRepository
         }
         return result ?? throw new ArgumentException("No record in database");
     }
+    
+    public async Task<List<ProcessWs>> GetProcessWs()
+    {
+        var result = new List<ProcessWs>();
+        var check = await _context.ProcessWs.ToListAsync();
+        foreach (var element in check)
+        {
+            result.Add(element);
+        }
+        return result ?? throw new ArgumentException("No record in database");
+    }
 }

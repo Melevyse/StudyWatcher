@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using StudyWatcherProject.Contracts;
+using StudyWatcherProject.Models;
 
 namespace StudyWatcherProject.Hubs;
 
@@ -271,6 +272,21 @@ public class StudyWatcherHub : Hub
             await Clients
                 .Client(connectionId)
                 .SendAsync("CancelSendPicture");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "CancelSendPictureHub encountered an exception.");
+            throw;
+        }
+    }
+    
+    public async Task<List<ProcessWs>> GetFullProcessWsHub(
+        string connectionId)
+    {
+        try
+        {
+            var result = await _monitoringService.GetFullProcessWs();
+            return result;
         }
         catch (Exception e)
         {

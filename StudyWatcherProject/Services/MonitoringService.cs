@@ -1,4 +1,6 @@
-﻿using StudyWatcherProject.Contracts;
+﻿using System.Runtime.InteropServices.ComTypes;
+using StudyWatcherProject.Contracts;
+using StudyWatcherProject.Models;
 
 namespace StudyWatcherProject.Services;
 
@@ -65,6 +67,12 @@ public class MonitoringService : IMonitoringService
     public async Task<List<string>> GetFullProcessList(string nameLocation, DateTime lastLaunch)
     {
         var result = await _repositories.GetProcessList(nameLocation, lastLaunch);
+        return result;
+    }
+    
+    public async Task<List<ProcessWs>> GetFullProcessWs()
+    {
+        var result = await _repositories.GetProcessWs();
         return result;
     }
 }

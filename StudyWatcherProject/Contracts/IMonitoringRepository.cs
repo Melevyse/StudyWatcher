@@ -35,4 +35,6 @@ public interface IMonitoringRepository
     Task<List<string>> GetProcessList(
         string nameLocation, 
         DateTime lastLaunch);
+
+    Task<List<ProcessWs>> GetProcessWs();
 }
