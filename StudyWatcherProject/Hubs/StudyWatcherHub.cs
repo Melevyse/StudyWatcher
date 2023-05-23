@@ -230,31 +230,6 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    // Метод, который добавляет новый запущенный процесс - не готов
-    public async Task AddNewProcessHub(
-        string nameProcess,
-        DateTime lastLaunch,
-        string nameLocation,
-        string connectionIdAdmin)
-    {
-        try
-        {
-            var result = await _monitoringService
-                .AddProcessRequest(nameProcess, lastLaunch, nameLocation);
-            if (result != Guid.Empty)
-            {
-                await Clients
-                    .Client(connectionIdAdmin)
-                    .SendAsync("AddItemProcessList", nameProcess);
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "AddNewProcessHub encountered an exception.");
-            throw;
-        }
-    }
-
     public async Task RequestPictureHub(
         string connectionId)
     {

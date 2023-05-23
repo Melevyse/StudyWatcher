@@ -41,8 +41,13 @@ public partial class Form1 : Form
 
         connection.On("CloseStartBanner", (string resultFio, string resultGroup) =>
         {
-            MessageBox.Show($"Здравствуйте, {resultFio}!/nГруппа:{resultGroup}", "/nАвторизация успешно завершена");
-            this.Hide();
+            Invoke((MethodInvoker)delegate
+            {
+                BannerTopMost.Stop();
+                MessageBox.Show($"Здравствуйте, {resultFio}!\nГруппа:{resultGroup}", "Авторизация успешно завершена");
+                this.Hide();
+                BlackListWatchTimer.Start();
+            });
         });
 
         connection.On("AdminConnectionComplete", (
@@ -176,12 +181,14 @@ public partial class Form1 : Form
         {
             graphics.CopyFromScreen(0, 0, 0, 0, screenshot.Size);
         }
+
         byte[] imageBytes;
         using (MemoryStream ms = new MemoryStream())
         {
             screenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
             imageBytes = ms.ToArray();
         }
+        
         connection.InvokeAsync("SendPictureHub", imageBytes, connectionIdAdmin);
     }
 }

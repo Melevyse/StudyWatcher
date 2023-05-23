@@ -31,11 +31,6 @@ public interface IMonitoringRepository
         DateTime lastLaunch,
         string nameLocation);
 
-    Task<ProcessWs> UpdateProcess(
-        string nameProcess,
-        DateTime lastLaunch,
-        string nameLocation);
-
     Task<List<string>> GetBlackList();
     Task<List<string>> GetProcessList(
         string nameLocation, 

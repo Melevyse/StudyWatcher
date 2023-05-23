@@ -53,14 +53,17 @@ public partial class MainForm : Form
             string group,
             string connectionId) =>
         {
-            ListViewItem foundItem = listWorkStationForm
-                .FindItemWithText(connectionId, false, 0, true);
-            if (foundItem != null)
+            Invoke((MethodInvoker)delegate
             {
-                foundItem.SubItems[1].Text = fio;
-                foundItem.SubItems[2].Text = group;
-                foundItem.SubItems[8].Text = "Online";
-            }
+                ListViewItem foundItem = listWorkStationForm
+                    .FindItemWithText(connectionId, true, 0, true);
+                if (foundItem != null)
+                {
+                    foundItem.SubItems[1].Text = fio;
+                    foundItem.SubItems[2].Text = group;
+                    foundItem.SubItems[8].Text = "Online";
+                }
+            });
         });
 
         connection.On("UserUsedBlackListProcess", (
@@ -68,7 +71,7 @@ public partial class MainForm : Form
             string connectionId) =>
         {
             ListViewItem foundItem = listWorkStationForm
-                .FindItemWithText(connectionId, false, 0, true);
+                .FindItemWithText(connectionId, true, 0, true);
             if (foundItem != null)
                 foundItem.SubItems[8].Text = "Block";
         });
@@ -82,15 +85,12 @@ public partial class MainForm : Form
         connection.On("SendPicture", (
             byte[] imageData) =>
         {
-            Invoke((MethodInvoker)delegate
+            using (MemoryStream stream = new MemoryStream(imageData)) 
             {
-                using (MemoryStream stream = new MemoryStream(imageData))
-                {
-                    Image receivedImage = Image.FromStream(stream);
-                    Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
-                    pictureBoxTranslator.Image = resizedImage;
-                }
-            });
+                Image receivedImage = Image.FromStream(stream);
+                Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
+                pictureBoxTranslator.Image = resizedImage;
+            }
         });
 
         connection.On("GetProcessList", (

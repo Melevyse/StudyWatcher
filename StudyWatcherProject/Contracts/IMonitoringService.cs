@@ -1,4 +1,6 @@
-﻿namespace StudyWatcherProject.Contracts;
+﻿using StudyWatcherProject.Models;
+
+namespace StudyWatcherProject.Contracts;
 
 public interface IMonitoringService
 {
@@ -18,12 +20,7 @@ public interface IMonitoringService
     
     Task<Guid> GetBannerResponse(
         string processBan);
-    
-    Task<Guid> AddProcessRequest(
-        string nameProcess,
-        DateTime lastLaunch,
-        string nameLocation);
-    
+
     Task<List<string>> AddProcessListRequest(
         List<string> listProcess,
         DateTime lastLaunch,

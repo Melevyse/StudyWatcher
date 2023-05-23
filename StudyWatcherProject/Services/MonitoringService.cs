@@ -45,16 +45,6 @@ public class MonitoringService : IMonitoringService
             .GetBanner(nameProcessBan);
         return result.Id;
     }
-    
-    public async Task<Guid> AddProcessRequest(
-        string nameProcess,
-        DateTime lastLaunch,
-        string nameLocation)
-    {
-        var result = await _repositories
-            .UpdateProcess(nameProcess, lastLaunch, nameLocation);
-        return result.Id;
-    }
 
     public async Task<List<string>> AddProcessListRequest(
         List<string> nameProcess,

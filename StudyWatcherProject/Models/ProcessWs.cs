@@ -6,4 +6,6 @@ public class ProcessWs
     public string NameProcess { get; set; }
     public DateTime LastLaunch { get; set; }
     public string NameLocation { get; set; }
+    
+    
 }

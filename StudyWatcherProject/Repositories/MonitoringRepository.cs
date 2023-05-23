@@ -70,7 +70,7 @@ public class MonitoringRepository : IMonitoringRepository
     {
         var processBan = await _context.ProcessBan
             .FirstOrDefaultAsync(x => 
-                x.NameProcess == nameProcessBan);
+                x.NameProcess== nameProcessBan);
         if (processBan != null)
         {
             _context.ProcessBan.Remove(processBan);
@@ -108,43 +108,7 @@ public class MonitoringRepository : IMonitoringRepository
         await _context.SaveChangesAsync();
         return result;
     }
-    
-    public async Task<ProcessWs> UpdateProcess(
-        string nameProcess,
-        DateTime lastLaunch,
-        string nameLocation)
-    {
-        var result = new ProcessWs()
-        {
-            NameProcess = nameProcess,
-            LastLaunch = lastLaunch,
-            NameLocation = nameLocation
-        };
-        var check = await _context.ProcessWs
-            .AsNoTracking()
-            .FirstOrDefaultAsync(x => 
-                x.NameProcess == nameProcess &&
-                x.NameLocation == nameLocation &&
-                x.LastLaunch == lastLaunch);
-        if (result != check)
-        {
-            check = await _context.ProcessWs
-                .FirstOrDefaultAsync(x => 
-                    x.NameProcess == nameProcess &&
-                    x.NameLocation == nameLocation);
-            if (check != null)
-            {
-                check.LastLaunch = lastLaunch;
-                await _context.SaveChangesAsync();
-                return check; 
-            }
-            return check ?? throw new ArgumentException("No record in database");
-        }
-        _context.Add(result);
-        await _context.SaveChangesAsync();
-        return check ?? throw new ArgumentException("No record in database");
-    }
-    
+
     public async Task<List<string>> AddProcessList(
         List<string> nameProcessList,
         DateTime lastLaunch,
