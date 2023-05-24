@@ -8,7 +8,10 @@ public partial class Form1 : Form
     private HubConnection connection;
     private string connectionIdAdmin;
     private List<string> BlackList;
-    private SystemManager _systemManager;
+    private SystemManager _systemManager = new ();
+    Banner banner = new();
+    string nameLocation = "Г301 #3";
+    DateTime lastLaunch = DateTime.UtcNow.Date;
 
     public async Task ConnectionHub()
     {
@@ -22,8 +25,6 @@ public partial class Form1 : Form
     public Form1()
     {
         ConnectionHub();
-        Banner banner = new();
-        _systemManager = new SystemManager();
         InitializeComponent();
         BannerTopMost.Start();
         this.WindowState = FormWindowState.Maximized;
@@ -56,35 +57,18 @@ public partial class Form1 : Form
             connectionIdAdmin = connectionId;
         });
 
-        connection.On("OpenBlackListBanner", (
-            string processBan) =>
-        {
-            banner.labelErrorP1.Text = $"Использовано запрещенное программное обеспечение: {processBan}";
-            banner.Show();
-        });
-
         connection.On("CloseBlackListBanner", () =>
         {
-            banner.Hide();
+            BeginInvoke((MethodInvoker)delegate
+            {
+                banner.Hide();
+                BlackListWatchTimer.Start();
+            });
         });
 
         connection.On("RequestPicture", () =>
         {
-            // PictureSend.Start();
-            using (Bitmap screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
-            {
-                using (Graphics graphics = Graphics.FromImage(screenshot))
-                {
-                    graphics.CopyFromScreen(0, 0, 0, 0, screenshot.Size);
-                }
-
-                // Сохраняем изображение в массив байтов
-                ImageConverter converter = new ImageConverter();
-                byte[] imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
-                string imageString = Convert.ToBase64String(imageBytes);
-
-                connection.InvokeAsync("SendPictureHub", imageBytes, connectionIdAdmin);
-            }
+            PictureSend.Start();
         });
 
         connection.On("CancelSendPicture", () =>
@@ -131,8 +115,6 @@ public partial class Form1 : Form
     {
         if (connectionIdAdmin != null)
         {
-            string nameLocation = "Г301 #3";
-            DateTime lastLaunch = DateTime.UtcNow.Date;
             var connectionId = connection.ConnectionId;
             connection.InvokeAsync("AddWorkStationHub",
                 _systemManager.nameMotherboard,
@@ -171,8 +153,6 @@ public partial class Form1 : Form
 
     private void BlackListWatchTimer_Tick(object sender, EventArgs e)
     {
-        string nameLocation = "Г301 #3";
-        DateTime lastLaunch = DateTime.UtcNow.Date;
         _systemManager.systemListProcess();
         bool elementFound = false;
         connection.InvokeAsync("AddProcessListHub", 
@@ -181,6 +161,7 @@ public partial class Form1 : Form
             lastLaunch,
             connectionIdAdmin,
             connection.ConnectionId);
+        /*
         foreach (var process in _systemManager.listProcess)
         {
             foreach (var processBan in BlackList)
@@ -192,8 +173,22 @@ public partial class Form1 : Form
                 }
             }
             if (elementFound == true)
+            {
+                banner.labelErrorP1.Text = $"Использовано запрещенное программное обеспечение: {process}";
+                banner.Show();
                 break;
+            }
         }
+        */
+        IEnumerable<string> inFirstOnly = _systemManager.listProcess.Except(BlackList);
+        if (inFirstOnly.Count() < _systemManager.listProcess.Count())
+        {
+            connection.InvokeAsync("GetBannerHub",connection.ConnectionId, connectionIdAdmin);
+            banner.labelErrorP1.Text = "Использовано запрещенное программное обеспечение";
+            banner.Show();
+            BlackListWatchTimer.Stop();
+        }
+
     }
 
     private void PictureSend_Tick(object sender, EventArgs e)

@@ -8,7 +8,11 @@ namespace StudyWatcherFormsAdmin;
 public partial class MainForm : Form
 {
     private HubConnection connection;
-    private List<string> BlackList;
+    private List<string> BlackList = new ();
+    private List<WorkStation> WorkStations = new ();
+    private List<ProcessWs> ProcessWsList = new ();
+    private List<InfoWorkStation> InfoWorkStationList = new ();
+
 
     public async Task ConnectionHub()
     {
@@ -33,57 +37,110 @@ public partial class MainForm : Form
             string nameLocation,
             string connectionId) =>
         {
-            listWorkStationForm.Invoke((MethodInvoker)delegate
+            BeginInvoke((MethodInvoker)delegate
             {
-                ListViewItem listViewItem = new ListViewItem(nameLocation);
-                listViewItem.SubItems.Add("-");
-                listViewItem.SubItems.Add("-");
-                listViewItem.SubItems.Add(nameMotherboard);
-                listViewItem.SubItems.Add(nameCPU);
-                listViewItem.SubItems.Add(nameRAM);
-                listViewItem.SubItems.Add(nameHDD);
-                listViewItem.SubItems.Add(nameVideocard);
-                listViewItem.SubItems.Add("Login");
-                listViewItem.SubItems.Add(connectionId);
-                listWorkStationForm.Items.Add(listViewItem);
+                var workStation = new WorkStation();
+                workStation.NameLocation = nameLocation;
+                workStation.Fio = "-";
+                workStation.Group = "-";
+                workStation.NameMotherboard = nameMotherboard;
+                workStation.NameCPU = nameCPU;
+                workStation.NameRAM = nameRAM;
+                workStation.NameHDD = nameHDD;
+                workStation.NameVideocard = nameVideocard;
+                workStation.Status = Status.Login;
+                workStation.ConnectionId = connectionId;
+                WorkStations.Add(workStation);
+                var result = new ListViewItem(workStation.NameLocation);
+                result.SubItems.Add(workStation.Fio);
+                result.SubItems.Add(workStation.Group);
+                result.SubItems.Add(workStation.NameMotherboard);
+                result.SubItems.Add(workStation.NameCPU);
+                result.SubItems.Add(workStation.NameRAM);
+                result.SubItems.Add(workStation.NameHDD);
+                result.SubItems.Add(workStation.NameVideocard);
+                result.SubItems.Add(workStation.Status.ToString());
+                result.SubItems.Add(workStation.ConnectionId);
+                listWorkStationForm.Items.Add(result);
             });
         });
 
+        connection.On("InfoWorkStation", (
+            List<string> infoWorkStation,
+            string nameLocation) =>
+        {
+            BeginInvoke((MethodInvoker)delegate
+            {
+                if (infoWorkStation.First() == "NONE")
+                {
+                    var result = new InfoWorkStation();
+                    result.NameLocation = nameLocation;
+                    result.infoList = "Запустился в прежней конфигурации";
+                    InfoWorkStationList.Add(result);
+                    var resultView = new ListViewItem(result.NameLocation);
+                    resultView.SubItems.Add(result.infoList);
+                    listViewMessage.Items.Add(resultView);
+                }
+                else
+                {
+                    foreach (var element in infoWorkStation)
+                    {
+                        var resultItem = new InfoWorkStation();
+                        resultItem.NameLocation = nameLocation;
+                        resultItem.infoList = $"Компонент был утрачен или заменен: {element}";
+                        InfoWorkStationList.Add(resultItem);
+                        var resultItemView = new ListViewItem(resultItem.NameLocation);
+                        resultItemView.SubItems.Add(resultItem.NameLocation);
+                        listViewMessage.Items.Add(resultItemView);
+                    }
+                }
+            });
+        });
+        
         connection.On("AddItemUser", (
             string fio,
             string group,
             string connectionId) =>
         {
-            Invoke((MethodInvoker)delegate
+            BeginInvoke((MethodInvoker)delegate
             {
-                ListViewItem foundItem = listWorkStationForm
-                    .FindItemWithText(connectionId, true, 0, true);
-                if (foundItem != null)
-                {
-                    foundItem.SubItems[1].Text = fio;
-                    foundItem.SubItems[2].Text = group;
-                    foundItem.SubItems[8].Text = "Online";
-                }
+                var workStation = WorkStations.FirstOrDefault(x => x.ConnectionId == connectionId);
+                workStation.Fio = fio;
+                workStation.Group = group;
+                workStation.Status = Status.Online;
+                var listViewItem = listWorkStationForm.FindItemWithText(workStation.ConnectionId, true, 0);
+                listViewItem.SubItems[1].Text = workStation.Fio;
+                listViewItem.SubItems[2].Text = workStation.Group;
+                listViewItem.SubItems[8].Text = workStation.Status.ToString();
             });
         });
-
+        
         connection.On("UserUsedBlackListProcess", (
-            string processBan,
             string connectionId) =>
         {
-            Invoke((MethodInvoker)delegate
+            BeginInvoke((MethodInvoker)delegate
             {
-                ListViewItem foundItem = listWorkStationForm
-                    .FindItemWithText(connectionId, true, 0, true);
-                if (foundItem != null)
-                    foundItem.SubItems[8].Text = "Block";
-                var nameItem = foundItem.Text;
-                var messageFirst = new ListViewItem(nameItem);
-                messageFirst.SubItems.Add($"Запуск запрещенной программы {processBan}");
-                var messageSecond = new ListViewItem(nameItem);
-                messageSecond.SubItems.Add("Экран заблокирован");
-                listViewMessage.Items.Add(messageFirst);
-                listViewMessage.Items.Add(messageSecond);
+                var workStation = WorkStations.FirstOrDefault(x => x.ConnectionId == connectionId);
+                workStation.Status = Status.Block;
+                var workStationViewItem = listWorkStationForm.FindItemWithText(workStation.ConnectionId, true, 0);
+                workStationViewItem.SubItems[8].Text = workStation.Status.ToString();
+                
+                var resultFirst = new InfoWorkStation();
+                resultFirst.NameLocation = workStation.NameLocation;
+                resultFirst.infoList = "Запуск запрещенной программы, экран заблокирован";
+                InfoWorkStationList.Add(resultFirst);
+                var itemFirst = new ListViewItem(resultFirst.NameLocation);
+                itemFirst.SubItems.Add(resultFirst.infoList);
+                listViewMessage.Items.Add(itemFirst);
+                /*
+                var resultSecond = new InfoWorkStation();
+                resultSecond.NameLocation = workStation.NameLocation;
+                resultSecond.infoList = "Экран заблокирован";
+                InfoWorkStationList.Add(resultSecond);
+                var itemSecond = new ListViewItem(resultSecond.NameLocation);
+                itemFirst.SubItems.Add(resultSecond.infoList);
+                listViewMessage.Items.Add(itemSecond);
+                */
             });
         });
         
@@ -91,22 +148,8 @@ public partial class MainForm : Form
             List<string> processList,
             string connectionId) =>
         {
-            Invoke((MethodInvoker)delegate
-            {
-                if (listWorkStationForm.SelectedItems.Count > 0)
-                {
-                    var selectedItem = listWorkStationForm.SelectedItems[0];
-                    if (selectedItem.SubItems[9].Text == connectionId)
-                    {
-                        listProcessForm.Clear();
-                        foreach (var element in processList)
-                        {
-                            var listViewItem = new ListViewItem(element);
-                            listProcessForm.Items.Add(listViewItem);
-                        }
-                    }
-                }
-            });
+            var workStation = WorkStations.FirstOrDefault(x => x.ConnectionId == connectionId);
+            workStation.ProcessList = processList;
         });
 
         connection.On("SendPicture", (
@@ -115,55 +158,20 @@ public partial class MainForm : Form
             byte[] imageData = Convert.FromBase64CharArray(imageString.ToCharArray(), 0, imageString.Length);
             ImageConverter converter = new ImageConverter();
             Image receivedImage = (Image)converter.ConvertFrom(imageData);
-            Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
-            pictureBoxTranslator.Image = resizedImage;
-        });
-
-        connection.On("GetProcessList", (
-            List<string> processList) =>
-        {
-            Invoke((MethodInvoker)delegate
-            {
-                listProcessForm.Clear();
-                foreach (var element in processList)
-                {
-                    var listViewItem = new ListViewItem(element);
-                    listProcessForm.Items.Add(listViewItem);
-                }
-            });
+            pictureBoxTranslator.Image = receivedImage;
         });
 
         connection.On("ResponseBlackList", (
             List<string> listProcessBan) =>
         {
-            Invoke((MethodInvoker)delegate
+            BeginInvoke((MethodInvoker)delegate
             {
-                if (BlackList == null)
-                    BlackList = new List<string>();
-                if (BlackList.Count != 0)
-                    BlackList.Clear();
-                BlackList.AddRange(listProcessBan);
-                BlackList = BlackList.Distinct().ToList();
-                listProcessBanForm.Items.Clear();
-                foreach (var element in BlackList)
+                BlackList.Clear();
+                foreach (var element in listProcessBan)
                 {
-                    ListViewItem listViewItem = new ListViewItem(element);
-                    listProcessBanForm.Items.Add(listViewItem);
+                    BlackList.Add(element);
+                    listProcessBanForm.Items.Add(element);
                 }
-            });
-        });
-
-        connection.On("AnovaMethod", (
-            List<ProcessWs> listProcessWs) =>
-        {
-            Invoke((MethodInvoker)delegate
-            {
-                var anovaAlgorithm = new AnovaAlgorithm(listProcessWs);
-                var nameProcessList = anovaAlgorithm.processArray;
-                var countProcessList = anovaAlgorithm.rowSums;
-                var anovaTable = anovaAlgorithm.anovaResult.Table;
-                var anovaFrom = new AnovaFrom(nameProcessList, countProcessList, anovaTable);
-                anovaFrom.Show();
             });
         });
 
@@ -178,23 +186,12 @@ public partial class MainForm : Form
     private void buttonAddProcessBan_Click(object sender, EventArgs e)
     {
         if (listProcessForm.SelectedItems.Count > 0)
-        {
-            if (listProcessForm.SelectedItems.Count == 1)
-            {
-                ListViewItem selectedItem = listProcessForm.SelectedItems[0];
-                connection.InvokeAsync("AddProcessListBanHub",
-                    selectedItem.Text, connection.ConnectionId);
-                listProcessBanForm.Items.Add(selectedItem.Text);
-            }
-            else
-            {
-                foreach (ListViewItem selectedItem in listProcessForm.SelectedItems)
-                {
-                    connection.InvokeAsync("AddProcessListBanHub",
-                        selectedItem.Text, connection.ConnectionId);
-                    listProcessBanForm.Items.Add(selectedItem.Text);
-                }
-            }
+        { 
+            var selectedItem = listProcessForm.SelectedItems[0];
+            BlackList.Add(selectedItem.Text);
+            connection.InvokeAsync("AddProcessListBanHub", 
+                selectedItem.Text, connection.ConnectionId);
+            listProcessBanForm.Items.Add(selectedItem.Text);
         }
     }
 
@@ -203,28 +200,27 @@ public partial class MainForm : Form
         connection.InvokeAsync("GetAdminConnectionIdHub");
     }
 
-    private void listWorkStationForm_SelectedIndexChanged(object sender, EventArgs e)
+    private async void listWorkStationForm_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (listWorkStationForm.SelectedItems.Count > 0)
         {
             ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
             string nameLocation = selectedItem.Text;
             DateTime lastLaunch = DateTime.UtcNow.Date;
-            string connectionIdItem = selectedItem.SubItems[9].Text;
-            connection.InvokeAsync("GetProcessListHub", nameLocation, lastLaunch, connection.ConnectionId);
-            connection.InvokeAsync("RequestPictureHub", connectionIdItem);
+            var result = await connection
+                .InvokeAsync<List<string>>("GetProcessListHub", 
+                nameLocation, lastLaunch);
+            var workStation = WorkStations.FirstOrDefault(x => x.NameLocation == nameLocation);
+            workStation.ProcessList = result;
+            listProcessForm.Items.Clear();
+            foreach (var element in workStation.ProcessList)
+            {
+                var resultItem = new ListViewItem(element);
+                listProcessForm.Items.Add(resultItem);
+            }
+            
+            //connection.InvokeAsync("RequestPictureHub", connectionIdItem);
         }
-    }
-
-    private Image ResizeImage(Image image, int width, int height)
-    {
-        Bitmap resizedImage = new Bitmap(width, height);
-        using (Graphics graphics = Graphics.FromImage(resizedImage))
-        {
-            graphics.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-            graphics.DrawImage(image, 0, 0, width, height);
-        }
-        return resizedImage;
     }
 
     private void buttonUnbanUser_Click(object sender, EventArgs e)
@@ -232,13 +228,20 @@ public partial class MainForm : Form
         if (listWorkStationForm.SelectedItems.Count > 0)
         {
             var selectedItem = listWorkStationForm.SelectedItems[0];
-            var connectionid = selectedItem.SubItems[9].Text;
-            var nameItem = selectedItem.Text;
-            selectedItem.SubItems[8].Text = "Online";
-            connection.InvokeAsync("BannerCloseHub", connectionid);
-            var message = new ListViewItem(nameItem);
-            message.SubItems.Add("Экран разблокирован");
-            listViewMessage.Items.Add(message);
+            if (selectedItem.SubItems[8].Text == Status.Block.ToString())
+            {
+                var workStation = WorkStations.FirstOrDefault(x => x.NameLocation == selectedItem.Text);
+                workStation.Status = Status.Online;
+                selectedItem.SubItems[8].Text = workStation.Status.ToString();
+                connection.InvokeAsync("BannerCloseHub", workStation.ConnectionId);
+                var infoWorkStation = new InfoWorkStation();
+                infoWorkStation.NameLocation = workStation.NameLocation;
+                infoWorkStation.infoList = "Экран разблокирован";
+                InfoWorkStationList.Add(infoWorkStation);
+                var message = new ListViewItem(infoWorkStation.NameLocation);
+                message.SubItems.Add(infoWorkStation.infoList);
+                listViewMessage.Items.Add(message);
+            }
         }
     }
 
@@ -246,15 +249,22 @@ public partial class MainForm : Form
     {
         if (listProcessBanForm.SelectedItems.Count > 0)
         {
-            ListViewItem selectedItem = listProcessBanForm.SelectedItems[0];
-            string process = selectedItem.Text;
+            var selectedItem = listProcessBanForm.SelectedItems[0];
+            var process = selectedItem.Text;
+            BlackList.Remove(process);
             connection.InvokeAsync("RemoveProcessListBanHub", process);
             selectedItem.Remove();
         }
     }
 
-    private void buttonAnova_Click(object sender, EventArgs e)
+    private async void buttonAnova_Click(object sender, EventArgs e)
     {
-        connection.InvokeAsync("GetFullProcessWsHub", connection.ConnectionId);
+        ProcessWsList = await connection.InvokeAsync<List<ProcessWs>>("GetFullProcessWsHub", connection.ConnectionId);
+        var anovaAlgorithm = new AnovaAlgorithm(ProcessWsList);
+        var nameProcessList = anovaAlgorithm.processArray;
+        var countProcessList = anovaAlgorithm.rowSums;
+        var anovaTable = anovaAlgorithm.anovaResult.Table;
+        var anovaFrom = new AnovaFrom(nameProcessList, countProcessList, anovaTable);
+        anovaFrom.Show();
     }
 }

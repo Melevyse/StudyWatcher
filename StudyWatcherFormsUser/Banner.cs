@@ -21,6 +21,7 @@ namespace StudyWatcherFormsUser
             (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2) - 100);
             labelErrorP2.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - labelErrorP2.Size.Width / 2,
             (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2) - 50);
+            TopMostTimer.Start();
         }
 
         private void TopMostTimer_Tick(object sender, EventArgs e)

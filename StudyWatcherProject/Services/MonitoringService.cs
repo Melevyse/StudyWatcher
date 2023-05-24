@@ -13,7 +13,20 @@ public class MonitoringService : IMonitoringService
     {
         _repositories = repositories;
     }
-    
+
+    public async Task<List<string>> GetFullInfoWorkStation(
+        string nameMotherboard,
+        string nameCPU,
+        string nameRAM,
+        string nameHDD,
+        string nameVideocard,
+        string nameLocation)
+    {
+        var result = await _repositories
+            .GetInfoWorkStation(nameMotherboard, nameCPU, nameRAM, nameHDD , nameVideocard, nameLocation);
+        return result;
+    }
+
     public async  Task<Guid> AddWorkStationRequest(
         string nameMotherboard,
         string nameCPU,
@@ -66,7 +79,8 @@ public class MonitoringService : IMonitoringService
 
     public async Task<List<string>> GetFullProcessList(string nameLocation, DateTime lastLaunch)
     {
-        var result = await _repositories.GetProcessList(nameLocation, lastLaunch);
+        var result = await _repositories
+            .GetProcessList(nameLocation, lastLaunch);
         return result;
     }
     

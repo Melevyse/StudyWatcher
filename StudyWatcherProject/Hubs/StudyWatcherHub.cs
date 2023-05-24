@@ -39,6 +39,9 @@ public class StudyWatcherHub : Hub
             var id = await _monitoringService
                 .AddWorkStationRequest(nameMotherboard, nameCPU, 
                     nameRAM, nameHDD, nameVideocard, nameLocation);
+            var infoWorkStation = await _monitoringService
+                .GetFullInfoWorkStation(nameMotherboard, nameCPU, 
+                    nameRAM, nameHDD, nameVideocard, nameLocation);
             var result = await _monitoringService.AddProcessListRequest(listProcess, lastLaunch, nameLocation);
             var blackList = await _monitoringService.GetFullBlackList();
             if (id != Guid.Empty)
@@ -54,6 +57,9 @@ public class StudyWatcherHub : Hub
                 await Clients
                     .Client(connectionIdAdmin)
                     .SendAsync("ResponseBlackList", blackList);
+                await Clients
+                    .Client(connectionIdAdmin)
+                    .SendAsync("InfoWorkStation", infoWorkStation, nameLocation);
             }
         }
         catch (Exception e)
@@ -120,15 +126,14 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    public async Task GetProcessListHub( 
+    public async Task<List<string>> GetProcessListHub( 
         string nameLocation, 
-        DateTime lastLaunch, 
-        string connectionIdAdmin)
+        DateTime lastLaunch)
     {
         try
         {
             var result = await _monitoringService.GetFullProcessList(nameLocation, lastLaunch);
-            await Clients.Client(connectionIdAdmin).SendAsync("GetProcessList", result);
+            return result;
         }
         catch (Exception e)
         {
@@ -156,24 +161,17 @@ public class StudyWatcherHub : Hub
 
     // Метод, сообщение об использовании запрещенного ПО - готов
     public async Task GetBannerHub(
-        string processBan,
         string connectionId,
         string connectionIdAdmin)
     {
         try
         {
-            var result = await _monitoringService
-                .GetBannerResponse(processBan);
-            if (result != Guid.Empty)
-            {
-                // Ответ пользователю
-                await Clients
-                    .Client(connectionId)
-                    .SendAsync("OpenBlackListBanner", processBan);
-                // Ответ администатору
-                await Clients.Client(connectionIdAdmin)
-                    .SendAsync("UserUsedBlackListProcess", processBan, connectionId);
-            }
+            
+            await Clients
+                .Client(connectionId)
+                .SendAsync("OpenBlackListBanner");
+            await Clients.Client(connectionIdAdmin)
+                .SendAsync("UserUsedBlackListProcess", connectionId);
         }
         catch (Exception e)
         {
@@ -231,13 +229,13 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    public async Task GetFullProcessWsHub(
+    public async Task<List<ProcessWs>> GetFullProcessWsHub(
         string connectionId)
     {
         try
         {
             var result = await _monitoringService.GetFullProcessWs();
-            await Clients.Client(connectionId).SendAsync("AnovaMethod", result);
+            return result;
         }
         catch (Exception e)
         {

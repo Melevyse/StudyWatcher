@@ -4,6 +4,13 @@ namespace StudyWatcherProject.Contracts;
 
 public interface IMonitoringService
 {
+    Task<List<string>> GetFullInfoWorkStation(
+        string nameMotherboard,
+        string nameCPU,
+        string nameRAM,
+        string nameHDD,
+        string nameVideocard,
+        string nameLocation);
     Task<Guid> AddWorkStationRequest(
         string nameMotherboard,
         string nameCPU,

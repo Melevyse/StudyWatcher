@@ -18,6 +18,39 @@ public class MonitoringRepository : IMonitoringRepository
         _logger = logger;
     }
 
+    public async Task<List<string>> GetInfoWorkStation(
+        string nameMotherboard,
+        string nameCPU,
+        string nameRAM,
+        string nameHDD,
+        string nameVideocard,
+        string nameLocation)
+    {
+        var result = new List<string>();
+        var existingWorkStation = await _context.WorkStation
+            .FirstOrDefaultAsync(x => x.NameLocation == nameLocation);
+        if (existingWorkStation != null)
+        {
+            if (existingWorkStation.NameMotherboard != nameMotherboard) 
+                result.Add(existingWorkStation.NameMotherboard);
+            if (existingWorkStation.NameCPU != nameCPU) 
+                result.Add(existingWorkStation.NameCPU);
+            if (existingWorkStation.NameRAM != nameRAM) 
+                result.Add(existingWorkStation.NameRAM);
+            if (existingWorkStation.NameHDD != nameHDD) 
+                result.Add(existingWorkStation.NameHDD);
+            if (existingWorkStation.NameVideocard != nameVideocard) 
+                result.Add(existingWorkStation.NameVideocard);
+            if (result.Count == 0)
+                result.Add("NONE");
+        }
+        else
+        {
+            result.Add("NONE");
+        }
+        return result ?? throw new ArgumentException("Request is not found in the database");;
+    }
+
     public async Task<WorkStation> AddNewWorkStation(
         string nameMotherboard,
         string nameCPU,
@@ -76,7 +109,7 @@ public class MonitoringRepository : IMonitoringRepository
             _context.ProcessBan.Remove(processBan);
             await _context.SaveChangesAsync();
         }
-        return processBan ?? throw new ArgumentException("Request is not found in the database");;
+        return processBan ?? throw new ArgumentException("Request is not found in the database");
     }
 
     public async Task<ProcessBan> GetBanner(string nameProcessBan)
