@@ -75,6 +75,7 @@ partial class Form1
         // 
         // BlackListWatchTimer
         // 
+        BlackListWatchTimer.Interval = 3000;
         BlackListWatchTimer.Tick += BlackListWatchTimer_Tick;
         // 
         // PictureSend

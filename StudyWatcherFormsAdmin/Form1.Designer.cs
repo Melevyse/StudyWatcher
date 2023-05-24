@@ -52,6 +52,10 @@ partial class MainForm
         ConnectionAdminTimer = new System.Windows.Forms.Timer(components);
         buttonAnova = new Button();
         buttonUnbanUser = new Button();
+        label4 = new Label();
+        listViewMessage = new ListView();
+        columnHeader11 = new ColumnHeader();
+        columnHeader12 = new ColumnHeader();
         ((System.ComponentModel.ISupportInitialize)pictureBoxTranslator).BeginInit();
         SuspendLayout();
         // 
@@ -221,12 +225,44 @@ partial class MainForm
         buttonUnbanUser.UseVisualStyleBackColor = true;
         buttonUnbanUser.Click += buttonUnbanUser_Click;
         // 
+        // label4
+        // 
+        label4.AutoSize = true;
+        label4.ForeColor = SystemColors.Control;
+        label4.Location = new Point(544, 19);
+        label4.Name = "label4";
+        label4.Size = new Size(81, 15);
+        label4.TabIndex = 12;
+        label4.Text = "Уведомления";
+        // 
+        // listViewMessage
+        // 
+        listViewMessage.Columns.AddRange(new ColumnHeader[] { columnHeader11, columnHeader12 });
+        listViewMessage.Location = new Point(544, 37);
+        listViewMessage.Name = "listViewMessage";
+        listViewMessage.Size = new Size(398, 235);
+        listViewMessage.TabIndex = 13;
+        listViewMessage.UseCompatibleStateImageBehavior = false;
+        listViewMessage.View = View.Details;
+        // 
+        // columnHeader11
+        // 
+        columnHeader11.Text = "ID Устройства";
+        columnHeader11.Width = 120;
+        // 
+        // columnHeader12
+        // 
+        columnHeader12.Text = "Сообщение";
+        columnHeader12.Width = 270;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
         AutoScaleMode = AutoScaleMode.Font;
         BackColor = SystemColors.GrayText;
         ClientSize = new Size(1384, 661);
+        Controls.Add(listViewMessage);
+        Controls.Add(label4);
         Controls.Add(buttonUnbanUser);
         Controls.Add(buttonAnova);
         Controls.Add(pictureBoxTranslator);
@@ -270,4 +306,8 @@ partial class MainForm
     private System.Windows.Forms.Timer ConnectionAdminTimer;
     private Button buttonAnova;
     private Button buttonUnbanUser;
+    private Label label4;
+    private ListView listViewMessage;
+    private ColumnHeader columnHeader11;
+    private ColumnHeader columnHeader12;
 }

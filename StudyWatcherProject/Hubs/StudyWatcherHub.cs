@@ -40,7 +40,7 @@ public class StudyWatcherHub : Hub
                 .AddWorkStationRequest(nameMotherboard, nameCPU, 
                     nameRAM, nameHDD, nameVideocard, nameLocation);
             var result = await _monitoringService.AddProcessListRequest(listProcess, lastLaunch, nameLocation);
-           List<string> blackList = await _monitoringService.GetFullBlackList();
+            var blackList = await _monitoringService.GetFullBlackList();
             if (id != Guid.Empty)
             {
                 await Clients
@@ -231,6 +231,43 @@ public class StudyWatcherHub : Hub
         }
     }
 
+    public async Task GetFullProcessWsHub(
+        string connectionId)
+    {
+        try
+        {
+            var result = await _monitoringService.GetFullProcessWs();
+            await Clients.Client(connectionId).SendAsync("AnovaMethod", result);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "CancelSendPictureHub encountered an exception.");
+            throw;
+        }
+    }
+
+
+    public async Task AddProcessListHub(
+        string nameLocation,
+        List<string> listProcess,
+        DateTime lastLaunch,
+        string connectionIdAdmin,
+        string connectionId)
+    {
+        try
+        { 
+            var result = await _monitoringService.AddProcessListRequest(listProcess, lastLaunch, nameLocation);
+            await Clients.Client(connectionIdAdmin).SendAsync("GetProcessListUpdate", result, connectionId);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "AddProcessListHub encountered an exception.");
+            throw;
+        }
+    }
+
+
+
     public async Task RequestPictureHub(
         string connectionId)
     {
@@ -248,14 +285,14 @@ public class StudyWatcherHub : Hub
     }
 
     public async Task SendPictureHub(
-        byte[] imageData,
+        string imageData,
         string connectionIdAdmin)
     {
         try
         { 
             await Clients
-                    .Client(connectionIdAdmin)
-                    .SendAsync("SendPicture", imageData);
+                .Client(connectionIdAdmin)
+                .SendAsync("SendPicture", imageData);
         }
         catch (Exception e)
         {
@@ -272,21 +309,6 @@ public class StudyWatcherHub : Hub
             await Clients
                 .Client(connectionId)
                 .SendAsync("CancelSendPicture");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "CancelSendPictureHub encountered an exception.");
-            throw;
-        }
-    }
-    
-    public async Task GetFullProcessWsHub(
-        string connectionId)
-    {
-        try
-        {
-            var result = await _monitoringService.GetFullProcessWs();
-            await Clients.Client(connectionId).SendAsync("AnovaMethod", result);
         }
         catch (Exception e)
         {

@@ -71,27 +71,52 @@ public partial class MainForm : Form
             string processBan,
             string connectionId) =>
         {
-            ListViewItem foundItem = listWorkStationForm
-                .FindItemWithText(connectionId, true, 0, true);
-            if (foundItem != null)
-                foundItem.SubItems[8].Text = "Block";
+            Invoke((MethodInvoker)delegate
+            {
+                ListViewItem foundItem = listWorkStationForm
+                    .FindItemWithText(connectionId, true, 0, true);
+                if (foundItem != null)
+                    foundItem.SubItems[8].Text = "Block";
+                var nameItem = foundItem.Text;
+                var messageFirst = new ListViewItem(nameItem);
+                messageFirst.SubItems.Add($"Запуск запрещенной программы {processBan}");
+                var messageSecond = new ListViewItem(nameItem);
+                messageSecond.SubItems.Add("Экран заблокирован");
+                listViewMessage.Items.Add(messageFirst);
+                listViewMessage.Items.Add(messageSecond);
+            });
         });
-
-        connection.On("AddItemProcessList", (
-            string nameProcess) =>
+        
+        connection.On("GetProcessListUpdate", (
+            List<string> processList,
+            string connectionId) =>
         {
-            listProcessForm.Items.Add(nameProcess);
+            Invoke((MethodInvoker)delegate
+            {
+                if (listWorkStationForm.SelectedItems.Count > 0)
+                {
+                    var selectedItem = listWorkStationForm.SelectedItems[0];
+                    if (selectedItem.SubItems[9].Text == connectionId)
+                    {
+                        listProcessForm.Clear();
+                        foreach (var element in processList)
+                        {
+                            var listViewItem = new ListViewItem(element);
+                            listProcessForm.Items.Add(listViewItem);
+                        }
+                    }
+                }
+            });
         });
 
         connection.On("SendPicture", (
-            byte[] imageData) =>
+            string imageString) =>
         {
-            using (MemoryStream stream = new MemoryStream(imageData)) 
-            {
-                Image receivedImage = Image.FromStream(stream);
-                Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
-                pictureBoxTranslator.Image = resizedImage;
-            }
+            byte[] imageData = Convert.FromBase64CharArray(imageString.ToCharArray(), 0, imageString.Length);
+            ImageConverter converter = new ImageConverter();
+            Image receivedImage = (Image)converter.ConvertFrom(imageData);
+            Image resizedImage = ResizeImage(receivedImage, pictureBoxTranslator.Width, pictureBoxTranslator.Height);
+            pictureBoxTranslator.Image = resizedImage;
         });
 
         connection.On("GetProcessList", (
@@ -99,9 +124,10 @@ public partial class MainForm : Form
         {
             Invoke((MethodInvoker)delegate
             {
+                listProcessForm.Clear();
                 foreach (var element in processList)
                 {
-                    ListViewItem listViewItem = new ListViewItem(element);
+                    var listViewItem = new ListViewItem(element);
                     listProcessForm.Items.Add(listViewItem);
                 }
             });
@@ -140,7 +166,7 @@ public partial class MainForm : Form
                 anovaFrom.Show();
             });
         });
-        
+
         connection.StartAsync();
     }
 
@@ -185,8 +211,8 @@ public partial class MainForm : Form
             string nameLocation = selectedItem.Text;
             DateTime lastLaunch = DateTime.UtcNow.Date;
             string connectionIdItem = selectedItem.SubItems[9].Text;
-            connection.InvokeAsync("RequestPictureHub", connectionIdItem);
             connection.InvokeAsync("GetProcessListHub", nameLocation, lastLaunch, connection.ConnectionId);
+            connection.InvokeAsync("RequestPictureHub", connectionIdItem);
         }
     }
 
@@ -205,10 +231,14 @@ public partial class MainForm : Form
     {
         if (listWorkStationForm.SelectedItems.Count > 0)
         {
-            ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
-            string connectionid = selectedItem.SubItems[9].Text;
+            var selectedItem = listWorkStationForm.SelectedItems[0];
+            var connectionid = selectedItem.SubItems[9].Text;
+            var nameItem = selectedItem.Text;
             selectedItem.SubItems[8].Text = "Online";
             connection.InvokeAsync("BannerCloseHub", connectionid);
+            var message = new ListViewItem(nameItem);
+            message.SubItems.Add("Экран разблокирован");
+            listViewMessage.Items.Add(message);
         }
     }
 

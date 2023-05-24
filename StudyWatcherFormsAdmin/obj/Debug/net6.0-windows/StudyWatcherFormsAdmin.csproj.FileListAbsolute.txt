@@ -57,3 +57,4 @@ C:\Users\ar4bo\RiderProjects\StudyWatcher\StudyWatcherFormsAdmin\bin\Debug\net6.
 C:\Users\ar4bo\RiderProjects\StudyWatcher\StudyWatcherFormsAdmin\bin\Debug\net6.0-windows\zh-CN\ZedGraph.resources.dll
 C:\Users\ar4bo\RiderProjects\StudyWatcher\StudyWatcherFormsAdmin\bin\Debug\net6.0-windows\zh-TW\ZedGraph.resources.dll
 C:\Users\ar4bo\RiderProjects\StudyWatcher\StudyWatcherFormsAdmin\obj\Debug\net6.0-windows\StudyWatcherFormsAdmin.AnovaFrom.resources
+C:\Users\ar4bo\RiderProjects\StudyWatcher\StudyWatcherFormsAdmin\obj\Debug\net6.0-windows\StudyWatcherFormsAdmin.Properties.Resources.resources

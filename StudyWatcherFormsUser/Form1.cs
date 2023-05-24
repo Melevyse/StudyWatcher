@@ -70,7 +70,21 @@ public partial class Form1 : Form
 
         connection.On("RequestPicture", () =>
         {
-            PictureSend.Start();
+            // PictureSend.Start();
+            using (Bitmap screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+            {
+                using (Graphics graphics = Graphics.FromImage(screenshot))
+                {
+                    graphics.CopyFromScreen(0, 0, 0, 0, screenshot.Size);
+                }
+
+                // Сохраняем изображение в массив байтов
+                ImageConverter converter = new ImageConverter();
+                byte[] imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
+                string imageString = Convert.ToBase64String(imageBytes);
+
+                connection.InvokeAsync("SendPictureHub", imageBytes, connectionIdAdmin);
+            }
         });
 
         connection.On("CancelSendPicture", () =>
@@ -157,8 +171,16 @@ public partial class Form1 : Form
 
     private void BlackListWatchTimer_Tick(object sender, EventArgs e)
     {
+        string nameLocation = "Г301 #3";
+        DateTime lastLaunch = DateTime.UtcNow.Date;
         _systemManager.systemListProcess();
         bool elementFound = false;
+        connection.InvokeAsync("AddProcessListHub", 
+            nameLocation,
+            _systemManager.listProcess,
+            lastLaunch,
+            connectionIdAdmin,
+            connection.ConnectionId);
         foreach (var process in _systemManager.listProcess)
         {
             foreach (var processBan in BlackList)
@@ -176,19 +198,16 @@ public partial class Form1 : Form
 
     private void PictureSend_Tick(object sender, EventArgs e)
     {
-        Bitmap screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
-        using (Graphics graphics = Graphics.FromImage(screenshot))
+        using (Bitmap screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
         {
-            graphics.CopyFromScreen(0, 0, 0, 0, screenshot.Size);
-        }
+            using (Graphics graphics = Graphics.FromImage(screenshot))
+            {
+                graphics.CopyFromScreen(0, 0, 0, 0, screenshot.Size);
+            }
+            ImageConverter converter = new ImageConverter();
+            byte[] imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
 
-        byte[] imageBytes;
-        using (MemoryStream ms = new MemoryStream())
-        {
-            screenshot.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
-            imageBytes = ms.ToArray();
+            connection.InvokeAsync("SendPictureHub", imageBytes, connectionIdAdmin);
         }
-        
-        connection.InvokeAsync("SendPictureHub", imageBytes, connectionIdAdmin);
     }
 }
