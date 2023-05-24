@@ -280,13 +280,13 @@ public class StudyWatcherHub : Hub
         }
     }
     
-    public async Task<List<ProcessWs>> GetFullProcessWsHub(
+    public async Task GetFullProcessWsHub(
         string connectionId)
     {
         try
         {
             var result = await _monitoringService.GetFullProcessWs();
-            return result;
+            await Clients.Client(connectionId).SendAsync("AnovaMethod", result);
         }
         catch (Exception e)
         {

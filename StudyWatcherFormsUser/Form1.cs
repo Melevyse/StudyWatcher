@@ -117,7 +117,7 @@ public partial class Form1 : Form
     {
         if (connectionIdAdmin != null)
         {
-            string nameLocation = "Г301 #1";
+            string nameLocation = "Г301 #3";
             DateTime lastLaunch = DateTime.UtcNow.Date;
             var connectionId = connection.ConnectionId;
             connection.InvokeAsync("AddWorkStationHub",

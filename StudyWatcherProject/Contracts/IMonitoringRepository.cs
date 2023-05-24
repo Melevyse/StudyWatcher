@@ -32,6 +32,7 @@ public interface IMonitoringRepository
         string nameLocation);
 
     Task<List<string>> GetBlackList();
+    
     Task<List<string>> GetProcessList(
         string nameLocation, 
         DateTime lastLaunch);

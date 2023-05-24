@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Xml;
+using StudyWatcherProject.Models;
 
 
 namespace StudyWatcherFormsAdmin;
@@ -125,6 +126,21 @@ public partial class MainForm : Form
                 }
             });
         });
+
+        connection.On("AnovaMethod", (
+            List<ProcessWs> listProcessWs) =>
+        {
+            Invoke((MethodInvoker)delegate
+            {
+                var anovaAlgorithm = new AnovaAlgorithm(listProcessWs);
+                var nameProcessList = anovaAlgorithm.processArray;
+                var countProcessList = anovaAlgorithm.rowSums;
+                var anovaTable = anovaAlgorithm.anovaResult.Table;
+                var anovaFrom = new AnovaFrom(nameProcessList, countProcessList, anovaTable);
+                anovaFrom.Show();
+            });
+        });
+        
         connection.StartAsync();
     }
 
@@ -209,6 +225,6 @@ public partial class MainForm : Form
 
     private void buttonAnova_Click(object sender, EventArgs e)
     {
-
+        connection.InvokeAsync("GetFullProcessWsHub", connection.ConnectionId);
     }
 }

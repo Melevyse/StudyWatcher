@@ -40,6 +40,18 @@
         "net6.0-windows7.0": {
           "targetAlias": "net6.0-windows",
           "dependencies": {
+            "Accord": {
+              "target": "Package",
+              "version": "[3.8.2-alpha, )"
+            },
+            "Accord.Controls": {
+              "target": "Package",
+              "version": "[3.8.2-alpha, )"
+            },
+            "Accord.Statistics": {
+              "target": "Package",
+              "version": "[3.8.2-alpha, )"
+            },
             "Microsoft.AspNetCore.SignalR.Client": {
               "target": "Package",
               "version": "[8.0.0-preview.3.23177.8, )"
