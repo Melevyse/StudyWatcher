@@ -205,4 +205,15 @@ public class MonitoringRepository : IMonitoringRepository
         }
         return result ?? throw new ArgumentException("No record in database");
     }
+
+    public async Task<List<WorkStation>> GetWorkStation()
+    {
+        var result = new List<WorkStation>();
+        var check = await _context.WorkStation.ToListAsync();
+        foreach (var element in check)
+        {
+            result.Add(element);
+        }
+        return result ?? throw new ArgumentException("No record in database");
+    }
 }

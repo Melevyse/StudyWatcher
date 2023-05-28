@@ -45,4 +45,5 @@ public interface IMonitoringRepository
         DateTime lastLaunch);
 
     Task<List<ProcessWs>> GetProcessWs();
+    Task<List<WorkStation>> GetWorkStation();
 }

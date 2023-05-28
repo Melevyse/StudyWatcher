@@ -18,8 +18,10 @@ public class AnovaAlgorithm
 
     public void anovaCollectionFromation()
     {
-        List<string> distinctProcesses = processList.Select(p => p.NameProcess).Distinct().ToList();
-        List<string> distinctLocations = processList.Select(p => p.NameLocation).Distinct().ToList();
+        List<string> distinctProcesses = processList
+            .Select(p => p.NameProcess).Distinct().ToList();
+        List<string> distinctLocations = processList
+            .Select(p => p.NameLocation).Distinct().ToList();
 
         List<List<double>> groups = new List<List<double>>();
         double[,] matrix = new double[distinctProcesses.Count, distinctLocations.Count];
@@ -31,11 +33,15 @@ public class AnovaAlgorithm
             foreach (string location in distinctLocations)
             {
                 int countLaunch =
-                    processList.FirstOrDefault(p => p.NameProcess == process && p.NameLocation == location)
+                    processList
+                        .FirstOrDefault(p =>
+                            p.NameProcess == process &&
+                            p.NameLocation == location)
                         ?.CountLaunch ?? 0;
                 processGroup.Add(countLaunch);
 
-                matrix[distinctProcesses.IndexOf(process), distinctLocations.IndexOf(location)] = countLaunch;
+                matrix[distinctProcesses.IndexOf(process), 
+                    distinctLocations.IndexOf(location)] = countLaunch;
             }
 
             groups.Add(processGroup);
@@ -67,7 +73,8 @@ public class AnovaAlgorithm
 
         public OneWayAnova ApplyAnova(List<List<double>> groups)
         {
-            double[][] data = groups.Select(g => g.Select(Convert.ToDouble).ToArray()).ToArray();
+            double[][] data = groups.Select(g =>
+                g.Select(Convert.ToDouble).ToArray()).ToArray();
 
             OneWayAnova anova = new OneWayAnova(data);
 
@@ -77,7 +84,8 @@ public class AnovaAlgorithm
         public List<ProcessAnova> ConvertToProcesAnova(List<ProcessWs> processWsList)
         {
             List<ProcessAnova> result = new List<ProcessAnova>();
-            var groupedProcesses = processWsList.GroupBy(p => new { p.NameProcess, p.NameLocation });
+            var groupedProcesses = processWsList
+                .GroupBy(p => new { p.NameProcess, p.NameLocation });
 
             foreach (var group in groupedProcesses)
             {

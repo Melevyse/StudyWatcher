@@ -40,12 +40,15 @@ public partial class Form1 : Form
         AcceptButton.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - 50,
             (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2));
 
-        connection.On("CloseStartBanner", (string resultFio, string resultGroup) =>
+        connection.On("CloseStartBanner", 
+            (string resultFio, 
+                string resultGroup) =>
         {
             Invoke((MethodInvoker)delegate
             {
                 BannerTopMost.Stop();
-                MessageBox.Show($"Здравствуйте, {resultFio}!\nГруппа:{resultGroup}", "Авторизация успешно завершена");
+                MessageBox.Show($"Здравствуйте, {resultFio}!\nГруппа:{resultGroup}",
+                    "Авторизация успешно завершена");
                 this.Hide();
                 BlackListWatchTimer.Start();
             });
@@ -140,7 +143,8 @@ public partial class Form1 : Form
     {
         if (loginTextBox.Text != "" && passwordTextBox.Text != "")
         {
-            var result = connection.InvokeAsync<bool>("GetAuthorizationUserHub",
+            var result = connection
+                .InvokeAsync<bool>("GetAuthorizationUserHub",
                 loginTextBox.Text, passwordTextBox.Text, connectionIdAdmin);
             if (result.GetAwaiter().GetResult() != true)
                 MessageBox.Show("Неправильный логин или пароль");
@@ -161,34 +165,15 @@ public partial class Form1 : Form
             lastLaunch,
             connectionIdAdmin,
             connection.ConnectionId);
-        /*
-        foreach (var process in _systemManager.listProcess)
-        {
-            foreach (var processBan in BlackList)
-            {
-                if (string.Equals(process, processBan))
-                {
-                    connection.InvokeAsync("GetBannerHub", processBan);
-                    elementFound = true;
-                }
-            }
-            if (elementFound == true)
-            {
-                banner.labelErrorP1.Text = $"Использовано запрещенное программное обеспечение: {process}";
-                banner.Show();
-                break;
-            }
-        }
-        */
         IEnumerable<string> inFirstOnly = _systemManager.listProcess.Except(BlackList);
         if (inFirstOnly.Count() < _systemManager.listProcess.Count())
         {
-            connection.InvokeAsync("GetBannerHub",connection.ConnectionId, connectionIdAdmin);
+            connection.InvokeAsync("GetBannerHub",
+                connection.ConnectionId, connectionIdAdmin);
             banner.labelErrorP1.Text = "Использовано запрещенное программное обеспечение";
             banner.Show();
             BlackListWatchTimer.Stop();
         }
-
     }
 
     private void PictureSend_Tick(object sender, EventArgs e)
@@ -201,8 +186,10 @@ public partial class Form1 : Form
             }
             ImageConverter converter = new ImageConverter();
             byte[] imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
+            
+            string base64String = Convert.ToBase64String(imageBytes);
 
-            connection.InvokeAsync("SendPictureHub", imageBytes, connectionIdAdmin);
+            connection.InvokeAsync("SendPictureHub", base64String, connectionIdAdmin);
         }
     }
 }

@@ -42,7 +42,8 @@ public class StudyWatcherHub : Hub
             var infoWorkStation = await _monitoringService
                 .GetFullInfoWorkStation(nameMotherboard, nameCPU, 
                     nameRAM, nameHDD, nameVideocard, nameLocation);
-            var result = await _monitoringService.AddProcessListRequest(listProcess, lastLaunch, nameLocation);
+            var result = await _monitoringService
+                .AddProcessListRequest(listProcess, lastLaunch, nameLocation);
             var blackList = await _monitoringService.GetFullBlackList();
             if (id != Guid.Empty)
             {
@@ -254,8 +255,10 @@ public class StudyWatcherHub : Hub
     {
         try
         { 
-            var result = await _monitoringService.AddProcessListRequest(listProcess, lastLaunch, nameLocation);
-            await Clients.Client(connectionIdAdmin).SendAsync("GetProcessListUpdate", result, connectionId);
+            var result = await _monitoringService
+                .AddProcessListRequest(listProcess, lastLaunch, nameLocation);
+            await Clients.Client(connectionIdAdmin)
+                .SendAsync("GetProcessListUpdate", result, connectionId);
         }
         catch (Exception e)
         {
@@ -264,7 +267,19 @@ public class StudyWatcherHub : Hub
         }
     }
 
-
+    public async Task<List<WorkStation>> GetAllWorkStationHub() 
+    {
+        try
+        {
+            var result = await _monitoringService.GetFullWorkStation();
+            return result;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "RequestPictureHub encountered an exception.");
+            throw;
+        }
+    }
 
     public async Task RequestPictureHub(
         string connectionId)

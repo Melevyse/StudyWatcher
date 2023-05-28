@@ -38,4 +38,5 @@ public interface IMonitoringService
         string nameLocation, 
         DateTime lastLaunch);
     Task<List<ProcessWs>> GetFullProcessWs();
+    Task<List<WorkStation>> GetFullWorkStation();
 }

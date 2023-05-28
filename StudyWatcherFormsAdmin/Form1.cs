@@ -39,29 +39,27 @@ public partial class MainForm : Form
         {
             BeginInvoke((MethodInvoker)delegate
             {
-                var workStation = new WorkStation();
-                workStation.NameLocation = nameLocation;
-                workStation.Fio = "-";
-                workStation.Group = "-";
-                workStation.NameMotherboard = nameMotherboard;
-                workStation.NameCPU = nameCPU;
-                workStation.NameRAM = nameRAM;
-                workStation.NameHDD = nameHDD;
-                workStation.NameVideocard = nameVideocard;
-                workStation.Status = Status.Login;
-                workStation.ConnectionId = connectionId;
-                WorkStations.Add(workStation);
-                var result = new ListViewItem(workStation.NameLocation);
-                result.SubItems.Add(workStation.Fio);
-                result.SubItems.Add(workStation.Group);
-                result.SubItems.Add(workStation.NameMotherboard);
-                result.SubItems.Add(workStation.NameCPU);
-                result.SubItems.Add(workStation.NameRAM);
-                result.SubItems.Add(workStation.NameHDD);
-                result.SubItems.Add(workStation.NameVideocard);
-                result.SubItems.Add(workStation.Status.ToString());
-                result.SubItems.Add(workStation.ConnectionId);
-                listWorkStationForm.Items.Add(result);
+                var workStation = WorkStations
+                    .FirstOrDefault(x => x.NameLocation == nameLocation);
+                if (workStation != null)
+                {
+                    var workStationViewItem = listWorkStationForm
+                        .FindItemWithText(workStation.NameLocation, true, 0);
+                    workStation.NameMotherboard = nameMotherboard;
+                    workStation.NameCPU = nameCPU;
+                    workStation.NameRAM = nameRAM;
+                    workStation.NameHDD = nameHDD;
+                    workStation.NameVideocard = nameVideocard;
+                    workStation.Status = Status.Login;
+                    workStation.ConnectionId = connectionId;
+                    workStationViewItem.SubItems[3].Text = workStation.NameMotherboard;
+                    workStationViewItem.SubItems[4].Text = workStation.NameCPU;
+                    workStationViewItem.SubItems[5].Text = workStation.NameRAM;
+                    workStationViewItem.SubItems[6].Text = workStation.NameHDD;
+                    workStationViewItem.SubItems[7].Text = workStation.NameVideocard;
+                    workStationViewItem.SubItems[8].Text = workStation.Status.ToString();
+                    workStationViewItem.SubItems[9].Text = workStation.ConnectionId;
+                }
             });
         });
 
@@ -104,11 +102,13 @@ public partial class MainForm : Form
         {
             BeginInvoke((MethodInvoker)delegate
             {
-                var workStation = WorkStations.FirstOrDefault(x => x.ConnectionId == connectionId);
+                var workStation = WorkStations
+                    .FirstOrDefault(x => x.ConnectionId == connectionId);
                 workStation.Fio = fio;
                 workStation.Group = group;
                 workStation.Status = Status.Online;
-                var listViewItem = listWorkStationForm.FindItemWithText(workStation.ConnectionId, true, 0);
+                var listViewItem = listWorkStationForm
+                    .FindItemWithText(workStation.ConnectionId, true, 0);
                 listViewItem.SubItems[1].Text = workStation.Fio;
                 listViewItem.SubItems[2].Text = workStation.Group;
                 listViewItem.SubItems[8].Text = workStation.Status.ToString();
@@ -120,9 +120,11 @@ public partial class MainForm : Form
         {
             BeginInvoke((MethodInvoker)delegate
             {
-                var workStation = WorkStations.FirstOrDefault(x => x.ConnectionId == connectionId);
+                var workStation = WorkStations
+                    .FirstOrDefault(x => x.ConnectionId == connectionId);
                 workStation.Status = Status.Block;
-                var workStationViewItem = listWorkStationForm.FindItemWithText(workStation.ConnectionId, true, 0);
+                var workStationViewItem = listWorkStationForm
+                    .FindItemWithText(workStation.ConnectionId, true, 0);
                 workStationViewItem.SubItems[8].Text = workStation.Status.ToString();
                 
                 var resultFirst = new InfoWorkStation();
@@ -132,15 +134,6 @@ public partial class MainForm : Form
                 var itemFirst = new ListViewItem(resultFirst.NameLocation);
                 itemFirst.SubItems.Add(resultFirst.infoList);
                 listViewMessage.Items.Add(itemFirst);
-                /*
-                var resultSecond = new InfoWorkStation();
-                resultSecond.NameLocation = workStation.NameLocation;
-                resultSecond.infoList = "Экран заблокирован";
-                InfoWorkStationList.Add(resultSecond);
-                var itemSecond = new ListViewItem(resultSecond.NameLocation);
-                itemFirst.SubItems.Add(resultSecond.infoList);
-                listViewMessage.Items.Add(itemSecond);
-                */
             });
         });
         
@@ -148,17 +141,21 @@ public partial class MainForm : Form
             List<string> processList,
             string connectionId) =>
         {
-            var workStation = WorkStations.FirstOrDefault(x => x.ConnectionId == connectionId);
+            var workStation = WorkStations
+                .FirstOrDefault(x => x.ConnectionId == connectionId);
             workStation.ProcessList = processList;
         });
 
         connection.On("SendPicture", (
             string imageString) =>
         {
-            byte[] imageData = Convert.FromBase64CharArray(imageString.ToCharArray(), 0, imageString.Length);
-            ImageConverter converter = new ImageConverter();
-            Image receivedImage = (Image)converter.ConvertFrom(imageData);
-            pictureBoxTranslator.Image = receivedImage;
+            byte[] imageData = Convert.FromBase64String(imageString);
+
+            using (MemoryStream ms = new MemoryStream(imageData))
+            {
+                Image receivedImage = Image.FromStream(ms);
+                pictureBoxTranslator.Image = receivedImage;
+            }
         });
 
         connection.On("ResponseBlackList", (
@@ -178,9 +175,37 @@ public partial class MainForm : Form
         connection.StartAsync();
     }
 
-    private void MainForm_Load(object sender, EventArgs e)
+    private async void MainForm_Load(object sender, EventArgs e)
     {
         ConnectionAdminTimer.Start();
+        var objects = await connection
+            .InvokeAsync<List<WorkStationSo>>("GetAllWorkStationHub");
+        foreach (var elemet in objects)
+        {
+            var workStation = new WorkStation();
+            workStation.NameLocation = elemet.NameLocation;
+            workStation.Fio = "-";
+            workStation.Group = "-";
+            workStation.NameMotherboard = elemet.NameMotherboard;
+            workStation.NameCPU = elemet.NameCPU;
+            workStation.NameRAM = elemet.NameRAM;
+            workStation.NameHDD = elemet.NameHDD;
+            workStation.NameVideocard = elemet.NameVideocard;
+            workStation.Status = Status.Offline;
+            workStation.ConnectionId = "";
+            WorkStations.Add(workStation);
+            var result = new ListViewItem(workStation.NameLocation);
+            result.SubItems.Add(workStation.Fio);
+            result.SubItems.Add(workStation.Group);
+            result.SubItems.Add(workStation.NameMotherboard);
+            result.SubItems.Add(workStation.NameCPU);
+            result.SubItems.Add(workStation.NameRAM);
+            result.SubItems.Add(workStation.NameHDD);
+            result.SubItems.Add(workStation.NameVideocard);
+            result.SubItems.Add(workStation.Status.ToString());
+            result.SubItems.Add(workStation.ConnectionId);
+            listWorkStationForm.Items.Add(result);
+        }
     }
 
     private void buttonAddProcessBan_Click(object sender, EventArgs e)
@@ -210,7 +235,8 @@ public partial class MainForm : Form
             var result = await connection
                 .InvokeAsync<List<string>>("GetProcessListHub", 
                 nameLocation, lastLaunch);
-            var workStation = WorkStations.FirstOrDefault(x => x.NameLocation == nameLocation);
+            var workStation = WorkStations
+                .FirstOrDefault(x => x.NameLocation == nameLocation);
             workStation.ProcessList = result;
             listProcessForm.Items.Clear();
             foreach (var element in workStation.ProcessList)
@@ -219,7 +245,7 @@ public partial class MainForm : Form
                 listProcessForm.Items.Add(resultItem);
             }
             
-            //connection.InvokeAsync("RequestPictureHub", connectionIdItem);
+            connection.InvokeAsync("RequestPictureHub", workStation.ConnectionId);
         }
     }
 
@@ -230,7 +256,8 @@ public partial class MainForm : Form
             var selectedItem = listWorkStationForm.SelectedItems[0];
             if (selectedItem.SubItems[8].Text == Status.Block.ToString())
             {
-                var workStation = WorkStations.FirstOrDefault(x => x.NameLocation == selectedItem.Text);
+                var workStation = WorkStations
+                    .FirstOrDefault(x => x.NameLocation == selectedItem.Text);
                 workStation.Status = Status.Online;
                 selectedItem.SubItems[8].Text = workStation.Status.ToString();
                 connection.InvokeAsync("BannerCloseHub", workStation.ConnectionId);
@@ -259,7 +286,8 @@ public partial class MainForm : Form
 
     private async void buttonAnova_Click(object sender, EventArgs e)
     {
-        ProcessWsList = await connection.InvokeAsync<List<ProcessWs>>("GetFullProcessWsHub", connection.ConnectionId);
+        ProcessWsList = await connection
+            .InvokeAsync<List<ProcessWs>>("GetFullProcessWsHub", connection.ConnectionId);
         var anovaAlgorithm = new AnovaAlgorithm(ProcessWsList);
         var nameProcessList = anovaAlgorithm.processArray;
         var countProcessList = anovaAlgorithm.rowSums;

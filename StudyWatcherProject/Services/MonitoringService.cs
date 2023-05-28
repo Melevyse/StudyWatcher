@@ -86,7 +86,15 @@ public class MonitoringService : IMonitoringService
     
     public async Task<List<ProcessWs>> GetFullProcessWs()
     {
-        var result = await _repositories.GetProcessWs();
+        var result = await _repositories
+            .GetProcessWs();
+        return result;
+    }
+
+    public async Task<List<WorkStation>> GetFullWorkStation()
+    {
+        var result = await _repositories
+            .GetWorkStation();
         return result;
     }
 }
