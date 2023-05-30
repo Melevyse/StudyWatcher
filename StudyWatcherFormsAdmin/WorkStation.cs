@@ -16,7 +16,7 @@ public class WorkStation
     public string ConnectionId { get; set; }
     public List<string> ProcessList { get; set; }
 
-    public ListViewItem workStationAdd(
+    public ListViewItem WorkStationAdd(
         string fio,
         string group,
         string nameMotherboard,
@@ -51,14 +51,13 @@ public class WorkStation
         return result;
     }
 
-    public void workStationUpdate(
+    public void WorkStationUpdate(
         string nameMotherboard,
         string nameCPU,
         string nameRAM,
         string nameHDD,
         string nameVideocard,
         Status status,
-        string nameLocation,
         string connectionId,
         ListView listView)
     {
@@ -80,14 +79,14 @@ public class WorkStation
         workStationViewItem.SubItems[9].Text = connectionId;
     }
 
-    public void workStationUpdate(
+    public void WorkStationUpdate(
         string fio,
         string group,
         Status status,
         ListView listView)
     {
         var workStationViewItem = listView
-            .FindItemWithText(this.ConnectionId, true, 0);
+            .FindItemWithText(this.NameLocation, true, 0);
         this.Fio = fio;
         this.Group = group;
         this.Status = status;
@@ -96,10 +95,13 @@ public class WorkStation
         workStationViewItem.SubItems[8].Text = status.ToString();
     }
 
-    public void workStationUpdate(
+    public void WorkStationUpdate(
         Status status,
         ListView listView)
     {
-        
+        var workStationViewItem = listView
+            .FindItemWithText(this.NameLocation, true, 0);
+        this.Status = status;
+        workStationViewItem.SubItems[8].Text = status.ToString();
     }
 }

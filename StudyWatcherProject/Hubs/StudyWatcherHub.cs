@@ -20,8 +20,7 @@ public class StudyWatcherHub : Hub
         _authorizationUserService = authorizationUserService;
         _logger = logger;
     }
-
-    // Метод, создание нового компьютера - не готов
+    
     public async Task AddWorkStationHub(
         string nameMotherboard,
         string nameCPU,
@@ -69,8 +68,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-
-    // Метод, авторизации пользователя - готов
+    
     public async Task<bool> GetAuthorizationUserHub(
         string userLogin,
         string userPassword,
@@ -87,11 +85,9 @@ public class StudyWatcherHub : Hub
                     .GetUserFioResponse(userLogin, userPassword);
                 var resultGroup = await _authorizationUserService
                     .GetUserGroupResponse(userLogin, userPassword);
-                // Ответ пользователю об успешной авторизации
                 await Clients
                     .Client(connectionId)
                     .SendAsync("CloseStartBanner", resultFio, resultGroup);
-                // Ответ администратору
                 await Clients
                     .Client(connectionIdAdmin)
                     .SendAsync("AddItemUser", resultFio, resultGroup, connectionId);
@@ -110,8 +106,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-
-    // Метод, для сохранения идентификатора подключения администратора - готов
+    
     public async Task GetAdminConnectionIdHub()
     {
         try
@@ -159,8 +154,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-
-    // Метод, сообщение об использовании запрещенного ПО - готов
+    
     public async Task GetBannerHub(
         string connectionId,
         string connectionIdAdmin)
@@ -181,16 +175,13 @@ public class StudyWatcherHub : Hub
         }
     }
     
-    // Метод, который убирает баннер у пользователя - готов
     public async Task BannerCloseHub(string connectionId)
     {
         await Clients
             .Client(connectionId)
             .SendAsync("CloseBlackListBanner");
     }
-
-
-    // Метод, который добаляет новый запрещенный процесс - не готов
+    
     public async Task AddProcessListBanHub(
         string processBan,
         string connectionIdAdmin)

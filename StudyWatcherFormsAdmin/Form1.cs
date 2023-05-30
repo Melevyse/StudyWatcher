@@ -43,16 +43,16 @@ public partial class MainForm : Form
                     .FirstOrDefault(x => x.NameLocation == nameLocation);
                 if (workStationItem != null)
                 {
-                    workStationItem.workStationUpdate(nameMotherboard, nameCPU, nameRAM, 
+                    workStationItem.WorkStationUpdate(nameMotherboard, nameCPU, nameRAM, 
                             nameHDD, nameVideocard, Status.Login, 
-                            nameLocation, connectionId, listWorkStationForm);
+                            connectionId, listWorkStationForm);
                 }
                 else
                 { 
                     var workStation = new WorkStation();
                     
                     var result = workStation
-                        .workStationAdd(
+                        .WorkStationAdd(
                             "-", "-", nameMotherboard, 
                             nameCPU, nameRAM, nameHDD, 
                             nameVideocard, Status.Login, nameLocation, connectionId);
@@ -70,10 +70,8 @@ public partial class MainForm : Form
             {
                 if (infoWorkStation.First() == "NONE")
                 {
-                    var result = new InfoWorkStation();
+                    InfoWorkStation result;
                     var itemFound = false;
-                    result.NameLocation = nameLocation;
-
                     foreach (var element in WorkStations)
                     {
                         if (element.NameLocation == nameLocation)
@@ -83,25 +81,25 @@ public partial class MainForm : Form
                         }
                     }
                     if (itemFound)
-                        result.infoList = "Запустился в прежней конфигурации";
+                    {
+                        result = new InfoWorkStation(
+                            nameLocation, "Запустился в прежней конфигурации",listViewMessage);
+                        InfoWorkStationList.Add(result);
+                    }
                     else
-                        result.infoList = "Новое устройство";
-                    InfoWorkStationList.Add(result);
-                    var resultView = new ListViewItem(result.NameLocation);
-                    resultView.SubItems.Add(result.infoList);
-                    listViewMessage.Items.Add(resultView);
+                    {
+                        result = new InfoWorkStation(
+                            nameLocation, "Новое устройство",listViewMessage);
+                        InfoWorkStationList.Add(result);
+                    }
                 }
                 else
                 {
                     foreach (var element in infoWorkStation)
                     {
-                        var resultItem = new InfoWorkStation();
-                        resultItem.NameLocation = nameLocation;
-                        resultItem.infoList = $"Компонент был утрачен или заменен: {element}";
+                        var resultItem = new InfoWorkStation(
+                            nameLocation, $"Компонент был утрачен или заменен: {element}", listViewMessage);
                         InfoWorkStationList.Add(resultItem);
-                        var resultItemView = new ListViewItem(resultItem.NameLocation);
-                        resultItemView.SubItems.Add(resultItem.NameLocation);
-                        listViewMessage.Items.Add(resultItemView);
                     }
                 }
             });
@@ -118,7 +116,7 @@ public partial class MainForm : Form
                 {
                     var workStationViewItem = listWorkStationForm
                         .FindItemWithText(workStation.ConnectionId, true, 0);
-                    workStation.workStationUpdate("-", "-", 
+                    workStation.WorkStationUpdate("-", "-", 
                         Status.Offline, listWorkStationForm);
                     WorkStations.Remove(workStation);
                 }
@@ -134,7 +132,7 @@ public partial class MainForm : Form
             {
                 var workStation = WorkStations
                     .FirstOrDefault(x => x.ConnectionId == connectionId);
-                workStation.workStationUpdate(fio, group, 
+                workStation.WorkStationUpdate(fio, group, 
                     Status.Online, listWorkStationForm);
             });
         });
@@ -146,18 +144,10 @@ public partial class MainForm : Form
             {
                 var workStation = WorkStations
                     .FirstOrDefault(x => x.ConnectionId == connectionId);
-                workStation.Status = Status.Block;
-                var workStationViewItem = listWorkStationForm
-                    .FindItemWithText(workStation.ConnectionId, true, 0);
-                workStationViewItem.SubItems[8].Text = workStation.Status.ToString();
-                
-                var resultFirst = new InfoWorkStation();
-                resultFirst.NameLocation = workStation.NameLocation;
-                resultFirst.infoList = "Запуск запрещенной программы, экран заблокирован";
+                workStation.WorkStationUpdate(Status.Block, listWorkStationForm);
+                var resultFirst = new InfoWorkStation(
+                    workStation.NameLocation, "Запуск запрещенной программы, экран заблокирован", listViewMessage);
                 InfoWorkStationList.Add(resultFirst);
-                var itemFirst = new ListViewItem(resultFirst.NameLocation);
-                itemFirst.SubItems.Add(resultFirst.infoList);
-                listViewMessage.Items.Add(itemFirst);
             });
         });
         
@@ -208,7 +198,7 @@ public partial class MainForm : Form
         {
             var workStation = new WorkStation();
             var result = workStation
-                .workStationAdd(
+                .WorkStationAdd(
                 "-", "-", elemet.NameMotherboard, 
                 elemet.NameCPU, elemet.NameRAM, elemet.NameHDD, 
                 elemet.NameVideocard, Status.Offline, 
@@ -269,16 +259,11 @@ public partial class MainForm : Form
             {
                 var workStation = WorkStations
                     .FirstOrDefault(x => x.NameLocation == selectedItem.Text);
-                workStation.Status = Status.Online;
-                selectedItem.SubItems[8].Text = workStation.Status.ToString();
+                workStation.WorkStationUpdate(Status.Online, listWorkStationForm);
                 connection.InvokeAsync("BannerCloseHub", workStation.ConnectionId);
-                var infoWorkStation = new InfoWorkStation();
-                infoWorkStation.NameLocation = workStation.NameLocation;
-                infoWorkStation.infoList = "Экран разблокирован";
+                var infoWorkStation = new InfoWorkStation(
+                    workStation.NameLocation, "Экран разблокирован", listViewMessage);
                 InfoWorkStationList.Add(infoWorkStation);
-                var message = new ListViewItem(infoWorkStation.NameLocation);
-                message.SubItems.Add(infoWorkStation.infoList);
-                listViewMessage.Items.Add(message);
             }
         }
     }
