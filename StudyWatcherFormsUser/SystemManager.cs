@@ -89,7 +89,7 @@ public class SystemManager
             if (iter != 0)
                 result += ", ";
             string memory = (Convert.ToInt64(obj["AdapterRAM"]) / (1024 * 1024 * 1024)).ToString();
-            result += obj["Name"] + " " + obj["AdapterRAM"];
+            result += obj["Name"] + " " + memory + " ГБ";
             iter++;
         }
         this.nameVideocard = result;

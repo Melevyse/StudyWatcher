@@ -49,6 +49,9 @@ public class StudyWatcherHub : Hub
             {
                 await Clients
                     .Client(connectionIdAdmin)
+                    .SendAsync("InfoWorkStation", infoWorkStation, nameLocation);
+                await Clients
+                    .Client(connectionIdAdmin)
                     .SendAsync("RegisterWorkStation",
                         nameMotherboard, nameCPU, nameRAM, nameHDD,
                         nameVideocard, nameLocation, connectionId);
@@ -58,9 +61,6 @@ public class StudyWatcherHub : Hub
                 await Clients
                     .Client(connectionIdAdmin)
                     .SendAsync("ResponseBlackList", blackList);
-                await Clients
-                    .Client(connectionIdAdmin)
-                    .SendAsync("InfoWorkStation", infoWorkStation, nameLocation);
             }
         }
         catch (Exception e)
@@ -225,7 +225,7 @@ public class StudyWatcherHub : Hub
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "AddProcessListBanHub encountered an exception.");
+            _logger.LogError(e, "RemoveProcessListBanHub encountered an exception.");
             throw;
         }
     }
@@ -240,7 +240,7 @@ public class StudyWatcherHub : Hub
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "CancelSendPictureHub encountered an exception.");
+            _logger.LogError(e, "GetFullProcessWsHub encountered an exception.");
             throw;
         }
     }
@@ -276,7 +276,7 @@ public class StudyWatcherHub : Hub
         }
         catch (Exception e)
         {
-            _logger.LogError(e, "RequestPictureHub encountered an exception.");
+            _logger.LogError(e, "GetAllWorkStationHub encountered an exception.");
             throw;
         }
     }
@@ -328,5 +328,14 @@ public class StudyWatcherHub : Hub
             _logger.LogError(e, "CancelSendPictureHub encountered an exception.");
             throw;
         }
+    }
+
+    public override Task OnDisconnectedAsync(Exception exception)
+    {
+        var connectionId = Context.ConnectionId; 
+        Clients
+            .Client(connectionId)
+            .SendAsync("ClientOffline", connectionId);
+        return base.OnDisconnectedAsync(exception);
     }
 }

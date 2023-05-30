@@ -8,9 +8,9 @@ public partial class Form1 : Form
     private HubConnection connection;
     private string connectionIdAdmin;
     private List<string> BlackList;
-    private SystemManager _systemManager = new ();
+    private SystemManager _systemManager = new();
     Banner banner = new();
-    string nameLocation = "Г301 #3";
+    string nameLocation = "Г304 #2";
     DateTime lastLaunch = DateTime.UtcNow.Date;
 
     public async Task ConnectionHub()
@@ -40,8 +40,8 @@ public partial class Form1 : Form
         AcceptButton.Location = new Point((System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width / 2) - 50,
             (System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height / 2));
 
-        connection.On("CloseStartBanner", 
-            (string resultFio, 
+        connection.On("CloseStartBanner",
+            (string resultFio,
                 string resultGroup) =>
         {
             Invoke((MethodInvoker)delegate
@@ -159,7 +159,7 @@ public partial class Form1 : Form
     {
         _systemManager.systemListProcess();
         bool elementFound = false;
-        connection.InvokeAsync("AddProcessListHub", 
+        connection.InvokeAsync("AddProcessListHub",
             nameLocation,
             _systemManager.listProcess,
             lastLaunch,
@@ -186,10 +186,15 @@ public partial class Form1 : Form
             }
             ImageConverter converter = new ImageConverter();
             byte[] imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
-            
+
             string base64String = Convert.ToBase64String(imageBytes);
 
             connection.InvokeAsync("SendPictureHub", base64String, connectionIdAdmin);
         }
+    }
+
+    private void Form1_FormClosed(object sender, FormClosedEventArgs e)
+    {
+        connection.StopAsync();
     }
 }

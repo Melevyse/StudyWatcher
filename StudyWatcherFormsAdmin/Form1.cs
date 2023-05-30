@@ -39,26 +39,25 @@ public partial class MainForm : Form
         {
             BeginInvoke((MethodInvoker)delegate
             {
-                var workStation = WorkStations
+                var workStationItem = WorkStations
                     .FirstOrDefault(x => x.NameLocation == nameLocation);
-                if (workStation != null)
+                if (workStationItem != null)
                 {
-                    var workStationViewItem = listWorkStationForm
-                        .FindItemWithText(workStation.NameLocation, true, 0);
-                    workStation.NameMotherboard = nameMotherboard;
-                    workStation.NameCPU = nameCPU;
-                    workStation.NameRAM = nameRAM;
-                    workStation.NameHDD = nameHDD;
-                    workStation.NameVideocard = nameVideocard;
-                    workStation.Status = Status.Login;
-                    workStation.ConnectionId = connectionId;
-                    workStationViewItem.SubItems[3].Text = workStation.NameMotherboard;
-                    workStationViewItem.SubItems[4].Text = workStation.NameCPU;
-                    workStationViewItem.SubItems[5].Text = workStation.NameRAM;
-                    workStationViewItem.SubItems[6].Text = workStation.NameHDD;
-                    workStationViewItem.SubItems[7].Text = workStation.NameVideocard;
-                    workStationViewItem.SubItems[8].Text = workStation.Status.ToString();
-                    workStationViewItem.SubItems[9].Text = workStation.ConnectionId;
+                    workStationItem.workStationUpdate(nameMotherboard, nameCPU, nameRAM, 
+                            nameHDD, nameVideocard, Status.Login, 
+                            nameLocation, connectionId, listWorkStationForm);
+                }
+                else
+                { 
+                    var workStation = new WorkStation();
+                    
+                    var result = workStation
+                        .workStationAdd(
+                            "-", "-", nameMotherboard, 
+                            nameCPU, nameRAM, nameHDD, 
+                            nameVideocard, Status.Login, nameLocation, connectionId);
+                    WorkStations.Add(workStation);
+                    listWorkStationForm.Items.Add(result);
                 }
             });
         });
@@ -72,8 +71,21 @@ public partial class MainForm : Form
                 if (infoWorkStation.First() == "NONE")
                 {
                     var result = new InfoWorkStation();
+                    var itemFound = false;
                     result.NameLocation = nameLocation;
-                    result.infoList = "Запустился в прежней конфигурации";
+
+                    foreach (var element in WorkStations)
+                    {
+                        if (element.NameLocation == nameLocation)
+                        {
+                            itemFound = true;
+                            break;
+                        }
+                    }
+                    if (itemFound)
+                        result.infoList = "Запустился в прежней конфигурации";
+                    else
+                        result.infoList = "Новое устройство";
                     InfoWorkStationList.Add(result);
                     var resultView = new ListViewItem(result.NameLocation);
                     resultView.SubItems.Add(result.infoList);
@@ -95,6 +107,24 @@ public partial class MainForm : Form
             });
         });
         
+        connection.On("ClientOffline" , (
+            string connectionId) =>
+        {
+            BeginInvoke((MethodInvoker)delegate
+            {
+                var workStation = WorkStations
+                    .FirstOrDefault(x => x.ConnectionId == connectionId);
+                if (workStation != null)
+                {
+                    var workStationViewItem = listWorkStationForm
+                        .FindItemWithText(workStation.ConnectionId, true, 0);
+                    workStation.workStationUpdate("-", "-", 
+                        Status.Offline, listWorkStationForm);
+                    WorkStations.Remove(workStation);
+                }
+            });
+        });
+        
         connection.On("AddItemUser", (
             string fio,
             string group,
@@ -104,14 +134,8 @@ public partial class MainForm : Form
             {
                 var workStation = WorkStations
                     .FirstOrDefault(x => x.ConnectionId == connectionId);
-                workStation.Fio = fio;
-                workStation.Group = group;
-                workStation.Status = Status.Online;
-                var listViewItem = listWorkStationForm
-                    .FindItemWithText(workStation.ConnectionId, true, 0);
-                listViewItem.SubItems[1].Text = workStation.Fio;
-                listViewItem.SubItems[2].Text = workStation.Group;
-                listViewItem.SubItems[8].Text = workStation.Status.ToString();
+                workStation.workStationUpdate(fio, group, 
+                    Status.Online, listWorkStationForm);
             });
         });
         
@@ -183,27 +207,13 @@ public partial class MainForm : Form
         foreach (var elemet in objects)
         {
             var workStation = new WorkStation();
-            workStation.NameLocation = elemet.NameLocation;
-            workStation.Fio = "-";
-            workStation.Group = "-";
-            workStation.NameMotherboard = elemet.NameMotherboard;
-            workStation.NameCPU = elemet.NameCPU;
-            workStation.NameRAM = elemet.NameRAM;
-            workStation.NameHDD = elemet.NameHDD;
-            workStation.NameVideocard = elemet.NameVideocard;
-            workStation.Status = Status.Offline;
-            workStation.ConnectionId = "";
+            var result = workStation
+                .workStationAdd(
+                "-", "-", elemet.NameMotherboard, 
+                elemet.NameCPU, elemet.NameRAM, elemet.NameHDD, 
+                elemet.NameVideocard, Status.Offline, 
+                elemet.NameLocation, "");
             WorkStations.Add(workStation);
-            var result = new ListViewItem(workStation.NameLocation);
-            result.SubItems.Add(workStation.Fio);
-            result.SubItems.Add(workStation.Group);
-            result.SubItems.Add(workStation.NameMotherboard);
-            result.SubItems.Add(workStation.NameCPU);
-            result.SubItems.Add(workStation.NameRAM);
-            result.SubItems.Add(workStation.NameHDD);
-            result.SubItems.Add(workStation.NameVideocard);
-            result.SubItems.Add(workStation.Status.ToString());
-            result.SubItems.Add(workStation.ConnectionId);
             listWorkStationForm.Items.Add(result);
         }
     }
@@ -232,19 +242,20 @@ public partial class MainForm : Form
             ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
             string nameLocation = selectedItem.Text;
             DateTime lastLaunch = DateTime.UtcNow.Date;
-            var result = await connection
-                .InvokeAsync<List<string>>("GetProcessListHub", 
-                nameLocation, lastLaunch);
+            listProcessForm.Items.Clear();
             var workStation = WorkStations
                 .FirstOrDefault(x => x.NameLocation == nameLocation);
-            workStation.ProcessList = result;
-            listProcessForm.Items.Clear();
-            foreach (var element in workStation.ProcessList)
+            if (workStation.Status != Status.Offline)
             {
-                var resultItem = new ListViewItem(element);
-                listProcessForm.Items.Add(resultItem);
+                workStation.ProcessList = await connection
+                    .InvokeAsync<List<string>>("GetProcessListHub", 
+                        nameLocation, lastLaunch);;
+                foreach (var element in workStation.ProcessList)
+                {
+                    var resultItem = new ListViewItem(element);
+                    listProcessForm.Items.Add(resultItem);
+                }
             }
-            
             connection.InvokeAsync("RequestPictureHub", workStation.ConnectionId);
         }
     }

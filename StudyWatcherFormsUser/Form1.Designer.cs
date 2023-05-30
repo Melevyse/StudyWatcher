@@ -94,6 +94,7 @@ partial class Form1
         Controls.Add(loginTextBox);
         Name = "Form1";
         Text = "StudyWatcherUser";
+        FormClosed += Form1_FormClosed;
         Load += Form1_Load;
         ResumeLayout(false);
         PerformLayout();
