@@ -49,15 +49,10 @@ public partial class MainForm : Form
                 }
                 else
                 { 
-                    var workStation = new WorkStation();
-                    
-                    var result = workStation
-                        .WorkStationAdd(
-                            "-", "-", nameMotherboard, 
-                            nameCPU, nameRAM, nameHDD, 
-                            nameVideocard, Status.Login, nameLocation, connectionId);
+                    var workStation = new WorkStation("-", "-", nameMotherboard, 
+                        nameCPU, nameRAM, nameHDD, 
+                        nameVideocard, Status.Login, nameLocation, connectionId, listWorkStationForm);
                     WorkStations.Add(workStation);
-                    listWorkStationForm.Items.Add(result);
                 }
             });
         });
@@ -196,15 +191,12 @@ public partial class MainForm : Form
             .InvokeAsync<List<WorkStationSo>>("GetAllWorkStationHub");
         foreach (var elemet in objects)
         {
-            var workStation = new WorkStation();
-            var result = workStation
-                .WorkStationAdd(
-                "-", "-", elemet.NameMotherboard, 
-                elemet.NameCPU, elemet.NameRAM, elemet.NameHDD, 
-                elemet.NameVideocard, Status.Offline, 
-                elemet.NameLocation, "");
+            var workStation = new WorkStation(
+                "-", "-", elemet.NameMotherboard,
+                elemet.NameCPU, elemet.NameRAM, elemet.NameHDD,
+                elemet.NameVideocard, Status.Offline,
+                elemet.NameLocation, "", listWorkStationForm);
             WorkStations.Add(workStation);
-            listWorkStationForm.Items.Add(result);
         }
     }
 

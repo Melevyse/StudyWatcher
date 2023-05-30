@@ -16,7 +16,7 @@ public class WorkStation
     public string ConnectionId { get; set; }
     public List<string> ProcessList { get; set; }
 
-    public ListViewItem WorkStationAdd(
+    public WorkStation(
         string fio,
         string group,
         string nameMotherboard,
@@ -26,7 +26,8 @@ public class WorkStation
         string nameVideocard,
         Status status,
         string nameLocation,
-        string connectionId)
+        string connectionId,
+        ListView listView)
     {
         this.NameLocation = nameLocation;
         this.Fio = fio;
@@ -48,9 +49,9 @@ public class WorkStation
         result.SubItems.Add(nameVideocard);
         result.SubItems.Add(status.ToString());
         result.SubItems.Add(connectionId);
-        return result;
+        listView.Items.Add(result);
     }
-
+    
     public void WorkStationUpdate(
         string nameMotherboard,
         string nameCPU,
