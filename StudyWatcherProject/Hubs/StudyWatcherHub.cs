@@ -14,13 +14,13 @@ public class StudyWatcherHub : Hub
     public StudyWatcherHub(
         IMonitoringService monitoringService,
         IAuthorizationUserService authorizationUserService,
-        ILogger<StudyWatcherHub>  logger)
+        ILogger<StudyWatcherHub> logger)
     {
         _monitoringService = monitoringService;
         _authorizationUserService = authorizationUserService;
         _logger = logger;
     }
-    
+
     public async Task AddWorkStationHub(
         string nameMotherboard,
         string nameCPU,
@@ -36,10 +36,10 @@ public class StudyWatcherHub : Hub
         try
         {
             var id = await _monitoringService
-                .AddWorkStationRequest(nameMotherboard, nameCPU, 
+                .AddWorkStationRequest(nameMotherboard, nameCPU,
                     nameRAM, nameHDD, nameVideocard, nameLocation);
             var infoWorkStation = await _monitoringService
-                .GetFullInfoWorkStation(nameMotherboard, nameCPU, 
+                .GetFullInfoWorkStation(nameMotherboard, nameCPU,
                     nameRAM, nameHDD, nameVideocard, nameLocation);
             var result = await _monitoringService
                 .AddProcessListRequest(listProcess, lastLaunch, nameLocation);
@@ -68,7 +68,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-    
+
     public async Task<bool> GetAuthorizationUserHub(
         string userLogin,
         string userPassword,
@@ -93,6 +93,7 @@ public class StudyWatcherHub : Hub
                     .SendAsync("AddItemUser", resultFio, resultGroup, connectionId);
                 return true;
             }
+
             return false;
         }
         catch (ArgumentException e)
@@ -106,7 +107,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-    
+
     public async Task GetAdminConnectionIdHub()
     {
         try
@@ -122,8 +123,8 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    public async Task<List<string>> GetProcessListHub( 
-        string nameLocation, 
+    public async Task<List<string>> GetProcessListHub(
+        string nameLocation,
         DateTime lastLaunch)
     {
         try
@@ -154,14 +155,14 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-    
+
     public async Task GetBannerHub(
         string connectionId,
         string connectionIdAdmin)
     {
         try
         {
-            
+
             await Clients
                 .Client(connectionId)
                 .SendAsync("OpenBlackListBanner");
@@ -174,14 +175,14 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-    
+
     public async Task BannerCloseHub(string connectionId)
     {
         await Clients
             .Client(connectionId)
             .SendAsync("CloseBlackListBanner");
     }
-    
+
     public async Task AddProcessListBanHub(
         string processBan,
         string connectionIdAdmin)
@@ -190,7 +191,7 @@ public class StudyWatcherHub : Hub
         {
             var result = await _monitoringService
                 .AddProcessBanRequest(processBan);
-            if (result != Guid.Empty) 
+            if (result != Guid.Empty)
                 await Clients
                     .All
                     .SendAsync("AddProcessBlackList", processBan);
@@ -209,7 +210,7 @@ public class StudyWatcherHub : Hub
         {
             var result = await _monitoringService
                 .RemoveProcessBanRequest(processBan);
-            if (result != Guid.Empty) 
+            if (result != Guid.Empty)
                 await Clients
                     .All
                     .SendAsync("RemoveProcessBlackList", processBan);
@@ -235,8 +236,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-
-
+    
     public async Task AddProcessListHub(
         string nameLocation,
         List<string> listProcess,
@@ -245,7 +245,7 @@ public class StudyWatcherHub : Hub
         string connectionId)
     {
         try
-        { 
+        {
             var result = await _monitoringService
                 .AddProcessListRequest(listProcess, lastLaunch, nameLocation);
             await Clients.Client(connectionIdAdmin)
@@ -258,7 +258,7 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    public async Task<List<WorkStation>> GetAllWorkStationHub() 
+    public async Task<List<WorkStation>> GetAllWorkStationHub()
     {
         try
         {
@@ -271,52 +271,19 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-
-    public async Task RequestPictureHub(
-        string connectionId)
-    {
-        try
-        { 
-            await Clients
-                .Client(connectionId)
-                .SendAsync("RequestPicture");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "RequestPictureHub encountered an exception.");
-            throw;
-        }
-    }
-
+    
     public async Task SendPictureHub(
-        string imageData,
+        string image,
         string connectionIdAdmin)
     {
         try
-        { 
-            await Clients
-                .Client(connectionIdAdmin)
-                .SendAsync("SendPicture", imageData);
+        {
+            await Clients.Client(connectionIdAdmin)
+                .SendAsync("SendPicture", image, Context.ConnectionId);
         }
         catch (Exception e)
         {
             _logger.LogError(e, "SendPictureHub encountered an exception.");
-            throw;
-        }
-    }
-
-    public async Task CancelSendPictureHub(
-        string connectionId)
-    {
-        try
-        {
-            await Clients
-                .Client(connectionId)
-                .SendAsync("CancelSendPicture");
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "CancelSendPictureHub encountered an exception.");
             throw;
         }
     }

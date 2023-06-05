@@ -31,6 +31,11 @@ public class Startup
         service.AddScoped<IMonitoringRepository, MonitoringRepository>();
         service.AddSignalR();
         service.AddLogging(builder => builder.AddConsole());
+        service.AddSignalR(options =>
+        {
+            options.ClientTimeoutInterval = TimeSpan.FromMinutes(50);
+            options.MaximumReceiveMessageSize = 2000000;
+        });
 
         service.AddTransient<IValidator<UserStudent>,UserAuthorizationValidator>();
     }

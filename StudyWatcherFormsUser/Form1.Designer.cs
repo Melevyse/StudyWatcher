@@ -80,7 +80,7 @@ partial class Form1
         // 
         // PictureSend
         // 
-        PictureSend.Interval = 1000;
+        PictureSend.Interval = 1500;
         PictureSend.Tick += PictureSend_Tick;
         // 
         // Form1

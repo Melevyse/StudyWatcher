@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "k2kU5zvKG+WMW5TO6h83DdKm7osLC5fWwkrSMviFcCfyAY1O0r3EROwYeAfapyeUSUYnEsJvIwcRZqS3wH/bfw==",
+  "dgSpecHash": "GGDaZZ9jTVsVyVHH34JEPVV3JxUUX+rGXSxnDBdksJcgtn54JZKA8kiKqXaIcBM6DiTwlvpEpbZvRfruVYgOMA==",
   "success": true,
   "projectFilePath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj",
   "expectedPackageFiles": [
@@ -24,7 +24,6 @@
     "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.options\\8.0.0-preview.3.23174.8\\microsoft.extensions.options.8.0.0-preview.3.23174.8.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-preview.3.23174.8\\microsoft.extensions.primitives.8.0.0-preview.3.23174.8.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\system.io.pipelines\\8.0.0-preview.3.23174.8\\system.io.pipelines.8.0.0-preview.3.23174.8.nupkg.sha512",
-    "C:\\Users\\ar4bo\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\system.text.encodings.web\\8.0.0-preview.3.23174.8\\system.text.encodings.web.8.0.0-preview.3.23174.8.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\system.text.json\\8.0.0-preview.3.23174.8\\system.text.json.8.0.0-preview.3.23174.8.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\system.threading.channels\\8.0.0-preview.3.23174.8\\system.threading.channels.8.0.0-preview.3.23174.8.nupkg.sha512",
@@ -35,20 +34,20 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'Accord.Controls 3.8.2-alpha' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'Accord.Controls 3.8.2-alpha' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "Accord.Controls",
       "targetGraphs": [
-        "net6.0-windows7.0"
+        "net7.0-windows7.0"
       ]
     },
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Package 'ZedGraph 5.1.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
+      "message": "Package 'ZedGraph 5.1.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "ZedGraph",
       "targetGraphs": [
-        "net6.0-windows7.0"
+        "net7.0-windows7.0"
       ]
     }
   ]

@@ -23,9 +23,9 @@ public class SystemManager
 
     public void systemListProcess()
     {
-        List<string> result = new List<string>();
-        Process[] processes = Process.GetProcesses();
-        foreach (Process process in processes)
+        var result = new List<string>();
+        var processes = Process.GetProcesses();
+        foreach (var process in processes)
         {
             result.Add(process.ProcessName);
         }
@@ -35,9 +35,9 @@ public class SystemManager
 
     public void systemManagmentSearchCPU()
     {
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("select Name from Win32_Processor");
-        string result = "";
-        int iter = 0;
+        var searcher = new ManagementObjectSearcher("select Name from Win32_Processor");
+        var result = "";
+        var iter = 0;
         foreach (ManagementObject obj in searcher.Get())
         {
             if (iter != 0)
@@ -64,10 +64,10 @@ public class SystemManager
 
     public void systemManagmentSearchHDD()
     {
-        string result = "";
-        int iter = 0;
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("select Model, Size from Win32_DiskDrive");
-        foreach (ManagementObject obj in searcher.Get())
+        var result = "";
+        var iter = 0;
+        var searcher = new ManagementObjectSearcher("select Model, Size from Win32_DiskDrive");
+        foreach (var obj in searcher.Get())
         {
             if (iter != 0)
                 result += ", ";
@@ -80,11 +80,11 @@ public class SystemManager
 
     public void systemManagmentSearchVidocard()
     {
-        string result = "";
-        int iter = 0;
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
-        ManagementObjectCollection collection = searcher.Get();
-        foreach (ManagementObject obj in collection)
+        var result = "";
+        var iter = 0;
+        var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_VideoController");
+        var collection = searcher.Get();
+        foreach (var obj in collection)
         {
             if (iter != 0)
                 result += ", ";
@@ -97,11 +97,11 @@ public class SystemManager
 
     public void systemManagmentSearchMotherboard()
     {
-        string result = "";
-        int iter = 0;
-        ManagementObjectSearcher searcher = new ManagementObjectSearcher("SELECT * FROM Win32_BaseBoard");
-        ManagementObjectCollection collection = searcher.Get();
-        foreach (ManagementObject obj in collection)
+        var result = "";
+        var iter = 0;
+        var searcher = new ManagementObjectSearcher("SELECT * FROM Win32_BaseBoard");
+        var collection = searcher.Get();
+        foreach (var obj in collection)
         {
             if (iter != 0)
                 result += ", ";

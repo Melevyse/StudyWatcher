@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
+using System;
 using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace StudyWatcherFormsUser;
 
@@ -12,6 +14,7 @@ public partial class Form1 : Form
     Banner banner = new();
     string nameLocation = "Г304 #2";
     DateTime lastLaunch = DateTime.UtcNow.Date;
+    private string imageString;
 
     public async Task ConnectionHub()
     {
@@ -19,6 +22,7 @@ public partial class Form1 : Form
             .WithUrl("http://localhost:5123/hub")
             .WithAutomaticReconnect()
             .Build();
+        connection.ServerTimeout = TimeSpan.FromMinutes(5);
         connection.StartAsync().Wait();
     }
 
@@ -68,17 +72,7 @@ public partial class Form1 : Form
                 BlackListWatchTimer.Start();
             });
         });
-
-        connection.On("RequestPicture", () =>
-        {
-            PictureSend.Start();
-        });
-
-        connection.On("CancelSendPicture", () =>
-        {
-            PictureSend.Stop();
-        });
-
+        
         connection.On("AddProcessBlackList", (
             string processBan) =>
         {
@@ -105,21 +99,22 @@ public partial class Form1 : Form
             BlackList.AddRange(processBanList);
             BlackList = BlackList.Distinct().ToList();
         });
-
+        
         connection.StartAsync();
     }
 
     private void Form1_Load(object sender, EventArgs e)
     {
         HubConnectionTimer.Start();
+        PictureSend.Start();
     }
 
-    private void HubConnectionTimer_Tick(object sender, EventArgs e)
+    private async void HubConnectionTimer_Tick(object sender, EventArgs e)
     {
         if (connectionIdAdmin != null)
         {
             var connectionId = connection.ConnectionId;
-            connection.InvokeAsync("AddWorkStationHub",
+            await connection.InvokeAsync("AddWorkStationHub",
                 _systemManager.nameMotherboard,
                 _systemManager.nameCPU,
                 _systemManager.nameRAM,
@@ -155,20 +150,19 @@ public partial class Form1 : Form
         }
     }
 
-    private void BlackListWatchTimer_Tick(object sender, EventArgs e)
+    private async void BlackListWatchTimer_Tick(object sender, EventArgs e)
     {
         _systemManager.systemListProcess();
-        bool elementFound = false;
-        connection.InvokeAsync("AddProcessListHub",
+        await connection.InvokeAsync("AddProcessListHub",
             nameLocation,
             _systemManager.listProcess,
             lastLaunch,
             connectionIdAdmin,
             connection.ConnectionId);
-        IEnumerable<string> inFirstOnly = _systemManager.listProcess.Except(BlackList);
+        var inFirstOnly = _systemManager.listProcess.Except(BlackList);
         if (inFirstOnly.Count() < _systemManager.listProcess.Count())
         {
-            connection.InvokeAsync("GetBannerHub",
+            await connection.InvokeAsync("GetBannerHub",
                 connection.ConnectionId, connectionIdAdmin);
             banner.labelErrorP1.Text = "Использовано запрещенное программное обеспечение";
             banner.Show();
@@ -178,21 +172,37 @@ public partial class Form1 : Form
 
     private void PictureSend_Tick(object sender, EventArgs e)
     {
-        using (Bitmap screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height))
+        if (connectionIdAdmin != null)
         {
-            using (Graphics graphics = Graphics.FromImage(screenshot))
+            var screenshot = new Bitmap(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height,
+                PixelFormat.Format32bppArgb);
+            using (var graphics = Graphics.FromImage(screenshot))
             {
-                graphics.CopyFromScreen(0, 0, 0, 0, screenshot.Size);
+                graphics.CopyFromScreen(Screen.PrimaryScreen.Bounds.X,
+                    Screen.PrimaryScreen.Bounds.Y, 0,
+                    0, Screen.PrimaryScreen.Bounds.Size,
+                    CopyPixelOperation.SourceCopy);
             }
-            ImageConverter converter = new ImageConverter();
-            byte[] imageBytes = (byte[])converter.ConvertTo(screenshot, typeof(byte[]));
-
-            string base64String = Convert.ToBase64String(imageBytes);
-
-            connection.InvokeAsync("SendPictureHub", base64String, connectionIdAdmin);
+            var targetWidth = 480;
+            var targetHeight = 250;
+            byte[] imageBytes;
+            using (var resizedImage = new Bitmap(targetWidth, targetHeight))
+            {
+                using (var graphics = Graphics.FromImage(resizedImage))
+                {
+                    graphics.DrawImage(screenshot, 0, 0, targetWidth, targetHeight);
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        resizedImage.Save(memoryStream, ImageFormat.Bmp);
+                        imageBytes = memoryStream.ToArray();
+                    }
+                }
+            }
+            imageString = Convert.ToBase64String(imageBytes);
+            connection.InvokeAsync("SendPictureHub", imageString, connectionIdAdmin);
         }
     }
-
+    
     private void Form1_FormClosed(object sender, FormClosedEventArgs e)
     {
         connection.StopAsync();

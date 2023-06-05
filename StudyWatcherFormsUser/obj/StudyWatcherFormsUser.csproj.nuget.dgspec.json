@@ -4,6 +4,82 @@
     "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\StudyWatcherFormsUser.csproj": {}
   },
   "projects": {
+    "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj",
+        "projectName": "StudyWatcherFormsAdmin",
+        "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj",
+        "packagesPath": "C:\\Users\\ar4bo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ar4bo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
+          "dependencies": {
+            "Accord": {
+              "target": "Package",
+              "version": "[3.8.2-alpha, )"
+            },
+            "Accord.Controls": {
+              "target": "Package",
+              "version": "[3.8.2-alpha, )"
+            },
+            "Accord.Statistics": {
+              "target": "Package",
+              "version": "[3.8.2-alpha, )"
+            },
+            "Microsoft.AspNetCore.SignalR.Client": {
+              "target": "Package",
+              "version": "[8.0.0-preview.3.23177.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WindowsForms": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\StudyWatcherFormsUser.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -18,16 +94,23 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0-windows"
+          "net7.0-windows"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0-windows7.0": {
-            "targetAlias": "net6.0-windows",
-            "projectReferences": {}
+          "net7.0-windows7.0": {
+            "targetAlias": "net7.0-windows",
+            "projectReferences": {
+              "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj": {
+                "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj"
+              },
+              "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj": {
+                "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -37,8 +120,8 @@
         }
       },
       "frameworks": {
-        "net6.0-windows7.0": {
-          "targetAlias": "net6.0-windows",
+        "net7.0-windows7.0": {
+          "targetAlias": "net7.0-windows",
           "dependencies": {
             "Microsoft.AspNetCore.SignalR.Client": {
               "target": "Package",
@@ -66,6 +149,90 @@
             },
             "Microsoft.WindowsDesktop.App.WindowsForms": {
               "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
+        "projectName": "StudyWatcherProject",
+        "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
+        "packagesPath": "C:\\Users\\ar4bo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\ar4bo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net7.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net7.0": {
+            "targetAlias": "net7.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "net7.0": {
+          "targetAlias": "net7.0",
+          "dependencies": {
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "Microsoft.AspNetCore.SignalR": {
+              "target": "Package",
+              "version": "[1.1.0, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.0-preview.3.23174.2, )"
+            },
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
+              "target": "Package",
+              "version": "[8.0.0-preview.3, )"
+            },
+            "System.Configuration.ConfigurationManager": {
+              "target": "Package",
+              "version": "[8.0.0-preview.3.23174.8, )"
+            },
+            "System.Security.Permissions": {
+              "target": "Package",
+              "version": "[8.0.0-preview.3.23174.8, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.AspNetCore.App": {
+              "privateAssets": "none"
+            },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
             }
           },
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"

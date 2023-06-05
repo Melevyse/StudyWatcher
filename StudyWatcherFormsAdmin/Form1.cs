@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.SignalR.Client;
 using System.Xml;
 using StudyWatcherProject.Models;
+using System.Drawing.Imaging;
 
 
 namespace StudyWatcherFormsAdmin;
@@ -8,11 +9,10 @@ namespace StudyWatcherFormsAdmin;
 public partial class MainForm : Form
 {
     private HubConnection connection;
-    private List<string> BlackList = new ();
-    private List<WorkStation> WorkStations = new ();
-    private List<ProcessWs> ProcessWsList = new ();
-    private List<InfoWorkStation> InfoWorkStationList = new ();
-
+    private List<string> BlackList = new();
+    private List<WorkStation> WorkStations = new();
+    private List<ProcessWs> ProcessWsList = new();
+    private List<InfoWorkStation> InfoWorkStationList = new();
 
     public async Task ConnectionHub()
     {
@@ -20,6 +20,7 @@ public partial class MainForm : Form
             .WithUrl("http://localhost:5123/hub")
             .WithAutomaticReconnect()
             .Build();
+        connection.ServerTimeout = TimeSpan.FromMinutes(50);
         connection.StartAsync().Wait();
     }
 
@@ -43,14 +44,14 @@ public partial class MainForm : Form
                     .FirstOrDefault(x => x.NameLocation == nameLocation);
                 if (workStationItem != null)
                 {
-                    workStationItem.WorkStationUpdate(nameMotherboard, nameCPU, nameRAM, 
-                            nameHDD, nameVideocard, Status.Login, 
+                    workStationItem.WorkStationUpdate(nameMotherboard, nameCPU, nameRAM,
+                            nameHDD, nameVideocard, Status.Login,
                             connectionId, listWorkStationForm);
                 }
                 else
-                { 
-                    var workStation = new WorkStation("-", "-", nameMotherboard, 
-                        nameCPU, nameRAM, nameHDD, 
+                {
+                    var workStation = new WorkStation("-", "-", nameMotherboard,
+                        nameCPU, nameRAM, nameHDD,
                         nameVideocard, Status.Login, nameLocation, connectionId, listWorkStationForm);
                     WorkStations.Add(workStation);
                 }
@@ -78,13 +79,13 @@ public partial class MainForm : Form
                     if (itemFound)
                     {
                         result = new InfoWorkStation(
-                            nameLocation, "Запустился в прежней конфигурации",listViewMessage);
+                            nameLocation, "Запустился в прежней конфигурации", listViewMessage);
                         InfoWorkStationList.Add(result);
                     }
                     else
                     {
                         result = new InfoWorkStation(
-                            nameLocation, "Новое устройство",listViewMessage);
+                            nameLocation, "Новое устройство", listViewMessage);
                         InfoWorkStationList.Add(result);
                     }
                 }
@@ -99,8 +100,8 @@ public partial class MainForm : Form
                 }
             });
         });
-        
-        connection.On("ClientOffline" , (
+
+        connection.On("ClientOffline", (
             string connectionId) =>
         {
             BeginInvoke((MethodInvoker)delegate
@@ -111,13 +112,13 @@ public partial class MainForm : Form
                 {
                     var workStationViewItem = listWorkStationForm
                         .FindItemWithText(workStation.ConnectionId, true, 0);
-                    workStation.WorkStationUpdate("-", "-", 
+                    workStation.WorkStationUpdate("-", "-",
                         Status.Offline, listWorkStationForm);
                     WorkStations.Remove(workStation);
                 }
             });
         });
-        
+
         connection.On("AddItemUser", (
             string fio,
             string group,
@@ -127,11 +128,11 @@ public partial class MainForm : Form
             {
                 var workStation = WorkStations
                     .FirstOrDefault(x => x.ConnectionId == connectionId);
-                workStation.WorkStationUpdate(fio, group, 
+                workStation.WorkStationUpdate(fio, group,
                     Status.Online, listWorkStationForm);
             });
         });
-        
+
         connection.On("UserUsedBlackListProcess", (
             string connectionId) =>
         {
@@ -145,25 +146,31 @@ public partial class MainForm : Form
                 InfoWorkStationList.Add(resultFirst);
             });
         });
-        
+
         connection.On("GetProcessListUpdate", (
             List<string> processList,
             string connectionId) =>
         {
             var workStation = WorkStations
                 .FirstOrDefault(x => x.ConnectionId == connectionId);
-            workStation.ProcessList = processList;
+            if (workStation != null)
+                workStation.ProcessList = processList;
         });
 
         connection.On("SendPicture", (
-            string imageString) =>
+            string image,
+            string connectionId) =>
         {
-            byte[] imageData = Convert.FromBase64String(imageString);
-
-            using (MemoryStream ms = new MemoryStream(imageData))
+            var workStation = WorkStations
+                .FirstOrDefault(x => x.ConnectionId == connectionId);
+            if (workStation != null)
             {
-                Image receivedImage = Image.FromStream(ms);
-                pictureBoxTranslator.Image = receivedImage;
+                var imageData = Convert.FromBase64String(image);
+                using (var ms = new MemoryStream(imageData))
+                {
+                    var receivedImage = Image.FromStream(ms);
+                    workStation.ImageScreen = receivedImage;
+                }
             }
         });
 
@@ -186,6 +193,7 @@ public partial class MainForm : Form
 
     private async void MainForm_Load(object sender, EventArgs e)
     {
+        pictureBoxUpdate.Start();
         ConnectionAdminTimer.Start();
         var objects = await connection
             .InvokeAsync<List<WorkStationSo>>("GetAllWorkStationHub");
@@ -200,49 +208,48 @@ public partial class MainForm : Form
         }
     }
 
-    private void buttonAddProcessBan_Click(object sender, EventArgs e)
+    private async void buttonAddProcessBan_Click(object sender, EventArgs e)
     {
         if (listProcessForm.SelectedItems.Count > 0)
-        { 
+        {
             var selectedItem = listProcessForm.SelectedItems[0];
             BlackList.Add(selectedItem.Text);
-            connection.InvokeAsync("AddProcessListBanHub", 
+            await connection.InvokeAsync("AddProcessListBanHub",
                 selectedItem.Text, connection.ConnectionId);
             listProcessBanForm.Items.Add(selectedItem.Text);
         }
     }
 
-    private void ConnectionAdminTimer_Tick(object sender, EventArgs e)
+    private async void ConnectionAdminTimer_Tick(object sender, EventArgs e)
     {
-        connection.InvokeAsync("GetAdminConnectionIdHub");
+        await connection.InvokeAsync("GetAdminConnectionIdHub");
     }
 
     private async void listWorkStationForm_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (listWorkStationForm.SelectedItems.Count > 0)
         {
-            ListViewItem selectedItem = listWorkStationForm.SelectedItems[0];
-            string nameLocation = selectedItem.Text;
-            DateTime lastLaunch = DateTime.UtcNow.Date;
+            var selectedItem = listWorkStationForm.SelectedItems[0];
+            var nameLocation = selectedItem.Text;
+            var lastLaunch = DateTime.UtcNow.Date;
             listProcessForm.Items.Clear();
             var workStation = WorkStations
                 .FirstOrDefault(x => x.NameLocation == nameLocation);
             if (workStation.Status != Status.Offline)
             {
                 workStation.ProcessList = await connection
-                    .InvokeAsync<List<string>>("GetProcessListHub", 
-                        nameLocation, lastLaunch);;
+                    .InvokeAsync<List<string>>("GetProcessListHub",
+                        nameLocation, lastLaunch); ;
                 foreach (var element in workStation.ProcessList)
                 {
                     var resultItem = new ListViewItem(element);
                     listProcessForm.Items.Add(resultItem);
                 }
             }
-            connection.InvokeAsync("RequestPictureHub", workStation.ConnectionId);
         }
     }
 
-    private void buttonUnbanUser_Click(object sender, EventArgs e)
+    private async void buttonUnbanUser_Click(object sender, EventArgs e)
     {
         if (listWorkStationForm.SelectedItems.Count > 0)
         {
@@ -252,7 +259,7 @@ public partial class MainForm : Form
                 var workStation = WorkStations
                     .FirstOrDefault(x => x.NameLocation == selectedItem.Text);
                 workStation.WorkStationUpdate(Status.Online, listWorkStationForm);
-                connection.InvokeAsync("BannerCloseHub", workStation.ConnectionId);
+                await connection.InvokeAsync("BannerCloseHub", workStation.ConnectionId);
                 var infoWorkStation = new InfoWorkStation(
                     workStation.NameLocation, "Экран разблокирован", listViewMessage);
                 InfoWorkStationList.Add(infoWorkStation);
@@ -260,14 +267,14 @@ public partial class MainForm : Form
         }
     }
 
-    private void buttonDeleteProcessBan_Click(object sender, EventArgs e)
+    private async void buttonDeleteProcessBan_Click(object sender, EventArgs e)
     {
         if (listProcessBanForm.SelectedItems.Count > 0)
         {
             var selectedItem = listProcessBanForm.SelectedItems[0];
             var process = selectedItem.Text;
             BlackList.Remove(process);
-            connection.InvokeAsync("RemoveProcessListBanHub", process);
+            await connection.InvokeAsync("RemoveProcessListBanHub", process);
             selectedItem.Remove();
         }
     }
@@ -282,5 +289,20 @@ public partial class MainForm : Form
         var anovaTable = anovaAlgorithm.anovaResult.Table;
         var anovaFrom = new AnovaFrom(nameProcessList, countProcessList, anovaTable);
         anovaFrom.Show();
+    }
+
+    private void pictureBoxUpdate_Tick(object sender, EventArgs e)
+    {
+        if (listWorkStationForm.SelectedItems.Count > 0)
+        {
+            var selectedItem = listWorkStationForm.SelectedItems[0];
+            var connectionId = selectedItem.SubItems[9].Text;
+            var workStation = WorkStations
+                .FirstOrDefault(x => x.ConnectionId == connectionId);
+            if (workStation != null)
+            {
+                pictureBoxTranslator.Image = workStation.ImageScreen;
+            }
+        }
     }
 }

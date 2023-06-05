@@ -56,6 +56,7 @@ partial class MainForm
         listViewMessage = new ListView();
         columnHeader11 = new ColumnHeader();
         columnHeader12 = new ColumnHeader();
+        pictureBoxUpdate = new System.Windows.Forms.Timer(components);
         ((System.ComponentModel.ISupportInitialize)pictureBoxTranslator).BeginInit();
         SuspendLayout();
         // 
@@ -255,6 +256,11 @@ partial class MainForm
         columnHeader12.Text = "Сообщение";
         columnHeader12.Width = 270;
         // 
+        // pictureBoxUpdate
+        // 
+        pictureBoxUpdate.Interval = 300;
+        pictureBoxUpdate.Tick += pictureBoxUpdate_Tick;
+        // 
         // MainForm
         // 
         AutoScaleDimensions = new SizeF(7F, 15F);
@@ -310,4 +316,5 @@ partial class MainForm
     private ListView listViewMessage;
     private ColumnHeader columnHeader11;
     private ColumnHeader columnHeader12;
+    private System.Windows.Forms.Timer pictureBoxUpdate;
 }

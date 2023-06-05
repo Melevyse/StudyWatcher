@@ -16,6 +16,8 @@ public class WorkStation
     public string ConnectionId { get; set; }
     public List<string> ProcessList { get; set; }
 
+    public Image ImageScreen { get; set; }
+
     public WorkStation(
         string fio,
         string group,
