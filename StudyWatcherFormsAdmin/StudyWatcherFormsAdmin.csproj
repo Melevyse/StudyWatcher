@@ -34,12 +34,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="Resources\nosignal.bmp">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Settings\config.xml">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      <Folder Include="Resources" />
+      <Folder Include="Settings" />
     </ItemGroup>
 
 </Project>

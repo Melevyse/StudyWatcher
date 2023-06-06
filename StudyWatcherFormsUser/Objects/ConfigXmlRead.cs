@@ -4,8 +4,8 @@ namespace StudyWatcherFormsUser;
 
 public class ConfigXmlRead
 {
-    public string ip { get; set; }
-    public string location { get; set; }
+    public string Ip { get; set; }
+    public string Location { get; set; }
 
     public ConfigXmlRead()
     {
@@ -14,7 +14,7 @@ public class ConfigXmlRead
         settings.IgnoreComments = true;
         settings.IgnoreWhitespace = true;
         
-        using (XmlReader reader = XmlReader.Create(xmlFilePath, settings))
+        using (var reader = XmlReader.Create(xmlFilePath, settings))
         {
             reader.MoveToContent();
             if (reader.NodeType == XmlNodeType.Element && reader.Name == "root")
@@ -26,10 +26,10 @@ public class ConfigXmlRead
                     {
                         var name = reader.GetAttribute("name");
                         var value = reader.GetAttribute("value");
-                        if (name == "server")
-                            ip = value;
-                        if (name == "location")
-                            location = value;
+                        if (name == "server" && value != null)
+                            Ip = value;
+                        if (name == "location" && value != null)
+                            Location = value;
                     }
                     reader.Read();
                 }

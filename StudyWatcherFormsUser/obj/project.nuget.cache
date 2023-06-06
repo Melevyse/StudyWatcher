@@ -1,14 +1,9 @@
 {
   "version": 2,
-  "dgSpecHash": "u7R/R6xhqoIvuYbcVkILsP/+LDN1fIYprqj3HKXU4o+IT50e1Y2/4PdgKZlZQ4mYuNJ9llsh/6QZd//iOfp3WA==",
+  "dgSpecHash": "WX+/sNixhZEPT/jskq8mNneYieNT8SjzKnKyUGW1NWxbOOT+NedI8Tk/YkQp5a3oxwmYPFVLD8A9JPLndcqknQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsUser\\StudyWatcherFormsUser.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ar4bo\\.nuget\\packages\\accord\\3.8.2-alpha\\accord.3.8.2-alpha.nupkg.sha512",
-    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.controls\\3.8.2-alpha\\accord.controls.3.8.2-alpha.nupkg.sha512",
-    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.machinelearning\\3.8.2-alpha\\accord.machinelearning.3.8.2-alpha.nupkg.sha512",
-    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.math\\3.8.2-alpha\\accord.math.3.8.2-alpha.nupkg.sha512",
-    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.statistics\\3.8.2-alpha\\accord.statistics.3.8.2-alpha.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\11.5.1\\fluentvalidation.dependencyinjectionextensions.11.5.1.nupkg.sha512",
@@ -81,29 +76,7 @@
     "C:\\Users\\ar4bo\\.nuget\\packages\\system.text.json\\8.0.0-preview.3.23174.8\\system.text.json.8.0.0-preview.3.23174.8.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\system.threading.channels\\8.0.0-preview.3.23174.8\\system.threading.channels.8.0.0-preview.3.23174.8.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
-    "C:\\Users\\ar4bo\\.nuget\\packages\\system.windows.extensions\\8.0.0-preview.3.23174.8\\system.windows.extensions.8.0.0-preview.3.23174.8.nupkg.sha512",
-    "C:\\Users\\ar4bo\\.nuget\\packages\\zedgraph\\5.1.7\\zedgraph.5.1.7.nupkg.sha512"
+    "C:\\Users\\ar4bo\\.nuget\\packages\\system.windows.extensions\\8.0.0-preview.3.23174.8\\system.windows.extensions.8.0.0-preview.3.23174.8.nupkg.sha512"
   ],
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Accord.Controls 3.8.2-alpha' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "Accord.Controls",
-      "targetGraphs": [
-        "net7.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'ZedGraph 5.1.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "ZedGraph",
-      "targetGraphs": [
-        "net7.0-windows7.0"
-      ]
-    }
-  ]
+  "logs": []
 }

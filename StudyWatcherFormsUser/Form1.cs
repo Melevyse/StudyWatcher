@@ -29,8 +29,8 @@ public partial class Form1 : Form
 
     public Form1()
     {
-        nameLocation = configXmlRead.location;
-        var connectionHubIp = $"http://{configXmlRead.ip}:5123/hub";
+        nameLocation = configXmlRead.Location;
+        var connectionHubIp = $"http://{configXmlRead.Ip}:5123/hub";
         ConnectionHub(connectionHubIp);
         InitializeComponent();
         BannerTopMost.Start();

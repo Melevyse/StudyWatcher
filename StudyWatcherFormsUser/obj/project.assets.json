@@ -2,99 +2,6 @@
   "version": 3,
   "targets": {
     "net7.0-windows7.0": {
-      "Accord/3.8.2-alpha": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/Accord.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/Accord.dll": {
-            "related": ".xml"
-          }
-        },
-        "build": {
-          "build/_._": {}
-        }
-      },
-      "Accord.Controls/3.8.2-alpha": {
-        "type": "package",
-        "dependencies": {
-          "Accord": "3.8.2-alpha",
-          "Accord.MachineLearning": "3.8.2-alpha",
-          "Accord.Math": "3.8.2-alpha",
-          "Accord.Statistics": "3.8.2-alpha",
-          "ZedGraph": "5.1.7"
-        },
-        "compile": {
-          "lib/net46/Accord.Controls.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/net46/Accord.Controls.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Accord.MachineLearning/3.8.2-alpha": {
-        "type": "package",
-        "dependencies": {
-          "Accord": "3.8.2-alpha",
-          "Accord.Math": "3.8.2-alpha",
-          "Accord.Statistics": "3.8.2-alpha"
-        },
-        "compile": {
-          "lib/netstandard2.0/Accord.MachineLearning.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/Accord.MachineLearning.dll": {
-            "related": ".xml"
-          }
-        }
-      },
-      "Accord.Math/3.8.2-alpha": {
-        "type": "package",
-        "dependencies": {
-          "Accord": "3.8.2-alpha"
-        },
-        "compile": {
-          "lib/netstandard2.0/Accord.Math.Core.dll": {
-            "related": ".xml"
-          },
-          "lib/netstandard2.0/Accord.Math.dll": {
-            "related": ".Core.xml;.xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/Accord.Math.Core.dll": {
-            "related": ".xml"
-          },
-          "lib/netstandard2.0/Accord.Math.dll": {
-            "related": ".Core.xml;.xml"
-          }
-        }
-      },
-      "Accord.Statistics/3.8.2-alpha": {
-        "type": "package",
-        "dependencies": {
-          "Accord": "3.8.2-alpha",
-          "Accord.Math": "3.8.2-alpha"
-        },
-        "compile": {
-          "lib/netstandard2.0/Accord.Statistics.dll": {
-            "related": ".xml"
-          }
-        },
-        "runtime": {
-          "lib/netstandard2.0/Accord.Statistics.dll": {
-            "related": ".xml"
-          }
-        }
-      },
       "FluentValidation/11.5.1": {
         "type": "package",
         "compile": {
@@ -1358,79 +1265,6 @@
           }
         }
       },
-      "ZedGraph/5.1.7": {
-        "type": "package",
-        "compile": {
-          "lib/net35-Client/ZedGraph.dll": {
-            "related": ".XML"
-          }
-        },
-        "runtime": {
-          "lib/net35-Client/ZedGraph.dll": {
-            "related": ".XML"
-          }
-        },
-        "resource": {
-          "lib/net35-Client/de/ZedGraph.resources.dll": {
-            "locale": "de"
-          },
-          "lib/net35-Client/es/ZedGraph.resources.dll": {
-            "locale": "es"
-          },
-          "lib/net35-Client/fr/ZedGraph.resources.dll": {
-            "locale": "fr"
-          },
-          "lib/net35-Client/hu/ZedGraph.resources.dll": {
-            "locale": "hu"
-          },
-          "lib/net35-Client/it/ZedGraph.resources.dll": {
-            "locale": "it"
-          },
-          "lib/net35-Client/ja/ZedGraph.resources.dll": {
-            "locale": "ja"
-          },
-          "lib/net35-Client/pt/ZedGraph.resources.dll": {
-            "locale": "pt"
-          },
-          "lib/net35-Client/ru/ZedGraph.resources.dll": {
-            "locale": "ru"
-          },
-          "lib/net35-Client/sk/ZedGraph.resources.dll": {
-            "locale": "sk"
-          },
-          "lib/net35-Client/sv/ZedGraph.resources.dll": {
-            "locale": "sv"
-          },
-          "lib/net35-Client/tr/ZedGraph.resources.dll": {
-            "locale": "tr"
-          },
-          "lib/net35-Client/zh-cn/ZedGraph.resources.dll": {
-            "locale": "zh-cn"
-          },
-          "lib/net35-Client/zh-tw/ZedGraph.resources.dll": {
-            "locale": "zh-tw"
-          }
-        }
-      },
-      "StudyWatcherFormsAdmin/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v7.0",
-        "dependencies": {
-          "Accord": "3.8.2-alpha",
-          "Accord.Controls": "3.8.2-alpha",
-          "Accord.Statistics": "3.8.2-alpha",
-          "Microsoft.AspNetCore.SignalR.Client": "8.0.0-preview.3.23177.8"
-        },
-        "compile": {
-          "bin/placeholder/StudyWatcherFormsAdmin.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/StudyWatcherFormsAdmin.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.WindowsDesktop.App.WindowsForms"
-        ]
-      },
       "StudyWatcherProject/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -1455,183 +1289,6 @@
     }
   },
   "libraries": {
-    "Accord/3.8.2-alpha": {
-      "sha512": "g/EKYGdeMKTMJt7XtB65f+RyVW5ALfU1f1T1dpIGXOqzBtaaNK+OGB6pFY9RFrjKPQNUlnKUWF2jwH5knM+X7A==",
-      "type": "package",
-      "path": "accord/3.8.2-alpha",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "accord.3.8.2-alpha.nupkg.sha512",
-        "accord.nuspec",
-        "build/Accord.dll.config",
-        "build/Accord.targets",
-        "lib/net35-unity full v3.5/Accord.dll",
-        "lib/net35-unity full v3.5/Accord.xml",
-        "lib/net35-unity micro v3.5/Accord.dll",
-        "lib/net35-unity micro v3.5/Accord.xml",
-        "lib/net35-unity subset v3.5/Accord.dll",
-        "lib/net35-unity subset v3.5/Accord.xml",
-        "lib/net35-unity web v3.5/Accord.dll",
-        "lib/net35-unity web v3.5/Accord.xml",
-        "lib/net35/Accord.dll",
-        "lib/net35/Accord.xml",
-        "lib/net40/Accord.dll",
-        "lib/net40/Accord.xml",
-        "lib/net45/Accord.dll",
-        "lib/net45/Accord.xml",
-        "lib/net46/Accord.dll",
-        "lib/net46/Accord.xml",
-        "lib/net462/Accord.dll",
-        "lib/net462/Accord.xml",
-        "lib/netstandard1.4/Accord.dll",
-        "lib/netstandard1.4/Accord.xml",
-        "lib/netstandard2.0/Accord.dll",
-        "lib/netstandard2.0/Accord.xml"
-      ]
-    },
-    "Accord.Controls/3.8.2-alpha": {
-      "sha512": "EA2EvH6KRnBA74ai4gsbt+sU4xVdSdS8hqfRey3rbOKodd4cd3c3tzFnH9XVd/V9WjiNi3LuPxPnNAPh2F01NQ==",
-      "type": "package",
-      "path": "accord.controls/3.8.2-alpha",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "accord.controls.3.8.2-alpha.nupkg.sha512",
-        "accord.controls.nuspec",
-        "lib/net35/Accord.Controls.dll",
-        "lib/net35/Accord.Controls.xml",
-        "lib/net40/Accord.Controls.dll",
-        "lib/net40/Accord.Controls.xml",
-        "lib/net45/Accord.Controls.dll",
-        "lib/net45/Accord.Controls.xml",
-        "lib/net46/Accord.Controls.dll",
-        "lib/net46/Accord.Controls.xml",
-        "lib/net462/Accord.Controls.dll",
-        "lib/net462/Accord.Controls.xml"
-      ]
-    },
-    "Accord.MachineLearning/3.8.2-alpha": {
-      "sha512": "jOTabyL1Xu/tCJHWXkEyx+833Gzcb3hVAGy2BbX/XKqBInyta3r4Qe1SFr9PrarPw9zSUamYNKzPr1t3lREq4g==",
-      "type": "package",
-      "path": "accord.machinelearning/3.8.2-alpha",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "accord.machinelearning.3.8.2-alpha.nupkg.sha512",
-        "accord.machinelearning.nuspec",
-        "lib/net35-unity full v3.5/Accord.MachineLearning.dll",
-        "lib/net35-unity full v3.5/Accord.MachineLearning.xml",
-        "lib/net35-unity micro v3.5/Accord.MachineLearning.dll",
-        "lib/net35-unity micro v3.5/Accord.MachineLearning.xml",
-        "lib/net35-unity subset v3.5/Accord.MachineLearning.dll",
-        "lib/net35-unity subset v3.5/Accord.MachineLearning.xml",
-        "lib/net35-unity web v3.5/Accord.MachineLearning.dll",
-        "lib/net35-unity web v3.5/Accord.MachineLearning.xml",
-        "lib/net35/Accord.MachineLearning.dll",
-        "lib/net35/Accord.MachineLearning.xml",
-        "lib/net40/Accord.MachineLearning.dll",
-        "lib/net40/Accord.MachineLearning.xml",
-        "lib/net45/Accord.MachineLearning.dll",
-        "lib/net45/Accord.MachineLearning.xml",
-        "lib/net46/Accord.MachineLearning.dll",
-        "lib/net46/Accord.MachineLearning.xml",
-        "lib/net462/Accord.MachineLearning.dll",
-        "lib/net462/Accord.MachineLearning.xml",
-        "lib/netstandard1.4/Accord.MachineLearning.dll",
-        "lib/netstandard1.4/Accord.MachineLearning.xml",
-        "lib/netstandard2.0/Accord.MachineLearning.dll",
-        "lib/netstandard2.0/Accord.MachineLearning.xml"
-      ]
-    },
-    "Accord.Math/3.8.2-alpha": {
-      "sha512": "derpraljs7QO7U06DzGu1EHNVN+LGM2oA/z3M/zERSWXGs/BVOjMtUBx5WjdMnKXaM0OJiqZFNus3y3C04/H2w==",
-      "type": "package",
-      "path": "accord.math/3.8.2-alpha",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "accord.math.3.8.2-alpha.nupkg.sha512",
-        "accord.math.nuspec",
-        "lib/net35-unity full v3.5/Accord.Math.Core.dll",
-        "lib/net35-unity full v3.5/Accord.Math.Core.xml",
-        "lib/net35-unity full v3.5/Accord.Math.dll",
-        "lib/net35-unity full v3.5/Accord.Math.xml",
-        "lib/net35-unity micro v3.5/Accord.Math.Core.dll",
-        "lib/net35-unity micro v3.5/Accord.Math.Core.xml",
-        "lib/net35-unity micro v3.5/Accord.Math.dll",
-        "lib/net35-unity micro v3.5/Accord.Math.xml",
-        "lib/net35-unity subset v3.5/Accord.Math.Core.dll",
-        "lib/net35-unity subset v3.5/Accord.Math.Core.xml",
-        "lib/net35-unity subset v3.5/Accord.Math.dll",
-        "lib/net35-unity subset v3.5/Accord.Math.xml",
-        "lib/net35-unity web v3.5/Accord.Math.Core.dll",
-        "lib/net35-unity web v3.5/Accord.Math.Core.xml",
-        "lib/net35-unity web v3.5/Accord.Math.dll",
-        "lib/net35-unity web v3.5/Accord.Math.xml",
-        "lib/net35/Accord.Math.Core.dll",
-        "lib/net35/Accord.Math.Core.xml",
-        "lib/net35/Accord.Math.dll",
-        "lib/net35/Accord.Math.xml",
-        "lib/net40/Accord.Math.Core.dll",
-        "lib/net40/Accord.Math.Core.xml",
-        "lib/net40/Accord.Math.dll",
-        "lib/net40/Accord.Math.xml",
-        "lib/net45/Accord.Math.Core.dll",
-        "lib/net45/Accord.Math.Core.xml",
-        "lib/net45/Accord.Math.dll",
-        "lib/net45/Accord.Math.xml",
-        "lib/net46/Accord.Math.Core.dll",
-        "lib/net46/Accord.Math.Core.xml",
-        "lib/net46/Accord.Math.dll",
-        "lib/net46/Accord.Math.xml",
-        "lib/net462/Accord.Math.Core.dll",
-        "lib/net462/Accord.Math.Core.xml",
-        "lib/net462/Accord.Math.dll",
-        "lib/net462/Accord.Math.xml",
-        "lib/netstandard1.4/Accord.Math.Core.dll",
-        "lib/netstandard1.4/Accord.Math.Core.xml",
-        "lib/netstandard1.4/Accord.Math.dll",
-        "lib/netstandard1.4/Accord.Math.xml",
-        "lib/netstandard2.0/Accord.Math.Core.dll",
-        "lib/netstandard2.0/Accord.Math.Core.xml",
-        "lib/netstandard2.0/Accord.Math.dll",
-        "lib/netstandard2.0/Accord.Math.xml"
-      ]
-    },
-    "Accord.Statistics/3.8.2-alpha": {
-      "sha512": "smQUcRwCGM6apaQrnjpc2Fo07k32bZ6W0r4oaUgftpsHMq8uFLUdMOljuyWddTrgjXFD8Lxkvkngb4nd+LpUwg==",
-      "type": "package",
-      "path": "accord.statistics/3.8.2-alpha",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "accord.statistics.3.8.2-alpha.nupkg.sha512",
-        "accord.statistics.nuspec",
-        "lib/net35-unity full v3.5/Accord.Statistics.dll",
-        "lib/net35-unity full v3.5/Accord.Statistics.xml",
-        "lib/net35-unity micro v3.5/Accord.Statistics.dll",
-        "lib/net35-unity micro v3.5/Accord.Statistics.xml",
-        "lib/net35-unity subset v3.5/Accord.Statistics.dll",
-        "lib/net35-unity subset v3.5/Accord.Statistics.xml",
-        "lib/net35-unity web v3.5/Accord.Statistics.dll",
-        "lib/net35-unity web v3.5/Accord.Statistics.xml",
-        "lib/net35/Accord.Statistics.dll",
-        "lib/net35/Accord.Statistics.xml",
-        "lib/net40/Accord.Statistics.dll",
-        "lib/net40/Accord.Statistics.xml",
-        "lib/net45/Accord.Statistics.dll",
-        "lib/net45/Accord.Statistics.xml",
-        "lib/net46/Accord.Statistics.dll",
-        "lib/net46/Accord.Statistics.xml",
-        "lib/net462/Accord.Statistics.dll",
-        "lib/net462/Accord.Statistics.xml",
-        "lib/netstandard1.4/Accord.Statistics.dll",
-        "lib/netstandard1.4/Accord.Statistics.xml",
-        "lib/netstandard2.0/Accord.Statistics.dll",
-        "lib/netstandard2.0/Accord.Statistics.xml"
-      ]
-    },
     "FluentValidation/11.5.1": {
       "sha512": "0h1Q5lNOLLyYTWMJmyNoMqhY4CBRvvUWvJP1R4F2CnmmzuWwvB0A8aVmw5+lOuwYnwUwCRrdeMLbc81F38ahNQ==",
       "type": "package",
@@ -3661,38 +3318,6 @@
         "useSharedDesignerContext.txt"
       ]
     },
-    "ZedGraph/5.1.7": {
-      "sha512": "TcZaInxUjYMJDWIaYvs/CgpssfVJQMqiry8GPP70klyheP4tYSQXFWi5HYwJvqao+epeUu3bsk3yDb3Nf/hVWw==",
-      "type": "package",
-      "path": "zedgraph/5.1.7",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "content/License-LGPL.txt",
-        "lib/net35-Client/ZedGraph.XML",
-        "lib/net35-Client/ZedGraph.dll",
-        "lib/net35-Client/de/ZedGraph.resources.dll",
-        "lib/net35-Client/es/ZedGraph.resources.dll",
-        "lib/net35-Client/fr/ZedGraph.resources.dll",
-        "lib/net35-Client/hu/ZedGraph.resources.dll",
-        "lib/net35-Client/it/ZedGraph.resources.dll",
-        "lib/net35-Client/ja/ZedGraph.resources.dll",
-        "lib/net35-Client/pt/ZedGraph.resources.dll",
-        "lib/net35-Client/ru/ZedGraph.resources.dll",
-        "lib/net35-Client/sk/ZedGraph.resources.dll",
-        "lib/net35-Client/sv/ZedGraph.resources.dll",
-        "lib/net35-Client/tr/ZedGraph.resources.dll",
-        "lib/net35-Client/zh-cn/ZedGraph.resources.dll",
-        "lib/net35-Client/zh-tw/ZedGraph.resources.dll",
-        "zedgraph.5.1.7.nupkg.sha512",
-        "zedgraph.nuspec"
-      ]
-    },
-    "StudyWatcherFormsAdmin/1.0.0": {
-      "type": "project",
-      "path": "../StudyWatcherFormsAdmin/StudyWatcherFormsAdmin.csproj",
-      "msbuildProject": "../StudyWatcherFormsAdmin/StudyWatcherFormsAdmin.csproj"
-    },
     "StudyWatcherProject/1.0.0": {
       "type": "project",
       "path": "../StudyWatcherProject/StudyWatcherProject.csproj",
@@ -3702,7 +3327,6 @@
   "projectFileDependencyGroups": {
     "net7.0-windows7.0": [
       "Microsoft.AspNetCore.SignalR.Client >= 8.0.0-preview.3.23177.8",
-      "StudyWatcherFormsAdmin >= 1.0.0",
       "StudyWatcherProject >= 1.0.0",
       "System.Management >= 8.0.0-preview.3.23174.8"
     ]
@@ -3734,9 +3358,6 @@
         "net7.0-windows7.0": {
           "targetAlias": "net7.0-windows",
           "projectReferences": {
-            "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj": {
-              "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj"
-            },
             "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj": {
               "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj"
             }
@@ -3784,27 +3405,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'Accord.Controls 3.8.2-alpha' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "Accord.Controls",
-      "targetGraphs": [
-        "net7.0-windows7.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "Package 'ZedGraph 5.1.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
-      "libraryId": "ZedGraph",
-      "targetGraphs": [
-        "net7.0-windows7.0"
-      ]
-    }
-  ]
+  }
 }

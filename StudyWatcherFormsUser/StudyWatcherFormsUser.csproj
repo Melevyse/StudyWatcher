@@ -14,7 +14,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\StudyWatcherFormsAdmin\StudyWatcherFormsAdmin.csproj" />
       <ProjectReference Include="..\StudyWatcherProject\StudyWatcherProject.csproj" />
     </ItemGroup>
 
