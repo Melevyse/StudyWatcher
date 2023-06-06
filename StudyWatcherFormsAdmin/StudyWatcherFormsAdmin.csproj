@@ -33,4 +33,13 @@
       </EmbeddedResource>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Resources\nosignal.bmp">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Settings\config.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

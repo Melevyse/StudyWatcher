@@ -2,22 +2,24 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System.Xml;
 using StudyWatcherProject.Models;
 using System.Drawing.Imaging;
+using StudyWatcherFormsUser;
 
 
 namespace StudyWatcherFormsAdmin;
 
 public partial class MainForm : Form
 {
+    private ConfigXmlRead configXmlRead = new ();
     private HubConnection connection;
     private List<string> BlackList = new();
     private List<WorkStation> WorkStations = new();
     private List<ProcessWs> ProcessWsList = new();
     private List<InfoWorkStation> InfoWorkStationList = new();
 
-    public async Task ConnectionHub()
+    public async Task ConnectionHub(string connectionStr)
     {
         connection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5123/hub")
+            .WithUrl(connectionStr)
             .WithAutomaticReconnect()
             .Build();
         connection.ServerTimeout = TimeSpan.FromMinutes(50);
@@ -26,7 +28,8 @@ public partial class MainForm : Form
 
     public MainForm()
     {
-        ConnectionHub();
+        var connectionHubIp = $"http://{configXmlRead.ip}:5123/hub";
+        ConnectionHub(connectionHubIp);
         InitializeComponent();
 
         connection.On("RegisterWorkStation", (
@@ -305,7 +308,7 @@ public partial class MainForm : Form
             }
             else
             {
-                string imagePath = "Resources/Nosignal.bmp";
+                var imagePath = Path.Combine("Resources", "nosignal.bmp");
                 Bitmap image = new Bitmap(imagePath);
                 pictureBoxTranslator.Image = image;
                 pictureBoxTranslator.SizeMode = PictureBoxSizeMode.Zoom;
