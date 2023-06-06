@@ -1,0 +1,54 @@
+{
+  "version": 2,
+  "dgSpecHash": "ZyMBLjHT0ebXNMdFETSR7kbz/DsfN7xJUwZYmJY2SQudI6ypZvdz0K59zELYJ+9KboNU99Hzt91pgq2fSb3VkA==",
+  "success": true,
+  "projectFilePath": "D:\\Users\\ar4bo\\RiderProjects\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin\\StudyWatcherFormsAdmin.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\ar4bo\\.nuget\\packages\\accord\\3.8.2-alpha\\accord.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.controls\\3.8.2-alpha\\accord.controls.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.machinelearning\\3.8.2-alpha\\accord.machinelearning.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.math\\3.8.2-alpha\\accord.math.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\accord.statistics\\3.8.2-alpha\\accord.statistics.3.8.2-alpha.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.aspnetcore.connections.abstractions\\8.0.0-preview.3.23177.8\\microsoft.aspnetcore.connections.abstractions.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.aspnetcore.http.connections.client\\8.0.0-preview.3.23177.8\\microsoft.aspnetcore.http.connections.client.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.aspnetcore.http.connections.common\\8.0.0-preview.3.23177.8\\microsoft.aspnetcore.http.connections.common.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.aspnetcore.signalr.client\\8.0.0-preview.3.23177.8\\microsoft.aspnetcore.signalr.client.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.aspnetcore.signalr.client.core\\8.0.0-preview.3.23177.8\\microsoft.aspnetcore.signalr.client.core.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.aspnetcore.signalr.common\\8.0.0-preview.3.23177.8\\microsoft.aspnetcore.signalr.common.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.aspnetcore.signalr.protocols.json\\8.0.0-preview.3.23177.8\\microsoft.aspnetcore.signalr.protocols.json.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\8.0.0-preview.3.23174.8\\microsoft.extensions.dependencyinjection.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\8.0.0-preview.3.23174.8\\microsoft.extensions.dependencyinjection.abstractions.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.features\\8.0.0-preview.3.23177.8\\microsoft.extensions.features.8.0.0-preview.3.23177.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.logging\\8.0.0-preview.3.23174.8\\microsoft.extensions.logging.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\8.0.0-preview.3.23174.8\\microsoft.extensions.logging.abstractions.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.options\\8.0.0-preview.3.23174.8\\microsoft.extensions.options.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\microsoft.extensions.primitives\\8.0.0-preview.3.23174.8\\microsoft.extensions.primitives.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\system.io.pipelines\\8.0.0-preview.3.23174.8\\system.io.pipelines.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\system.text.encodings.web\\8.0.0-preview.3.23174.8\\system.text.encodings.web.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\system.text.json\\8.0.0-preview.3.23174.8\\system.text.json.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\system.threading.channels\\8.0.0-preview.3.23174.8\\system.threading.channels.8.0.0-preview.3.23174.8.nupkg.sha512",
+    "C:\\Users\\ar4bo\\.nuget\\packages\\zedgraph\\5.1.7\\zedgraph.5.1.7.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'Accord.Controls 3.8.2-alpha' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "Accord.Controls",
+      "targetGraphs": [
+        "net7.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'ZedGraph 5.1.7' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net7.0-windows7.0'. This package may not be fully compatible with your project.",
+      "libraryId": "ZedGraph",
+      "targetGraphs": [
+        "net7.0-windows7.0"
+      ]
+    }
+  ]
+}
