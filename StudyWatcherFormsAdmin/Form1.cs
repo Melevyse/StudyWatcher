@@ -303,6 +303,13 @@ public partial class MainForm : Form
             {
                 pictureBoxTranslator.Image = workStation.ImageScreen;
             }
+            else
+            {
+                string imagePath = "Resources/Nosignal.bmp";
+                Bitmap image = new Bitmap(imagePath);
+                pictureBoxTranslator.Image = image;
+                pictureBoxTranslator.SizeMode = PictureBoxSizeMode.Zoom;
+            }
         }
     }
 }

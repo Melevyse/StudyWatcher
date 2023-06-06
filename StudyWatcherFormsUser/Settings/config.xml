@@ -1,0 +1,4 @@
+﻿<root>
+    <parameter name="server" value="localhost" />
+    <parameter name="location" value="Г304 #2" />
+</root>

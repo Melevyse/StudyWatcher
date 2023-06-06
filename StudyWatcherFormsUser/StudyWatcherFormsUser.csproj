@@ -18,4 +18,10 @@
       <ProjectReference Include="..\StudyWatcherProject\StudyWatcherProject.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Settings\config.xml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

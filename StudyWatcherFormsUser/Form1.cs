@@ -7,19 +7,20 @@ namespace StudyWatcherFormsUser;
 
 public partial class Form1 : Form
 {
+    private ConfigXmlRead configXmlRead = new ();
     private HubConnection connection;
     private string connectionIdAdmin;
     private List<string> BlackList;
     private SystemManager _systemManager = new();
-    Banner banner = new();
-    string nameLocation = "Г304 #2";
-    DateTime lastLaunch = DateTime.UtcNow.Date;
+    private Banner banner = new();
+    string nameLocation;
+    private DateTime lastLaunch = DateTime.UtcNow.Date;
     private string imageString;
 
-    public async Task ConnectionHub()
+    public async Task ConnectionHub(string str)
     {
         connection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:5123/hub")
+            .WithUrl(str)
             .WithAutomaticReconnect()
             .Build();
         connection.ServerTimeout = TimeSpan.FromMinutes(5);
@@ -28,7 +29,9 @@ public partial class Form1 : Form
 
     public Form1()
     {
-        ConnectionHub();
+        nameLocation = configXmlRead.location;
+        var connectionHubIp = $"http://{configXmlRead.ip}:5123/hub";
+        ConnectionHub(connectionHubIp);
         InitializeComponent();
         BannerTopMost.Start();
         this.WindowState = FormWindowState.Maximized;
