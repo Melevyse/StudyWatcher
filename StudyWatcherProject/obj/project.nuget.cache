@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "hzZ14LjkCofg68NddT4ys+F/dcgoHl+XAS9rykOZfHE9c+cu+mDcOfrjh+MkEIj9CXcrwFcLU2ZfCkJ2dNxepg==",
+  "dgSpecHash": "q6+i2dUEWNaaR4EmoJ4yljomML9lYlDRSMQkfOsls84OpFaMrFd5NK9RTzLD44Nb9Z3yPtx+9IIpI/3TLgb+pw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
+  "projectFilePath": "D:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\ar4bo\\.nuget\\packages\\fluentvalidation\\11.5.1\\fluentvalidation.11.5.1.nupkg.sha512",
     "C:\\Users\\ar4bo\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",

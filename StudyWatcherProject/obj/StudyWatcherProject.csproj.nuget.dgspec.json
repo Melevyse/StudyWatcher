@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj": {}
+    "D:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj": {
+    "D:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
+        "projectUniqueName": "D:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
         "projectName": "StudyWatcherProject",
-        "projectPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
+        "projectPath": "D:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\StudyWatcherProject.csproj",
         "packagesPath": "C:\\Users\\ar4bo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\obj\\",
+        "outputPath": "D:\\Users\\ar4bo\\RiderProjects\\StudyWatcher\\StudyWatcherProject\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\ar4bo\\AppData\\Roaming\\NuGet\\NuGet.Config",

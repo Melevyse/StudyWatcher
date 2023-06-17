@@ -35,31 +35,31 @@ public class StudyWatcherHub : Hub
     {
         try
         {
-            var id = await _monitoringService
-                .AddWorkStationRequest(nameMotherboard, nameCPU,
-                    nameRAM, nameHDD, nameVideocard, nameLocation);
             var infoWorkStation = await _monitoringService
                 .GetFullInfoWorkStation(nameMotherboard, nameCPU,
                     nameRAM, nameHDD, nameVideocard, nameLocation);
             var result = await _monitoringService
                 .AddProcessListRequest(listProcess, lastLaunch, nameLocation);
             var blackList = await _monitoringService.GetFullBlackList();
+            await Clients
+                .Client(connectionIdAdmin)
+                .SendAsync("InfoWorkStation", infoWorkStation, nameLocation);
+            await Clients
+                .Client(connectionId)
+                .SendAsync("ResponseBlackList", blackList);
+            await Clients
+                .Client(connectionIdAdmin)
+                .SendAsync("ResponseBlackList", blackList);
+            var id = await _monitoringService
+                .AddWorkStationRequest(nameMotherboard, nameCPU,
+                    nameRAM, nameHDD, nameVideocard, nameLocation);
             if (id != Guid.Empty)
             {
-                await Clients
-                    .Client(connectionIdAdmin)
-                    .SendAsync("InfoWorkStation", infoWorkStation, nameLocation);
                 await Clients
                     .Client(connectionIdAdmin)
                     .SendAsync("RegisterWorkStation",
                         nameMotherboard, nameCPU, nameRAM, nameHDD,
                         nameVideocard, nameLocation, connectionId);
-                await Clients
-                    .Client(connectionId)
-                    .SendAsync("ResponseBlackList", blackList);
-                await Clients
-                    .Client(connectionIdAdmin)
-                    .SendAsync("ResponseBlackList", blackList);
             }
         }
         catch (Exception e)
@@ -236,7 +236,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-    
+
     public async Task AddProcessListHub(
         string nameLocation,
         List<string> listProcess,
@@ -271,7 +271,7 @@ public class StudyWatcherHub : Hub
             throw;
         }
     }
-    
+
     public async Task SendPictureHub(
         string image,
         string connectionIdAdmin)
@@ -288,12 +288,20 @@ public class StudyWatcherHub : Hub
         }
     }
 
-    public override Task OnDisconnectedAsync(Exception exception)
+    public async Task ClientOfflineHub(
+        string connectionIdAdmin)
     {
-        var connectionId = Context.ConnectionId; 
-        Clients
-            .Client(connectionId)
-            .SendAsync("ClientOffline", connectionId);
-        return base.OnDisconnectedAsync(exception);
+        try
+        {
+            var connectionId = Context.ConnectionId; 
+            await Clients
+                .Client(connectionIdAdmin)
+                .SendAsync("ClientOffline", connectionId);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "ClientOfflineHub encountered an exception.");
+            throw;
+        }
     }
 }

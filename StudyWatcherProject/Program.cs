@@ -2,6 +2,7 @@ using System.Net.Mime;
 using StudyWatcherProject.EFC;
 using StudyWatcherProject.Models;
 using System;
+using Microsoft.AspNetCore;
 
 //var builder = WebApplication.CreateBuilder(args);
 //var app = builder.Build();
@@ -11,17 +12,31 @@ namespace StudyWatcherProject
 {
     public static class Program
     {
+        /*
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
+            //WebHost.CreateDefaultBuilder().UseUrls("http://*:5000;http://localhost:5001");
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+        */
+        public static void Main(string[] args)
+        {
+            CreateWebHostBuilder(args).Build().Run();
+        }
+
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
+            WebHost.CreateDefaultBuilder(args)
+                .UseSetting("http_port", "5000")
+                .UseUrls("http://*:5000;http://localhost:5000")
+                .UseStartup<Startup>();
+        
     }    
 }
 
